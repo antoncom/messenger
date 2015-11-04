@@ -11,7 +11,12 @@ if ($object->xpdo) {
             $modx->addPackage('messenger', $modelPath);
 
             $manager = $modx->getManager();
-            $objects = array();
+            $objects = array(
+                'msEmlMessage',
+                'msEmlSubscriber',
+                'msEmlQueue'
+            );
+
             $schemaFile = MODX_CORE_PATH . 'components/messenger/model/schema/messenger.mysql.schema.xml';
             if (is_file($schemaFile)) {
                 $schema = new SimpleXMLElement($schemaFile, 0, true);
