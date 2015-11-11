@@ -36,27 +36,27 @@ $columns = array(
 			// Technically a DOM id cannot start with an integer, so we prefix
 			// a string. This can also be useful if you have multiple tables
 			// to ensure that the id is unique with a different prefix
-			return $d;
+			return 'row_'.$d;
 		}
 	),
-	array( 'db' => 'pagetitle', 'dt' => 1 ),
+	array( 'db' => 'pagetitle', 'dt' => 0 ),
 	array(
 		'db'        => 'tv.pc_start_date',
-		'dt'        => 2,
+		'dt'        => 1,
 		'formatter' => function( $d, $row ) {
 			return date( 'jS M y', strtotime($d));
 		}
 	),
 	array(
 		'db'        => 'tv.pc_end_date',
-		'dt'        => 3,
+		'dt'        => 2,
 		'formatter' => function( $d, $row ) {
 			return date( 'jS M y', strtotime($d));
 		}
 	),
-	array( 'db' => 'tv.pc_porog', 'dt' => 4 ),
-	array( 'db' => 'tv.pc_blogger', 'dt' => 5 ),
-	array( 'db' => 'tv.pc_activations_count', 'dt' => 6 )
+	array( 'db' => 'tv.pc_porog', 'dt' => 3 ),
+	array( 'db' => 'tv.pc_blogger', 'dt' => 4 ),
+	array( 'db' => 'tv.pc_activations_count', 'dt' => 5 )
 
 );
 
