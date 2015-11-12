@@ -41,6 +41,15 @@ $(document).ready(function() {
 					table.ajax.url( '/?id=111' ).load();
 				}
 			},
+			{
+				text: 'Добавить промо-коды',
+				enabled: true,
+				action: function ( e, dt, node, config ) {
+					$('#bee_comm').val('add');
+					$('#bee_data').val('{"promo_action_resid":29,"count":5}');
+					table.ajax.url( '/?id=111' ).load();
+				}
+			},
 			'selectAll',
 			'selectNone'
 		],
