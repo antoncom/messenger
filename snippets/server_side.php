@@ -99,7 +99,7 @@ $sql_details = array(
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
 echo json_encode(
-	SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
+	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
 );
 
 //echo json_encode(
