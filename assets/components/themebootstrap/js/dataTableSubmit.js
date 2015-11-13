@@ -1,14 +1,16 @@
 $(document).ready(function() {
 	var selected = [];
 	var table = $("#example").DataTable({
+		select: {
+		            style: 'os'
+		},
 		"processing": true,
 		"serverSide": true,
 		'ajax': {
 			'url': '/?id=111',
-			'type': 'GET',
+			'type': 'POST',
 			"data": function ( d ) {
 				d.beeComm = $('#bee_comm').val();
-				console.log(d);
 				d.beeData = $('#bee_data').val();
 				// etc
 			}
@@ -20,8 +22,8 @@ $(document).ready(function() {
 		},
 		dom: 'Bfrtip',
 		lengthMenu: [
-			[ 10, 25, 50, 100, -1 ],
-			[ '10 строк', '25 строк', '50 строк', '100 строк', 'Все' ]
+			[ 10, 25, 50, 100, 500, 1000 ],
+			[ '10', '25', '50', '100', '500', '1000' ]
 		],
 		stateSave: true,
 		buttons: [
@@ -34,51 +36,40 @@ $(document).ready(function() {
 				}
 			},
 			{
-				text: 'Удалить отмеченные',
-				enabled: true,
-				action: function ( e, dt, node, config ) {
-					$('#bee_comm').val('delete');
-					table.ajax.url( '/?id=111' ).load();
-				}
+			    extend: 'selected',
+			    text: 'Удалить отмеченные',
+			    action: function ( e, dt, button, config ) {
+			        var rows = dt.rows( { selected: true } ).data();
+			        for(row in rows)	{
+			    	    selected.push( rows[row]['DT_RowId'] );
+			        }
+			        $('#bee_comm').val('delete');
+			        $('#bee_data').val(selected);
+				table.ajax.url( '/?id=111' ).load();
+				$('#bee_comm').val('');
+				$('#bee_data').val('');
+			    }
 			},
 			{
 				text: 'Добавить промо-коды',
 				enabled: true,
 				action: function ( e, dt, node, config ) {
 					$('#bee_comm').val('add');
-					$('#bee_data').val('{"promo_action_resid":29,"count":5}');
+					$('#bee_data').val('{"promo_action_resid":30,"count":5}');
 					table.ajax.url( '/?id=111' ).load();
+					$('#bee_comm').val('');
+					$('#bee_data').val('');
 				}
 			},
 			'selectAll',
-			'selectNone'
+			'selectNone',
 		],
 		language: {
 			buttons: {
 				selectAll: "Отметить все",
-				selectNone: "Сброс"
+				selectNone: "Сброс",
+				colvis: "Колонки"
 			}
 		}
 	});
-
-	$('#example tbody').on('click', 'tr', function () {
-		var id = this.id;
-		var index = $.inArray(id, selected);
-
-		if ( index === -1 ) {
-			selected.push( id );
-		} else {
-			selected.splice( index, 1 );
-		}
-
-		$('#bee_data').val(selected);
-		$('#bee_comm').val(""); // удаляем любые комманды с данными для того чтобы они не выполниись от случайного запроса
-		$(this).toggleClass('selected');
-	} );
-
-	//table.on( 'select', function () {
-	//	var selectedRows = table.rows( { selected: true } ).count();
-	//	table.button( 3 ).enable( selectedRows > 0 );
-	//} );
-
 } );
