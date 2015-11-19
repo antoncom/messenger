@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	var selected = [];
-	var table = $("#example").DataTable({
+	var table = $("#bloggers").DataTable({
 		select: {
 		            style: 'os'
 		},
@@ -8,12 +8,11 @@ $(document).ready(function() {
 		"serverSide": true,
 		responsive: true,
 		'ajax': {
-			'url': '/?id=111',
+			'url': '/?id=4815',
 			'type': 'POST',
 			"data": function ( d ) {
 				d.beeComm = $('#bee_comm').val();
 				d.beeData = $('#bee_data').val();
-				d.beeWhere = $('#bee_where').val();
 				// etc
 			}
 		},
@@ -33,9 +32,8 @@ $(document).ready(function() {
 			'colvis',
 			{
 				extend: 'csvHtml5',
-				fieldSeparator: ';',
 				exportOptions: {
-					columns: [ 0, ':visible' ],
+					columns: [ 0, ':visible' ]
 				}
 			},
 			{
@@ -48,29 +46,16 @@ $(document).ready(function() {
 			        }
 			        $('#bee_comm').val('delete');
 			        $('#bee_data').val(selected);
-				table.ajax.url( '/?id=111' ).load();
+				table.ajax.url( '/?id=4815' ).load();
 				$('#bee_comm').val('');
 				$('#bee_data').val('');
 			    }
-			},
-			{
-				text: 'Генерировать 10',
-				enabled: false,
-				className: 'addButton',
-				action: function ( e, dt, node, config ) {
-					var act_id = $('#promo_action_resid').children(":selected").attr("id");
-					$('#bee_comm').val('add');
-					$('#bee_data').val('{"promo_action_resid":'+act_id+',"count":10}');
-					table.ajax.url( '/?id=111' ).load();
-					$('#bee_comm').val('');
-					$('#bee_data').val('');
-				}
 			},
 			'selectAll',
 			'selectNone',
 		],
 		columnDefs: [
-			{ "width": "150px", "targets": 4 }
+			{ "width": "250px", "targets": 0 }
 		],
 		language: {
 			buttons: {
@@ -79,24 +64,6 @@ $(document).ready(function() {
 				colvis: "Колонки",
 				processing: "Обновление.."
 			}
-		}
-	});
-
-
-	$('#promo_action_resid').change(function() {
-		var id = $(this).children(":selected").attr("id");
-
-		// Enable/Disable "Add promocode" button
-		if(id > 0)	{
-			table.button( '.addButton' ).enable();
-			// Filtering by promo-action id
-			$('#bee_where').val('parent='+id);
-			table.ajax.url( '/?id=111' ).load();
-		}
-		else	{
-			table.button( '.addButton' ).disable();
-			$('#bee_where').val('');
-			table.ajax.url( '/?id=111' ).load();
 		}
 	});
 } );
