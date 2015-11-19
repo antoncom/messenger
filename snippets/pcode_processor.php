@@ -11,6 +11,14 @@ if(!isset($bee_comm))	{
 
 // выполняем операции с промо-кодами
 switch($bee_comm)	{
+	case ('browse'): {
+		if(!isset($bee_data)) break;
+
+		//$beeData['promo_action_resid'];
+
+
+		break;
+	}
 	case ('delete'): {
 		if(isset($bee_data))	{
 			$bee_data = str_replace("row_", "", $bee_data);
@@ -29,6 +37,7 @@ switch($bee_comm)	{
 			break;
 		}
 		$beeData = json_decode($bee_data, true);
+		$modx->log(xPDO::LOG_LEVEL_ERROR, 'pcode_processor: BeeData: ' . print_r($beeData,true));
 		$protoRow = array(
 			'pagetitle'=>"",
 			'alias'=>"",
@@ -124,6 +133,3 @@ switch($bee_comm)	{
 	}
 	default:{}
 }
-
-
-

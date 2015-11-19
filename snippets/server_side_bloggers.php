@@ -18,10 +18,10 @@
  */
 
 // DB table to use
-$table = 'modx_promocodes';
+$table = 'modx_bloggers';
 
 // Table's primary key
-$primaryKey = 'id';
+$primaryKey = 'modUser_id';
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -30,7 +30,7 @@ $primaryKey = 'id';
 
 $columns = array(
 	array(
-		'db' => 'id',
+		'db' => 'modUser_id',
 		'dt' => 'DT_RowId',
 		'formatter' => function( $d, $row ) {
 			// Technically a DOM id cannot start with an integer, so we prefix
@@ -40,36 +40,21 @@ $columns = array(
 		}
 	),
 	array(
-		'db' => 'pagetitle',
-		'dt' => 0,
-		'formatter' => function( $d, $row ) {
-			return '<a href="' . $d . '.html">' . $d . '</a>';
-		}
+		'db' => 'modUserProfile_fullname',
+		'dt' => 0
 	),
 	array(
-		'db'        => 'tv.pc_start_date',
-		'dt'        => 1,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
-		}
+		'db'        => 'modUserProfile_mobilephone',
+		'dt'        => 1
 	),
 	array(
-		'db'        => 'tv.pc_end_date',
-		'dt'        => 2,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
-		}
+		'db'        => 'modUser_username',
+		'dt'        => 2
 	),
-	array( 'db' => 'tv.pc_porog', 'dt' => 3 ),
 	array(
-			'db' => 'tv.pc_blogger',
-			'dt' => 4,
-			'formatter' => function( $d, $row ) {
-				global $modx;
-				return $modx->runSnippet('getUserProfile', array('id' => $d));
-			}
-	),
-	array( 'db' => 'tv.pc_activations_count', 'dt' => 5 )
+			'db' => 'modUserProfile_extended',
+			'dt' => 3
+	)
 
 );
 
@@ -89,21 +74,6 @@ $sql_details = array(
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
-//class BEESSP extends SSP	{
-//	static function beesimple ( $request, $conn, $table, $primaryKey, $columns )	{
-//		array_push($columns, array( 'db' => 'uri', 'dt' => count($columns) );
-//
-//	}
-//}
-
-$beeWhere = array($_POST['beeWhere']);
-
 echo json_encode(
-	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )
+	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
 );
-
-// TODO
-// ПРЕДСТАВЛЕНИЕ в MYSQL
-// Сделать представление в MySql, которое будет включать колонку pa_code для получения кода акции
-// Убрать из представления лишние колонки
-// Предусмотреть в представлении добавление новых акций (parent IN (...) должно включать будущие добавления акций
