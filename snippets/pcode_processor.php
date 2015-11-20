@@ -44,9 +44,10 @@ switch($bee_comm)	{
 			'template'=>8,
 			'published'=>1,
 			'hidemenu'=>1,
-			'parent'=>$beeData['promo_action_resid'],
+			'parent'=>5135, //$beeData['promo_action_resid']
 			'content_type'=>7
 		);
+
 
 		// Получаем код промоакции, напр. 01, 02, хранимый в TV 'pa_code'
 		if(!$promo_action_code = $modx->runSnippet('pdoField', array(
