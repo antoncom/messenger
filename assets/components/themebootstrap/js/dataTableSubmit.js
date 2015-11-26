@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	var selected = [];
+	var pcData = []; // Данные о выбранных промо-кодах. Используется при удалении.
 	var table = $("#example").DataTable({
 		select: {
 		            style: 'os'
@@ -42,15 +43,9 @@ $(document).ready(function() {
 			    extend: 'selected',
 			    text: 'Удалить отмеченные',
 			    action: function ( e, dt, button, config ) {
-			        var rows = dt.rows( { selected: true } ).data();
-			        for(row in rows)	{
-			    	    selected.push( rows[row]['DT_RowId'] );
-			        }
-			        $('#bee_comm').val('delete');
-			        $('#bee_data').val(selected);
-				table.ajax.url( '/?id=111' ).load();
-				$('#bee_comm').val('');
-				$('#bee_data').val('');
+					pcData = dt;
+					// Выводим modal для подтверждения
+					// см. определение ниже
 			    }
 			},
 			{
@@ -60,7 +55,7 @@ $(document).ready(function() {
 				action: function ( e, dt, node, config ) {
 					var act_id = $('#promo_action_resid').children(":selected").attr("id");
 					$('#bee_comm').val('add');
-					$('#bee_data').val('{"promo_action_resid":'+act_id+',"count":10}');
+					$('#bee_data').val('{"pa_id":'+act_id+',"count":10}');
 					table.ajax.url( '/?id=111' ).load();
 					$('#bee_comm').val('');
 					$('#bee_data').val('');
@@ -90,7 +85,7 @@ $(document).ready(function() {
 		if(id > 0)	{
 			table.button( '.addButton' ).enable();
 			// Filtering by promo-action id
-			$('#bee_where').val('parent='+id);
+			$('#bee_where').val('pa_id='+id);
 			table.ajax.url( '/?id=111' ).load();
 		}
 		else	{
@@ -99,4 +94,21 @@ $(document).ready(function() {
 			table.ajax.url( '/?id=111' ).load();
 		}
 	});
+
+	// Выводим окно подтверждения при удалении промокодов
+	// И удаляем в случае подтверждения пользователем
+	table.button( 3 ).nodes().attr('data-toggle','modal');
+	table.button( 3 ).nodes().attr('data-target','#confirm_deleting');
+	$('#delete_promocode').on('click', function () {
+		var rows = pcData.rows( { selected: true } ).data();
+		for(row in rows)	{
+			selected.push( rows[row]['DT_RowId'] );
+		}
+		$('#bee_comm').val('delete');
+		$('#bee_data').val(selected);
+		table.ajax.url( '/?id=111' ).load();
+		$('#bee_comm').val('');
+		$('#bee_data').val('');
+	})
+
 } );
