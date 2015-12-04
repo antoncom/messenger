@@ -1,4 +1,22 @@
+function refreshModal(modal_id)	{
+	switch(modal_id)	{
+		case('accepting_payment'):
+			$('#tab_phone').hide();
+			$('#tab_card').hide();
+			$('#card_pay_method').toggleClass('disabled', false);
+			$('#phone_pay_method').toggleClass('disabled', false);
+			$('#ok_card').toggleClass('glyphicon glyphicon-ok', false);
+			$('#ok_card').toggleClass('blank', true);
+			$('#ok_phone').toggleClass('glyphicon glyphicon-ok', false);
+			$('#ok_phone').toggleClass('blank', true);
+			$('.text_card').toggleClass('disactive', false);
+			$('.text_phone').toggleClass('disactive', false);
 
+			break;
+
+		default: ;
+	}
+}
 $(document).ready(function() {
 	// bind 'myForm' and provide a simple callback function
 	//$('#bonus_method').ajaxForm(function() {
@@ -29,6 +47,10 @@ $(document).ready(function() {
 		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 		var modal = $(this)
 		modal.find('#bee_ajax_pa_id').val(recipient);
+	})
+
+	$('#accepting_payment').on('hide.bs.modal', function (event) {
+		refreshModal('accepting_payment');
 	})
 
 });
