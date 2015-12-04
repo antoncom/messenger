@@ -136,4 +136,59 @@ $(document).ready(function() {
 
 	$("#myForm").ajaxForm(options);
 	$("#progress").hide();
+
+	// Datepicker
+	$( ".datepicker" ).datepicker({
+		//dateFormat: "dd-mm-yy",
+		dateFormat: "yy-mm-dd",
+		showOn: "both",
+		showAnim: 'slideDown',
+		showButtonPanel: true ,
+		autoSize: true,
+		buttonImage: "//jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+		buttonImageOnly: false,
+		buttonText: "Select date",
+		closeText: "Clear"
+	});
+	$(document).on("click", ".ui-datepicker-close", function(){
+		$('.datepicker').val("");
+		$('#bee_where').val("");
+		table.ajax.url( '/?id=4841' ).load();
+	});
+
+	var startDate = 0;
+	var endDate = 0;
+
+	$('#date_from').on( 'keyup click change', function () {
+		var i =$(this).attr('id');  // getting column index
+		var v =$(this).val();  // getting search input value
+		startDate = Date.parse(v)/1000;
+		if(startDate == 0 && endDate == 0) return;
+		if(endDate > 0)	{
+			period = "act_date BETWEEN " + startDate + " AND " + endDate;
+		}
+		else {
+			period = "act_date>" + startDate;
+		}
+		console.log(period);
+
+		$('#bee_where').val(period);
+		table.ajax.url( '/?id=4841' ).load();
+	} );
+
+	$('#date_to').on( 'keyup click change', function () {
+		var i =$(this).attr('id');  // getting column index
+		var v =$(this).val();  // getting search input value
+		endDate = Date.parse(v)/1000;
+		if(startDate == 0 && endDate == 0) return;
+		if(startDate > 0)	{
+			period = "act_date BETWEEN " + startDate + " AND " + endDate;
+		}
+		else {
+			period = "act_date<" + endDate;
+		}
+		console.log(period);
+		$('#bee_where').val(period);
+		table.ajax.url( '/?id=4841' ).load();
+	} );
 } );
