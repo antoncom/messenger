@@ -13,8 +13,5 @@ if(!empty($scriptProperties['pa_id']))	{
 	$q->execute();
 	$res = $q->fetchAll(PDO::FETCH_COLUMN);
 
-	$modx->log(xPDO::LOG_LEVEL_ERROR, $sql);
-	$modx->log(xPDO::LOG_LEVEL_ERROR, print_r($res, true));
-
 	return $res[0];
 }
