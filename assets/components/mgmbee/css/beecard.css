@@ -1,0 +1,81 @@
+.demo-container {
+	width: 100%;
+	max-width: 350px;
+	margin: 50px auto;
+}
+
+form {
+	margin: 30px;
+}
+input {
+	width: 200px;
+	margin: 10px auto;
+	display: block;
+}
+
+#payment_accept_selector label	{
+	width: 100%;
+	padding:10px 10px 15px 10px;
+	text-align: left;
+	border: 2px solid transparent;
+}
+
+#payment_accept_selector label:hover	{
+	border: 2px solid orange;
+	cursor: pointer;
+}
+
+#payment_accept_selector label.btn.active	{
+	box-shadow: none;
+}
+
+
+#payment_accept_selector span.glyphicon-ok	{
+	font-size: 36px;
+	top: 5px;
+}
+
+#payment_accept_selector span.glyphicon-phone,
+#payment_accept_selector span.glyphicon-credit-card	{
+	font-size: 25px;
+	top: 5px;
+	padding-right: 10px;
+}
+
+
+#payment_accept_selector span.ok-check	{
+	padding-right:30px;
+	padding-left: 15px;
+}
+
+#payment_accept_selector span.ok-check.blank	{
+	padding-left: 55px;
+}
+
+.disactive	{
+	color: #c8c8c8;
+}
+
+#tab_card, #tab_phone	{
+	display: none;
+}
+
+a.fastlink	{
+	font-size: 10px;
+	display: block;
+	position: relative;
+	float: right;
+	padding-top: 9px;
+}
+
+.demo {
+	margin: 10px 60px;
+}
+
+.demo input {
+	font-size: 38px;
+}
+
+.demo label {
+	color: brown;
+}
