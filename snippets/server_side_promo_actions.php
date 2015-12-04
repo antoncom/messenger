@@ -18,10 +18,10 @@
  */
 
 // DB table to use
-$table = 'modx_promocodes';
+$table = 'modx_promo_actions';
 
 // Table's primary key
-$primaryKey = 'id';
+$primaryKey = 'act_id';
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -30,7 +30,7 @@ $primaryKey = 'id';
 
 $columns = array(
 	array(
-		'db' => 'id',
+		'db' => 'act_id',
 		'dt' => 'DT_RowId',
 		'formatter' => function( $d, $row ) {
 			// Technically a DOM id cannot start with an integer, so we prefix
@@ -40,38 +40,51 @@ $columns = array(
 		}
 	),
 	array(
-		'db' => 'pagetitle',
-		'dt' => 0,
-		'formatter' => function( $d, $row ) {
-			return '<a href="' . $d . '.html">' . $d . '</a>';
-		}
-	),
-	array(
-		'db'        => 'pc_start_date',
-		'dt'        => 1,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
-		}
-	),
-	array(
-		'db'        => 'pc_end_date',
-		'dt'        => 2,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
-		}
-	),
-	array( 'db' => 'pa_id', 'dt' => 3 ),
-	array(
-			'db' => 'blogger_id',
-			'dt' => 4,
+			'db'        => 'pa_code',
+			'dt'        => 0,
 			'formatter' => function( $d, $row ) {
-				global $modx;
-				return $modx->runSnippet('getUserProfile', array('id' => $d));
+				return str_pad($d, 2, '0', STR_PAD_LEFT);
 			}
 	),
-	array( 'db' => 'pc_activations_count', 'dt' => 5 )
-
+	array(
+		'db' => 'pagetitle',
+		'dt' => 1
+	),
+	array(
+		'db'        => 'pa_start',
+		'dt'        => 2,
+		'formatter' => function( $d, $row ) {
+			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+		}
+	),
+	array(
+		'db' => 'pa_end',
+		'dt' => 3,
+		'formatter' => function( $d, $row ) {
+			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+		}
+	),
+	array(
+			'db' => 'bonus',
+			'dt' => 4,
+			'formatter' => function( $d, $row ) {
+				return $d . " р.";
+			}
+	),
+	array(
+			'db' => 'activations',
+			'dt' => 5
+	),
+	array(
+			'db' => 'pc_active',
+			'dt' => 6
+	),
+	array(
+			'db' => 'pc_free',
+			'dt' => 7
+	)
 );
+
 
 // SQL server connection information
 $sql_details = array(
@@ -89,18 +102,7 @@ $sql_details = array(
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
-//class BEESSP extends SSP	{
-//	static function beesimple ( $request, $conn, $table, $primaryKey, $columns )	{
-//		array_push($columns, array( 'db' => 'uri', 'dt' => count($columns) );
-//
-//	}
-//}
-
-$beeWhere = array($_POST['beeWhere']);
-
-//$modx->log(xPDO::LOG_LEVEL_ERROR, "REQUEST = " . print_r($_REQUEST, true));
-
-//$modx->log(xPDO::LOG_LEVEL_ERROR, "RESPONSE = " . json_encode(SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )));
+$beeWhere = null;
 
 echo json_encode(
 	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )

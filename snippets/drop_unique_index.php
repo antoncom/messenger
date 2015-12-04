@@ -11,4 +11,3 @@ if(!empty($scriptProperties['index_name']) &&
 	$q->execute();
 	return '';
 };
-

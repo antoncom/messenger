@@ -21,7 +21,7 @@
 $table = 'modx_bloggers';
 
 // Table's primary key
-$primaryKey = 'modUser_id';
+$primaryKey = 'blogger_id';
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -30,7 +30,7 @@ $primaryKey = 'modUser_id';
 
 $columns = array(
 	array(
-		'db' => 'modUser_id',
+		'db' => 'blogger_id',
 		'dt' => 'DT_RowId',
 		'formatter' => function( $d, $row ) {
 			// Technically a DOM id cannot start with an integer, so we prefix
@@ -40,22 +40,21 @@ $columns = array(
 		}
 	),
 	array(
-		'db' => 'modUserProfile_fullname',
-		'dt' => 0
+		'db'        => 'fullname',
+		'dt'        => 0
 	),
 	array(
-		'db'        => 'modUserProfile_mobilephone',
+		'db'        => 'phone',
 		'dt'        => 1
 	),
 	array(
-		'db'        => 'modUser_username',
-		'dt'        => 2
+			'db' => 'email',
+			'dt' => 2
 	),
 	array(
-			'db' => 'modUserProfile_extended',
+			'db' => 'activations_count',
 			'dt' => 3
 	)
-
 );
 
 // SQL server connection information
@@ -72,8 +71,15 @@ $sql_details = array(
  * server-side, there is no need to edit below this line.
  */
 
-require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
+require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class_bloggers.php' );
+
+$beeJoin = $_POST['beeJoin'];
+if(strlen($beeJoin) > 0) $beeJoin = " AND " . $beeJoin;
+//$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id AND viewAct.act_date = 1445040000";
+$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id" . $beeJoin;
+$groupby = "GROUP BY `modx_bloggers`.blogger_id";
+
 
 echo json_encode(
-	SSP::simple( $_POST, $sql_details, $table, $primaryKey, $columns )
+		SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere, $join, $groupby )
 );

@@ -1,5 +1,4 @@
 <?php
-
 if(!empty($scriptProperties['names'])) {
 	$input = $scriptProperties['names'];
 	$q = $modx->newQuery('modTemplateVar');
@@ -14,5 +13,5 @@ if(!empty($scriptProperties['names'])) {
 		return $result;
 	}, array());
 
-	return json_encode($output);
+	return json_encode($output, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
 }

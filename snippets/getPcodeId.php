@@ -20,21 +20,18 @@ if(!empty($scriptProperties['pagetitle'])) {
 	}
 	else	{
 		$pcodeData['error'] = "В системе не найден идентификатор для промо-кода [" . $pagetitle . "]";
-		json_encode($pcodeData);
 	}
 	if($bid = $modx->runSnippet('pdoField', array('id' => $pcodeData['id'], 'field' => 'blogger_id')))	{
 		$pcodeData['blogger_id'] = $bid;
 	}
 	else	{
 		$pcodeData['error'] = "В системе не найден идентификатор блоггера для промо-кода [" . $pagetitle . "]";
-		json_encode($pcodeData);
 	}
-	if($prnt = $modx->runSnippet('pdoField', array('id' => $res, 'field' => 'parent')))	{
-		$pcodeData['parent'] = $prnt;
+	if($prnt = $modx->runSnippet('pdoField', array('id' => $res, 'field' => 'pa_id')))	{
+		$pcodeData['pa_id'] = $prnt;
 	}
 	else	{
 		$pcodeData['error'] = "В системе не найден идентификатор промо-акции для промо-кода [" . $pagetitle . "]";
-		json_encode($pcodeData);
 	}
 }
-return json_encode($pcodeData);
+return json_encode($pcodeData, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);

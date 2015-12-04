@@ -2,6 +2,8 @@
 // Добавляем ресурсы одним запросом
 if(!empty($scriptProperties['resources']))	{
 	$resources = json_decode($scriptProperties['resources'], true);
+	if(!is_array($resources)) return;
+
 	foreach($resources as $res)	{
 		$fields = array_keys($res);
 		break;
@@ -47,11 +49,16 @@ if(!empty($scriptProperties['resources']))	{
 
 	// Получаем ID вновь созданных ресурсов путем поиска по алиасу
 	$resIds = json_decode($modx->runSnippet('resid_by_aliases', array('aliases' => "'" . implode("','", array_keys($resources)). "'")), true);
+	//$resIds = json_decode($modx->runSnippet('resid_by_aliases', array('aliases' => implode(",", array_keys($resources)))), true);
+	$modx->log(XPDO::LOG_LEVEL_ERROR, "RES IDS ====== " . print_r($resIds, true));
+
+
 }
 
 // Добавляем TV одним запросом
 if(!empty($scriptProperties['tvs'])) {
 	$tvs = json_decode($scriptProperties['tvs'], true);
+	if(!is_array($tvs)) return;
 	foreach($tvs as $tv)	{
 		$tvNames = array_keys($tv);
 		break;
@@ -102,6 +109,8 @@ if(!empty($scriptProperties['tvs'])) {
 // Добавляем Groups одним запросом
 if(!empty($scriptProperties['grps'])) {
 	$grps = json_decode($scriptProperties['grps'], true);
+	if(!is_array($grps)) return;
+
 	$fields = array('document', 'document_group');
 	$values = "";
 	$odku = "";
@@ -143,6 +152,3 @@ if(!empty($scriptProperties['grps'])) {
 }
 
 return $count;
-
-
-

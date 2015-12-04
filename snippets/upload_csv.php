@@ -27,7 +27,11 @@
 		$lines[] = $row;
 		if(count($lines) < 2) continue; // пропускаем заголовочную строку CSV-файла
 
-		$actDate = strtotime($row[0]);
+
+		list($day, $month, $year) = explode('.', $row[0]);
+		$actDate = mktime(0, 0, 0, $month, $day, $year);
+
+		//$actDate = strtotime($row[0]);
 		$abonent = $row[1];
 		$pcode = $row[2];
 
@@ -46,7 +50,7 @@
 		$tvsAll[$alias] = array(
 			'act_date'=>$actDate,
 			'blogger_id' =>$pcodeData['blogger_id'],
-			'pa_id'=>$pcodeData['parent'],
+			'pa_id'=>$pcodeData['pa_id'],
 			'pc_id'=>$pcodeData['id']);
 
 		$grpsAll[$alias] = array(1,2);
@@ -55,11 +59,13 @@
 		$i++;
 	}
 
+$modx->log(xPDO::LOG_LEVEL_ERROR, print_r($tvsAll, true));
+
 	// Выполняем массовое добавление
 	$count = $modx->runSnippet('addResourcesWithTVandGroup', array(
-					'resources' => json_encode($resAll, JSON_HEX_APOS),
-					'tvs' => json_encode($tvsAll, JSON_HEX_APOS),
-					'grps' => json_encode($grpsAll, JSON_HEX_APOS)
+					'resources' => json_encode($resAll, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+					'tvs' => json_encode($tvsAll, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+					'grps' => json_encode($grpsAll, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE)
 				)
 	);
 
@@ -118,5 +124,3 @@
 //echo "</pre>";
 
 	//echo "Uploaded File :".$_FILES["myfile"]["name"] . "content = " . print_r($csv, true);
-
-

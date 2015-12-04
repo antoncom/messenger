@@ -45,91 +45,53 @@ switch($bee_comm)	{
 			'published'=>1,
 			'hidemenu'=>1,
 			'parent'=>5135, //$beeData['promo_action_resid']
-			'content_type'=>7
 		);
 
 
 		// Получаем код промоакции, напр. 01, 02, хранимый в TV 'pa_code'
 		if(!$promo_action_code = $modx->runSnippet('pdoField', array(
-													'id'=>$beeData['promo_action_resid'],
+													'id'=>$beeData['pa_id'],
 													'field'=>'pa_code')))	{
-			$modx->log(xPDO::LOG_LEVEL_ERROR, 'pcode_processor: No promo_action_code for res [' . $beeData['promo_action_resid'] . ']');
+			$modx->log(xPDO::LOG_LEVEL_ERROR, 'pcode_processor: No promo_action_code for res [' . $beeData['pa_id'] . ']');
 			return false;
 		}
 		$pa_code = str_pad($promo_action_code, 2, '0', STR_PAD_LEFT);
 
 		// Получаем ближайший стартовый номер для генерации промо-кодов, напр. 1612
 		$new_start_pcode = $modx->runSnippet('startNum.pcode', array(
-													'id' => $beeData['promo_action_resid'])
+													'pa_code' => $pa_code)
 		);
 
-		// формируем запрос на добавление множества промо-кодов вида 011612, 011613
+
+		// формируем массивы объектов на добавление множества промо-кодов вида 011612, 011613
 		$count = $beeData['count'];
 		$n_pcode = $new_start_pcode;
 		while ($count > 0)	{
-			$protoRow['pagetitle'] = "'" . $pa_code . str_pad($n_pcode, 4, '0', STR_PAD_LEFT) . "'";
+			$pagetitle = $pa_code . str_pad($n_pcode, 4, '0', STR_PAD_LEFT);
+			$protoRow['pagetitle'] = "'" . $pagetitle . "'";
 			$protoRow['alias'] = $protoRow['pagetitle'];
-			$values = join(',', array_values($protoRow));
-			$rows .= "(". $values .")";
+
+			$alias = $pagetitle;
+			$tvsAll[$alias] = array(
+					'pa_id'=>$beeData['pa_id']);
+
+			$grpsAll[$alias] = array(1,2);
+			$resAll[$alias] = $protoRow;
+
 			$count--;
-			$rows .= ($count==0) ? "" : ", ";
 			$n_pcode++;
 		}
 
-		$fields = join(',', array_keys($protoRow));
-		$sql = "INSERT INTO {$modx->getTableName('modResource')} (" . $fields . ") VALUES " . $rows;
-		$q = $modx->prepare($sql);
-		if(!$q->execute(array(0)))	{
-			$modx->log(xPDO::LOG_LEVEL_ERROR, 'startNum.pcode snippet ERROR' . print_r($q->errorInfo(),true));
-			return;
-		}
 
-
-
-
-		// Помещаем созданные ресурсы в группу ресурсов для ограничения доступа к ним
-		// Для этого вначале находим ID-шники только что созданных ресурсов
-		$findFrom = $pa_code . str_pad($new_start_pcode, 4, '0', STR_PAD_LEFT);
-		$q = $modx->newQuery('modResource', array(
-										'pagetitle:>=' => $findFrom,
-										'parent' => $beeData['promo_action_resid'])
+		// Выполняем массовое добавление
+		$count = $modx->runSnippet('addResourcesWithTVandGroup', array(
+						'resources' => json_encode($resAll, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+						'tvs' => json_encode($tvsAll, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+						'grps' => json_encode($grpsAll, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE)
+				)
 		);
-		$q->select('id');
-		$q->prepare();
-		$sql = $q->toSQL();
-		if(!$q->stmt->execute())	{
-			$modx->log(xPDO::LOG_LEVEL_ERROR, 'startNum.pcode snippet ERROR' . print_r($q->errorInfo(),true));
-			return;
-		}
-		$resIds = $q->stmt->fetchAll(PDO::FETCH_COLUMN);
 
-		// Помещаем ID-шники вновь созданных ресурсов промо кодов в таблицу групп ресурсов
-		$protoGroup = array(
-			'document_group'=>'',
-			'document'=>''
-		);
-		$fields = "";
-		$values = "";
-		$rows = "";
-		$groups = array(1,2);
-		$lastInd = count($resIds) - 1;
-		// Формируем SQL запрос
-		foreach($groups as $ind1 => $group)	{
-			foreach($resIds as $ind2 => $id)	{
-				$protoGroup['document_group'] = $group;
-				$protoGroup['document'] = $id;
-				$values = join(',', array_values($protoGroup));
-				$rows .= "(". $values .")";
-				$rows .= ($ind1 == 1 && $ind2 == $lastInd) ? "" : ", ";
-			}
-		}
-		$fields = join(',', array_keys($protoGroup));
-		$sql = "INSERT INTO {$modx->getTableName('modResourceGroupResource')} (" . $fields . ") VALUES " . $rows;
-		$q = $modx->prepare($sql);
-		if(!$q->execute(array(0)))	{
-			$modx->log(xPDO::LOG_LEVEL_ERROR, 'startNum.pcode snippet ERROR' . print_r($q->errorInfo(),true));
-			return;
-		}
+
 		break;
 	}
 	default:{}

@@ -1,11 +1,15 @@
 <?php
 // Получаем ближайший доступный стартовый номер для генерации промо-кодов заданной акции
-$promo_action_resid = $scriptProperties['id'];
+$promo_action_code = $scriptProperties['pa_code'];
 	$c = $modx->newQuery('modResource');
 	$c->select('pagetitle');
-	$c->where(array('parent' => $promo_action_resid));
+	$c->where(array('parent' => 5135, 'pagetitle:REGEXP' =>  '^' . $promo_action_code . '[0-9]{1,4}$')); //$promo_action_resid));
 	$c->sortby('pagetitle', 'DESC');
 	$c->limit(1);
+
+$c->prepare();
+$modx->log(xPDO::LOG_LEVEL_ERROR, 'pcode_processor ' . $c->toSQL());
+
 
 	if ($c->prepare() && $c->stmt->execute()) {
 		$snum = $c->stmt->fetchAll(PDO::FETCH_COLUMN);
