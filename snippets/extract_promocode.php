@@ -1,12 +1,12 @@
 <?php
 /**
- * Извлечь промокод
+ * Вывод в блок "Участие в акции"
  * на входе pa_id
- * на выходе свободнф промокод
+ * на выходе свободный промокод
  */
 
 if(!empty($scriptProperties['pa_id']))	{
-	$pa_code = $scriptProperties['pa_id'];
+	$pa_id = $scriptProperties['pa_id'];
 
 	// получаем ближайший свободный промо-код
 	$q = $modx->newQuery('modResource');
@@ -17,14 +17,15 @@ if(!empty($scriptProperties['pa_id']))	{
 		'modTemplateVarResourcePa.contentid = modResource.id'));
 
 	$q->where(array('parent' => 5135,
-		'modTemplateVarResourceBlg.value:IS' => NULL));
+		'modTemplateVarResourceBlg.value:IS' => NULL,
+			'modTemplateVarResourcePa.value' => $pa_id));
 	$q->sortby('pagetitle', 'ASC');
 	$q->limit(1);
 	$q->prepare();
 
 	$q->stmt->execute();
 	$res = $q->stmt->fetchAll(PDO::FETCH_ASSOC);
-
+	$modx->log(xPDO::LOG_LEVEL_ERROR, $q->toSQL());
 	// Присваиваем блоггера для данного промокода
 	$user = $modx->getUser();
 	$userId = $user->get('id');
