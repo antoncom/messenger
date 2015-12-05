@@ -31,6 +31,14 @@ function refreshModal(modal_id)	{
 	}
 }
 
+//function copyToClipboard(element) {
+//  var $temp = $("<input>");
+//  $("body").append($temp);
+//  $temp.val($(element).text()).select();
+//  document.execCommand("copy");
+//  $temp.remove();
+//}
+//
 
 $(document).ready(function() {
 	$('#bonus_to_card').change(function () {
@@ -86,6 +94,7 @@ $(document).ready(function() {
 
 	$('#apply_join_promoaction').on('click', function () {
 		$('#bonus_method').submit();
+		//$('#extract_promocode').show();
 	});
 
 	$('#accepting_payment').on('show.bs.modal', function (event) {
@@ -110,11 +119,38 @@ $(document).ready(function() {
 	$('#extract_promocode').on('hide.bs.modal', function (event) {
 		refreshModal('extract_promocode');
 	});
+	
+	$('#extract_promocode button.submit').on('click', function() {
+		console.log('submit');
+		choice = $('input[name=extract_promocode_to]:checked', '#extract_promocode_form').val();
+		console.log('choice = ' + choice);
+		if(choice == 'clipboard')	{
+			pcode = $('#pcode').text();
 
-	$(document).on('as_complete', document, function(e,d) {
-		console.log(d);
-		$('#pcode').text(d.output);
-		$('#extract_promocode').modal('show');
+			clipboard.copy({
+				"text/plain": pcode
+			});
+
+			AjaxForm.Message.success('Промо-код ' + pcode + ' скопирован в буфер обмена.');
+		}
+	});
+
+
+	$(document).on('as_complete_extract_promocode_status', document, function(e,d) {
+		//console.log(d);
+		//$('#pcode').text(d.output);
+		//$('#extract_promocode').modal('show');
+	});
+
+
+	$(document).on('as_complete_join_promoaction', document, function(e,d) {
+
+	});
+
+	$('#extract_promocode').on('shown.bs.modal', function(e)	{
+		var button = $(e.relatedTarget);
+		var pa_id = button.data('whatever');
+		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
 	});
 
 });
