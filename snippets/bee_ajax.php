@@ -3,9 +3,6 @@
  * Run any snippet via ajax
  */
 
-// TODO
-
-
 if(!empty($_POST['bee_ajax_snippet']))	{
 	$params = array();
 	foreach($_POST as $key => $value)	{

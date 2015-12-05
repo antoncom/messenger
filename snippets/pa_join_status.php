@@ -41,14 +41,13 @@ if(!empty($scriptProperties['pa_id']))	{
 					$q->stmt->execute();
 					$res = $q->stmt->fetchAll(PDO::FETCH_ASSOC);
 
-					$modx->log(xPDO::LOG_LEVEL_ERROR, 'PA_ID = ' . $pa_id);
-
 					if(count($res) > 0)	{
-						$out_yes = 'Промо-код: <span class="badge">' . $res[0]['pagetitle'] . '</span> сгорает ' . date('d.m.Y', strtotime($res[0]['end_date']))  .  '.';
-						$out_yes .= '<br>Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
+						//$out_yes = 'Промо-код: <span class="badge">' . $res[0]['pagetitle'] . '</span> сгорает ' . date('d.m.Y', strtotime($res[0]['end_date']))  .  '.';
+						$out_yes .= 'Вы участвуете. Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
 					}
 					else{
-						$out_yes = 'Вы участвуете, но не получили промо-код.';
+						//$output = $modx->getChunk('tpl.extract_promocode',array('id' => $pa_id));
+						$out_yes = 'Вы участвуете, но не имеете активных промо-кодов. ' . $output;
 					}
 
 					return $out_yes;

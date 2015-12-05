@@ -1,6 +1,6 @@
 <?php
 /**
- * Вывод в блок "Участие в акции"
+ * Извлечение свободного промо-кода для блогера
  * на входе pa_id
  * на выходе свободный промокод
  */
@@ -12,12 +12,12 @@ if(!empty($scriptProperties['pa_id']))	{
 	$q = $modx->newQuery('modResource');
 	$q->select('modResource.id AS id,pagetitle');
 	$q->leftJoin('modTemplateVarResource', 'modTemplateVarResourceBlg', array('modTemplateVarResourceBlg.tmplvarid = 5',
-		'modTemplateVarResourceBlg.contentid = modResource.id'));
+			'modTemplateVarResourceBlg.contentid = modResource.id'));
 	$q->leftJoin('modTemplateVarResource', 'modTemplateVarResourcePa', array('modTemplateVarResourcePa.tmplvarid = 15',
-		'modTemplateVarResourcePa.contentid = modResource.id'));
+			'modTemplateVarResourcePa.contentid = modResource.id'));
 
 	$q->where(array('parent' => 5135,
-		'modTemplateVarResourceBlg.value:IS' => NULL,
+			'modTemplateVarResourceBlg.value:IS' => NULL,
 			'modTemplateVarResourcePa.value' => $pa_id));
 	$q->sortby('pagetitle', 'ASC');
 	$q->limit(1);
