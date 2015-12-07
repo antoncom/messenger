@@ -43,7 +43,7 @@ if(!empty($scriptProperties['pa_id'])) {
 				}
 			}
 		}
-		$output = '<a data-toggle="modal" data-target="#extract_promocode" data-whatever="' . $pa_id . '" style="cursor: pointer;" class="disactive">Извлечь промокод</a>';
+		$output = '<a data-toggle="modal" data-whatever="' . $pa_id . '" style="cursor: pointer;" class="disactive">Извлечь промокод</a>';
 		return $output;
 	}
 }

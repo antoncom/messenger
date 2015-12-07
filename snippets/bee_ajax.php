@@ -12,21 +12,45 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			$params[$paramName] = $value;
 		}
 	}
-	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($params, true));
+	//$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($params, true));
 
 	$params['as_mode'] = 'onclick';
 	$params['as_target'] = 'pa_join_status_' . $params['pa_id'];
 
-	if (empty($params['bonus_method'])) {
-		return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ получения бонусов!'));
+	switch($_POST['bee_ajax_snippet'])	{
+		case('pa_join_status'):
+			if (empty($params['bonus_method'])) {
+				return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ получения бонусов!'));
+			}
+			else {
+				$r = $modx->runSnippet('blogger_join_promoaction', array(
+						'pa_id' => $params['pa_id'],
+						'bonus_method' => $params['bonus_method']
+				));
+				return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+			}
+			break;
+
+		case('extract_promocode'):
+			$extract_method = $params['extract_promocode_to'];
+			if(!empty($extract_method))	{
+				if($extract_method === 'clipboard')	{
+
+				}
+				if($extract_method === 'phone')	{
+
+				}
+				if($extract_method === 'email')	{
+
+				}
+				return $AjaxForm->success('Промо-код скопирован в буфер обмена.');
+			}
+			else{
+				return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));
+			}
+		default:;
 	}
-	else {
-		$r = $modx->runSnippet('blogger_join_promoaction', array(
-			'pa_id' => $params['pa_id'],
-			'bonus_method' => $params['bonus_method']
-		));
-		return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
-	}
+
 
 
 
