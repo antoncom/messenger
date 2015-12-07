@@ -116,16 +116,25 @@ $(document).ready(function() {
 		$('#'+labelId + ' .ok-check').toggleClass('glyphicon glyphicon-ok', true);
 		$('#'+labelId + ' .ok-check').toggleClass('blank', false);
 	});
+	$('#extract_promocode').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var recipient = button.data('whatever') // Extract info from data-* attributes
+		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		var modal = $(this);
+		modal.find('#bee_ajax_pa_id').val(recipient);
+	});
 	$('#extract_promocode').on('hide.bs.modal', function (event) {
 		refreshModal('extract_promocode');
 	});
 	
-	$('#extract_promocode button.submit').on('click', function() {
+	$('#apply_extract_promocode').on('click', function() {
+		$('#extract_promocode_form').submit();
 		console.log('submit');
 		choice = $('input[name=extract_promocode_to]:checked', '#extract_promocode_form').val();
-		console.log('choice = ' + choice);
+		//console.log('choice = ' + choice);
 		if(choice == 'clipboard')	{
-			pcode = $('#pcode').text();
+			pcode = $('#extracted_promocode').text();
 
 			clipboard.copy({
 				"text/plain": pcode
@@ -133,6 +142,8 @@ $(document).ready(function() {
 
 			AjaxForm.Message.success('Промо-код ' + pcode + ' скопирован в буфер обмена.');
 		}
+		$('#extract_promocode').hide();
+		refreshModal('extract_promocode');
 	});
 
 

@@ -60,19 +60,64 @@ var AjaxForm = {
 						form.find('.error').removeClass('error');
 						form[0].reset();
 
-						// Callback addon from MediaPublish
-						$('#accepting_payment').modal('hide');
-						asa = $( "a[data-whatever=" + $('#bee_ajax_pa_id').val() + "]" ).parent().attr('id');
-						var spinner = $('#'+asa).find(".as_spinner");
-						spinner.css("display","block");
-						$.post("/promo-akczii/", {as_action: asa}, function(response) {
-							if (typeof response.output !== "undefined") {
-								$('#'+asa).html(response.output);
-								spinner.css("display","none");
-								$(document).trigger("as_complete", response);
-							}
-						}, "json");
-						// end of callback addon
+						// MediaPublish addon
+						// Обновляем HTML участия в акции
+						snip = form.find('input[type="hidden"][name="bee_ajax_snippet"]').val();
+						pa_id = form.find('input[type="hidden"][name="bee_ajax_pa_id"]').val();
+						switch(snip)	{
+							case('pa_join_status'):
+								// Callback addon from MediaPublish
+								// Обновляем ссылку-активатор "Подключиться к промо-акции"
+								$('#accepting_payment').modal('hide');
+								asa = $( 'a[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								var spinner = $('#'+asa).find(".as_spinner");
+								spinner.css("display","block");
+								$.post("/promo-akczii/", {as_action: asa}, function(response) {
+									if (typeof response.output !== "undefined") {
+										$('#'+asa).html(response.output);
+										spinner.css("display","none");
+
+										// Активируем ссылку "Извлечь промо-код"
+										$('a[data-whatever="'+pa_id+'"]').attr('data-target','#extract_promocode');
+										$('a[data-whatever="'+pa_id+'"]').toggleClass('disactive',false);
+									}
+								}, "json");
+								// end of callback addon
+
+								break;
+
+							case('extract_promocode'):
+								// Обновляем ссылку-активатор "Извлечь промо-код"
+								$('#extract_promocode').modal('hide');
+								asa = $( 'a[data-target="#extract_promocode"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								var spinner = $('#'+asa).find(".as_spinner");
+								spinner.css("display","block");
+								$.post("/promo-akczii/", {as_action: asa}, function(response) {
+									if (typeof response.output !== "undefined") {
+										$('#'+asa).html(response.output);
+										spinner.css("display","none");
+
+										// Обновляем статус подключения к промо-акции
+										asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+										$.post("/promo-akczii/", {as_action: asa}, function(response) {
+											if (typeof response.output !== "undefined") {
+												$('#'+asa).html(response.output);
+											}
+										}, "json");
+									}
+								}, "json");
+								// end of callback addon
+
+
+
+
+
+								break;
+
+							default: ;
+						}
+
+
 					}
 				}
 			});
