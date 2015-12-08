@@ -41,6 +41,23 @@ var AjaxForm = {
 				,success: function(response, status, xhr, form) {
 					form.find('input,textarea,select,button').attr('disabled', false);
 					response.form=form;
+
+					// Added by MediaPublish
+					bee_form = form.serialize();
+					function fetchInput(inp) {
+						var form_data = inp.split('&');
+						var input     = {};
+
+						$.each(form_data, function(key, value) {
+							var data = value.split('=');
+							input[data[0]] = decodeURIComponent(data[1]);
+						});
+
+						return input;
+					}
+					bee_form_data = fetchInput(bee_form);
+					// End
+
 					$(document).trigger('af_complete', response);
 					if (!response.success) {
 						AjaxForm.Message.error(response.message);
@@ -54,6 +71,9 @@ var AjaxForm = {
 								}
 							}
 						}
+						$( '#send_confirm_code' ).button('reset');
+						$( '#apply_confirm_code' ).button('reset');
+						$( '#send_card_update' ).button('reset');
 					}
 					else {
 						AjaxForm.Message.success(response.message);
@@ -106,13 +126,62 @@ var AjaxForm = {
 										}, "json");
 									}
 								}, "json");
-								// end of callback addon
+								break;
 
+							case('send_phone_confirmation'):
+								$( '#send_confirm_code' ).button('reset');
+								$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
+								break;
 
+							case('confirm_phone'):
+								$( '#apply_confirm_code' ).button('reset');
 
+								// Отмечаем галочкой способ доставки бонуса - телефон
+								// Скрываем интерфейс ввода/подтверждения номера телефона
+								$('#tab_phone').hide();
+								$('#bonus_to_phone').click();
+								$('#card_pay_method').toggleClass('disabled', false);
+								$('#bonus_to_phone').filter('[value=phone]').prop('checked', true);
+								$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
 
+								// прописываем телефон в radio
+								var phone = $("#bee_ajax_blogger_phone").val();
+								$('#phone_pay_method .text_phone').html('На баланс: ' + '+7' + phone);
 
 								break;
+
+							case('card_update'):
+								$('#send_card_update').button('reset');
+
+								function fetchInput(inp) {
+									var form_data = inp.split('&');
+									var input     = {};
+
+									$.each(form_data, function(key, value) {
+										var data = value.split('=');
+										input[data[0]] = decodeURIComponent(data[1]);
+									});
+
+									return input;
+								}
+								// Отмечаем галочкой способ доставки бонуса - телефон
+								// Скрываем интерфейс ввода/подтверждения номера телефона
+								$('#tab_card').hide();
+								$('#bonus_to_card').click();
+								$('#phone_pay_method').toggleClass('disabled', false);
+								$('#bonus_to_card').filter('[value=card]').prop('checked', true);
+
+								// прописываем карту в radio
+								var card = bee_form_data['bee_ajax_number'].replace("+", " ");
+								$('#card_pay_method .text_card').html('На карту Билайн ' + card);
+								$('#bee_ajax_card_number').val(card);
+
+								// восстанавливаем name и expiry
+								var name = bee_form_data['bee_ajax_name'].replace("+", " ");
+								$('#bee_ajax_card_name').val(name);
+								var expiry = bee_form_data['bee_ajax_expiry'].replace("+", " ");
+								$('#bee_ajax_card_expiry').val(expiry);
+
 
 							default: ;
 						}

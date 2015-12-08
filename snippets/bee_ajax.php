@@ -12,10 +12,10 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			$params[$paramName] = $value;
 		}
 	}
-	//$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($params, true));
+	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($params, true));
 
-	$params['as_mode'] = 'onclick';
-	$params['as_target'] = 'pa_join_status_' . $params['pa_id'];
+//	$params['as_mode'] = 'onclick';
+//	$params['as_target'] = 'pa_join_status_' . $params['pa_id'];
 
 	switch($_POST['bee_ajax_snippet'])	{
 		case('pa_join_status'):
@@ -27,7 +27,8 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 						'pa_id' => $params['pa_id'],
 						'bonus_method' => $params['bonus_method']
 				));
-				return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+				$bmStr = ($params['bonus_method'] == 'phone') ? 'на баланс телефона.' : 'на карту Билайн.';
+				return $AjaxForm->success($r . ' - Способ получения бонусов: ' . $bonus_method);
 			}
 			break;
 
@@ -48,6 +49,53 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			else{
 				return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));
 			}
+			break;
+
+		case('send_phone_confirmation'):
+			$r = json_decode($modx->runSnippet('send_phone_confirmation', array(
+					'phone' => $params['blogger_phone'],
+					'key' => $params['key'])), true);
+			if(empty($r)) return $AjaxForm->error('Некорректный телефон: ' . $params['blogger_phone'], array('name' => $err));
+
+			require_once(MODX_CORE_PATH.'components/beecore/include.xmlcdata.php' );
+			$sms_result = xmlstr_to_array($r['result']);
+
+			if(count($sms_result['errors']) == 0)	{
+				return $AjaxForm->success('На номер ' . $r['phone'] . ' отправлен проверочный код.<br>' . $r['result']);
+			}
+			else{
+				$err = implode("<br> ", array_values($sms_result['errors']));
+				return $AjaxForm->error('Ошибка: ' . $err, array('name' => $err));
+			}
+			break;
+
+		case('confirm_phone'):
+			$r = json_decode($modx->runSnippet('confirm_phone', array(
+					'phone' => $params['blogger_phone'],
+					'confirm_code' => $params['blogger_confirmcode'],
+					'key' => $params['key'])), true);
+
+			if($r == '1')	{
+				return $AjaxForm->success('Ваш телефон ' . $params['blogger_phone'] . ' подтвержден.');
+			}
+			else{
+				return $AjaxForm->error('Ошибка. Телефон не подтвержден.', array('name' => 'Телефон не подтвержден.'));
+			}
+			break;
+
+		case('card_update'):
+			$r = json_decode($modx->runSnippet('card_update', array(
+					'number' => $params['number'],
+					'name' => $params['name'],
+					'expiry' => $params['expiry'])), true);
+			if($r == '1')	{
+				return $AjaxForm->success('Ваша карта подтверждена');
+			}
+			else{
+				return $AjaxForm->error('Ошибка. Карта не подтверждена.', array('name' => 'Карта не подтверждена.'));
+			}
+
+
 		default:;
 	}
 

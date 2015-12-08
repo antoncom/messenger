@@ -1,8 +1,3 @@
-new Card({
-	form: document.querySelector('form'),
-	container: '.card-wrapper'
-});
-
 function refreshModal(modal_id)	{
 	switch(modal_id)	{
 		case('accepting_payment'):
@@ -65,14 +60,17 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#change_phone').click(function(event){
+
+
+	$('.change_phone').click(function(event){
 		event.stopImmediatePropagation();
 		$('#tab_card').hide();
 		$('#tab_phone').show();
 		$('#card_pay_method').toggleClass('disabled', true);
+		$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
 	});
 
-	$('#change_card').click(function(event){
+	$('.change_card').click(function(event){
 		event.stopImmediatePropagation();
 		$('#tab_phone').hide();
 		$('#tab_card').show();
@@ -80,17 +78,13 @@ $(document).ready(function() {
 	});
 
 	jQuery(function($){
-		$("#blogger_phone").mask("(999) 999-9999",{completed: function(){
+		$("#bee_ajax_blogger_phone").mask("(999) 999-9999",{completed: function(){
 				// если код валидный
-				$("#send_sms_btn").toggleClass('disabled', false);
+				$("#send_confirm_code").toggleClass('disabled', false);
 			}});
 	});
 
-	$('#send_sms_btn').on('click', function () {
-		var $btn = $(this).button('loading')
-		// business logic...
-		//$btn.button('reset');
-	});
+
 
 	$('#apply_join_promoaction').on('click', function () {
 		$('#bonus_method').submit();
@@ -163,6 +157,38 @@ $(document).ready(function() {
 		var pa_id = button.data('whatever');
 		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
 	});
+
+
+	// Подтверждение телефона по SMS
+	$('#send_confirm_code').on('click', function() {
+		var $btn = $(this).button('loading');
+		$('#blg_phone_set input[name="bee_ajax_snippet"]').val('send_phone_confirmation');
+		var phone = $('#bee_ajax_blogger_phone').val();
+		var key = CryptoJS.SHA1(phone);
+		$('#session_key').val(key.toString(CryptoJS.enc.Hex));
+		$('#blg_phone_set').submit();
+	});
+
+	$('#apply_confirm_code').on('click', function() {
+		var $btn = $(this).button('loading');
+		$('#blg_phone_set input[name="bee_ajax_snippet"]').val('confirm_phone');
+		$('#blg_phone_set').submit();
+	});
+
+	$("#blg_phone_set").submit(function() {
+		$("#bee_ajax_blogger_phone").val($("#bee_ajax_blogger_phone").mask());
+	});
+
+	$('#send_card_update').on('click', function () {
+		var $btn = $(this).button('loading')
+		$('#change_card').submit();
+	});
+
+	$('#change_card').on('submit', function () {
+		// добавляем к атрибуту name префикс "bee_ajax_" для того, чтобы наш сниппет корректно распознал передаваемые поля
+		$(this).find('input[type=text]').attr('name', function(i, val){ return 'bee_ajax_' + val});
+	});
+
 
 });
 
