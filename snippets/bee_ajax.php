@@ -13,6 +13,7 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 		}
 	}
 	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($params, true));
+	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($_POST, true));
 
 //	$params['as_mode'] = 'onclick';
 //	$params['as_target'] = 'pa_join_status_' . $params['pa_id'];
@@ -34,17 +35,17 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 
 		case('extract_promocode'):
 			$extract_method = $params['extract_promocode_to'];
+			$pcode = $params['promo_code'];
 			if(!empty($extract_method))	{
 				if($extract_method === 'clipboard')	{
-
+					return $AjaxForm->success('Промо-код ' . $pcode . ' скопирован в буфер обмена.');
 				}
 				if($extract_method === 'phone')	{
-
+					return $AjaxForm->success('Ок phone');
 				}
 				if($extract_method === 'email')	{
-
+					return $AjaxForm->success('Ок email');
 				}
-				return $AjaxForm->success('Промо-код скопирован в буфер обмена.');
 			}
 			else{
 				return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));
