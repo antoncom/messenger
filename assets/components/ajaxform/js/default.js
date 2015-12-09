@@ -1,3 +1,15 @@
+//function fetchInput(inp) {
+//	var form_data = inp.split('&');
+//	var input     = {};
+//
+//	$.each(form_data, function(key, value) {
+//		var data = value.split('=');
+//		input[data[0]] = decodeURIComponent(data[1]);
+//	});
+//
+//	return input;
+//}
+
 var AjaxForm = {
 
 	initialize: function(afConfig) {
@@ -100,6 +112,14 @@ var AjaxForm = {
 										// Активируем ссылку "Извлечь промо-код"
 										$('a[data-whatever="'+pa_id+'"]').attr('data-target','#extract_promocode');
 										$('a[data-whatever="'+pa_id+'"]').toggleClass('disactive',false);
+
+										// Обновляем способ получения бонуса в панели
+										asa = $( 'span[data-target="#payment_method"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+										$.post("/promo-akczii/", {as_action: asa}, function(response) {
+											if (typeof response.output !== "undefined") {
+												$('#'+asa).html(response.output);
+											}
+										}, "json");
 									}
 								}, "json");
 								// end of callback addon
@@ -130,7 +150,12 @@ var AjaxForm = {
 
 							case('send_phone_confirmation'):
 								$( '#send_confirm_code' ).button('reset');
+
+								// восстанавливаем phone
+								var phone = bee_form_data['bee_ajax_blogger_phone'].split('+').join(' ');
+								$("#bee_ajax_blogger_phone").val(phone);
 								$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
+
 								break;
 
 							case('confirm_phone'):
@@ -144,8 +169,14 @@ var AjaxForm = {
 								$('#bonus_to_phone').filter('[value=phone]').prop('checked', true);
 								$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
 
+								// восстанавливаем phone
+								var phone = bee_form_data['bee_ajax_blogger_phone'].split('+').join(' ');
+								$("#bee_ajax_blogger_phone").val(phone);
+								$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
+
 								// прописываем телефон в radio
 								var phone = $("#bee_ajax_blogger_phone").val();
+
 								$('#phone_pay_method .text_phone').html('На баланс: ' + '+7' + phone);
 
 								break;
@@ -153,17 +184,6 @@ var AjaxForm = {
 							case('card_update'):
 								$('#send_card_update').button('reset');
 
-								function fetchInput(inp) {
-									var form_data = inp.split('&');
-									var input     = {};
-
-									$.each(form_data, function(key, value) {
-										var data = value.split('=');
-										input[data[0]] = decodeURIComponent(data[1]);
-									});
-
-									return input;
-								}
 								// Отмечаем галочкой способ доставки бонуса - телефон
 								// Скрываем интерфейс ввода/подтверждения номера телефона
 								$('#tab_card').hide();
@@ -172,16 +192,17 @@ var AjaxForm = {
 								$('#bonus_to_card').filter('[value=card]').prop('checked', true);
 
 								// прописываем карту в radio
-								var card = bee_form_data['bee_ajax_number'].replace("+", " ");
-								$('#card_pay_method .text_card').html('На карту Билайн ' + card);
+								var card = bee_form_data['bee_ajax_number'].split('+').join(' ');
 								$('#bee_ajax_card_number').val(card);
+								$("#bee_ajax_card_number").mask("9999 9999 9999 9999");
+								var regex = /\s\d{4}(?=\s)/g;
+								$('#card_pay_method .text_card').html('На карту Билайн ' + $('#bee_ajax_card_number').val().replace(regex, ' xxxx'));
 
 								// восстанавливаем name и expiry
-								var name = bee_form_data['bee_ajax_name'].replace("+", " ");
+								var name = bee_form_data['bee_ajax_name'].split('+').join(' ');
 								$('#bee_ajax_card_name').val(name);
-								var expiry = bee_form_data['bee_ajax_expiry'].replace("+", " ");
+								var expiry = bee_form_data['bee_ajax_expiry'].split('+').join(' ');
 								$('#bee_ajax_card_expiry').val(expiry);
-
 
 							default: ;
 						}

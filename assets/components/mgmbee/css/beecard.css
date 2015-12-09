@@ -13,42 +13,50 @@ input {
 	display: block;
 }
 
-#payment_accept_selector label	{
+#payment_accept_selector label,
+#extract_promocode_form label	{
 	width: 100%;
 	padding:10px 10px 15px 10px;
 	text-align: left;
 	border: 2px solid transparent;
 }
 
-#payment_accept_selector label:hover	{
+#payment_accept_selector label:hover,
+#extract_promocode_form label:hover	{
 	border: 2px solid orange;
 	cursor: pointer;
 }
 
-#payment_accept_selector label.btn.active	{
+#payment_accept_selector label.btn.active,
+#extract_promocode_form label.btn.active	{
 	box-shadow: none;
 }
 
 
-#payment_accept_selector span.glyphicon-ok	{
+#payment_accept_selector span.glyphicon-ok,
+#extract_promocode_form span.glyphicon-ok	{
 	font-size: 36px;
 	top: 5px;
 }
 
 #payment_accept_selector span.glyphicon-phone,
-#payment_accept_selector span.glyphicon-credit-card	{
+#payment_accept_selector span.glyphicon-credit-card,
+#extract_promocode_form span.glyphicon-phone,
+#extract_promocode_form span.glyphicon-credit-card	{
 	font-size: 25px;
 	top: 5px;
 	padding-right: 10px;
 }
 
 
-#payment_accept_selector span.ok-check	{
+#payment_accept_selector span.ok-check,
+#extract_promocode_form span.ok-check	{
 	padding-right:30px;
 	padding-left: 15px;
 }
 
-#payment_accept_selector span.ok-check.blank	{
+#payment_accept_selector span.ok-check.blank,
+#extract_promocode_form span.ok-check.blank	{
 	padding-left: 55px;
 }
 

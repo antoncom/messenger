@@ -15,25 +15,18 @@ function refreshModal(modal_id)	{
 			break;
 
 		case('extract_promocode'):
-			labelId = $('input[name=extract_promocode_to]:checked', '#extract_promocode_form').parent().attr('id');
-			$('#'+labelId).parent().find('.ok-check').toggleClass('blank', true);
-			$('#'+labelId).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', false);
-			$('#'+labelId).parent().find('.text').toggleClass('disactive', false);
-			$('#'+labelId).parent().find('label').toggleClass('active', false);
+			$('#extract_promocode_form input[type=radio]').attr('checked', false);
+			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('blank', true);
+			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', false);
+			$('#extract_promocode_form input[type=radio]').parent().find('.text').toggleClass('disactive', false);
+			$('#extract_promocode_form input[type=radio]').parent().find('label').toggleClass('active', false);
+			//$('#extract_promocode_form').parent(). label.btn').toggleClass('active', false);
+			$('#extracted_promocode').html('');
 
 
 		default: ;
 	}
 }
-
-//function copyToClipboard(element) {
-//  var $temp = $("<input>");
-//  $("body").append($temp);
-//  $temp.val($(element).text()).select();
-//  document.execCommand("copy");
-//  $temp.remove();
-//}
-//
 
 $(document).ready(function() {
 	$('#bonus_to_card').change(function () {
@@ -60,6 +53,11 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#extract_promocode_form input[type=radio]').change(function () {
+		refreshModal('extract_promocode');
+		$(this).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', true);
+		$(this).parent().find('.ok-check').toggleClass('blank', false);
+	});
 
 
 	$('.change_phone').click(function(event){
@@ -105,11 +103,11 @@ $(document).ready(function() {
 	});
 
 	// Extract promocode Modal
-	$('#extract_promocode_form input').on('change', function() {
-		refreshModal('extract_promocode');
-		$('#'+labelId + ' .ok-check').toggleClass('glyphicon glyphicon-ok', true);
-		$('#'+labelId + ' .ok-check').toggleClass('blank', false);
-	});
+	//$('#extract_promocode_form input').on('change', function() {
+	//	refreshModal('extract_promocode');
+	//	$('#'+labelId + ' .ok-check').toggleClass('glyphicon glyphicon-ok', true);
+	//	$('#'+labelId + ' .ok-check').toggleClass('blank', false);
+	//});
 	$('#extract_promocode').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget) // Button that triggered the modal
 		var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -121,6 +119,7 @@ $(document).ready(function() {
 	$('#extract_promocode').on('hide.bs.modal', function (event) {
 		refreshModal('extract_promocode');
 	});
+
 	
 	$('#apply_extract_promocode').on('click', function() {
 		$('#extract_promocode_form').submit();
@@ -176,6 +175,7 @@ $(document).ready(function() {
 	});
 
 	$("#blg_phone_set").submit(function() {
+		// убираем маску перед сабмитом
 		$("#bee_ajax_blogger_phone").val($("#bee_ajax_blogger_phone").mask());
 	});
 
@@ -184,9 +184,14 @@ $(document).ready(function() {
 		$('#change_card').submit();
 	});
 
-	$('#change_card').on('submit', function () {
+	//$('#change_card').on('submit', function () {
+	//
+	//});
+	$("#change_card").submit(function() {
 		// добавляем к атрибуту name префикс "bee_ajax_" для того, чтобы наш сниппет корректно распознал передаваемые поля
-		$(this).find('input[type=text]').attr('name', function(i, val){ return 'bee_ajax_' + val});
+		$(this).find('input[type=text]').attr('name', function(i, val){ return (val.indexOf('bee_ajax_') == -1) ? 'bee_ajax_' + val : val});
+		// убираем маску перед сабмитом
+		$("#bee_ajax_card_number").val($("#bee_ajax_card_number").val().split(' ').join(''));
 	});
 
 
