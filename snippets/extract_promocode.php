@@ -9,11 +9,17 @@ if(!empty($scriptProperties['pa_id']))	{
 	$pa_id = $scriptProperties['pa_id'];
 
 	// Проверяем: если у блогера есть уже активный промо-код, то ничео не извлекаем
-	$pa_activations_count = $modx->runSnippet('blg_active_promocode', array(
+	$pc_active = json_decode($modx->runSnippet('blg_active_promocode', array(
 			'pa_id' => $pa_id,
 			'blogger_id' => $modx->user->get('id')
-	));
+	)), true);
 
+	// Если активный промо-код найден, возвращаем его
+	if(!empty($pc_active))	{
+		return $pc_active['pcode'];
+	}
+
+	// Если у блоггера нет активного промо-кода
 	// получаем ближайший свободный промо-код
 	$q = $modx->newQuery('modResource');
 	$q->select('modResource.id AS id,pagetitle');
