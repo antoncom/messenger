@@ -146,6 +146,9 @@ var AjaxForm = {
 										}, "json");
 									}
 								}, "json");
+
+
+
 								break;
 
 							case('send_phone_confirmation'):

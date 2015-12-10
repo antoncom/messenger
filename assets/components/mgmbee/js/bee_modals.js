@@ -15,13 +15,11 @@ function refreshModal(modal_id)	{
 			break;
 
 		case('extract_promocode'):
-			$('#extract_promocode_form input[type=radio]').attr('checked', false);
 			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('blank', true);
 			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', false);
 			$('#extract_promocode_form input[type=radio]').parent().find('.text').toggleClass('disactive', false);
 			$('#extract_promocode_form input[type=radio]').parent().find('label').toggleClass('active', false);
 			//$('#extract_promocode_form').parent(). label.btn').toggleClass('active', false);
-			$('#extracted_promocode').html('');
 
 
 		default: ;
@@ -51,12 +49,6 @@ $(document).ready(function() {
 			$('.text_card').toggleClass('disactive', true);
 			$('.text_phone').toggleClass('disactive', false);
 		}
-	});
-
-	$('#extract_promocode_form input[type=radio]').change(function () {
-		refreshModal('extract_promocode');
-		$(this).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', true);
-		$(this).parent().find('.ok-check').toggleClass('blank', false);
 	});
 
 
@@ -102,43 +94,46 @@ $(document).ready(function() {
 		refreshModal('accepting_payment');
 	});
 
-	// Extract promocode Modal
-	//$('#extract_promocode_form input').on('change', function() {
-	//	refreshModal('extract_promocode');
-	//	$('#'+labelId + ' .ok-check').toggleClass('glyphicon glyphicon-ok', true);
-	//	$('#'+labelId + ' .ok-check').toggleClass('blank', false);
+
+	//$('#extract_promocode').on('show.bs.modal', function (event) {
+	//	var button = $(event.relatedTarget) // Button that triggered the modal
+	//	var recipient = button.data('whatever') // Extract info from data-* attributes
+	//	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	//	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	//	var modal = $(this);
+	//	modal.find('#bee_ajax_pa_id').val(recipient);
 	//});
-	$('#extract_promocode').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) // Button that triggered the modal
-		var recipient = button.data('whatever') // Extract info from data-* attributes
-		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-		var modal = $(this);
-		modal.find('#bee_ajax_pa_id').val(recipient);
+
+	$('#extract_promocode').on('shown.bs.modal', function(e)	{
+		var button = $(e.relatedTarget);
+		var pa_id = button.data('whatever');
+		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
 	});
+
 	$('#extract_promocode').on('hide.bs.modal', function (event) {
 		refreshModal('extract_promocode');
+		$('#extract_promocode_form input[type=radio]').attr('checked', false);
+		$('#extracted_promocode').html('');
 	});
 
 	
 	$('#apply_extract_promocode').on('click', function() {
-		$('#extract_promocode_form').submit();
-		console.log('submit');
-		choice = $('input[name=extract_promocode_to]:checked', '#extract_promocode_form').val();
-		//console.log('choice = ' + choice);
+		choice = $('#extract_promocode_form').find('input[name=bee_ajax_extract_promocode_to]:checked').val();
+		pcode = $('#extracted_promocode').text();
+		$('#extract_promocode_form #promo_code').val(pcode);
 		if(choice == 'clipboard')	{
-			pcode = $('#extracted_promocode').text();
-
 			clipboard.copy({
 				"text/plain": pcode
 			});
-
-			AjaxForm.Message.success('Промо-код ' + pcode + ' скопирован в буфер обмена.');
 		}
-		$('#extract_promocode').hide();
-		refreshModal('extract_promocode');
+		$('#extract_promocode_form').submit();
 	});
 
+	$('#extract_promocode_form input[type=radio]').on('change', function () {
+		refreshModal('extract_promocode');
+		$(this).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', true);
+		$(this).parent().find('.ok-check').toggleClass('blank', false);
+	});
 
 	$(document).on('as_complete_extract_promocode_status', document, function(e,d) {
 		//console.log(d);
@@ -151,11 +146,7 @@ $(document).ready(function() {
 
 	});
 
-	$('#extract_promocode').on('shown.bs.modal', function(e)	{
-		var button = $(e.relatedTarget);
-		var pa_id = button.data('whatever');
-		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
-	});
+
 
 
 	// Подтверждение телефона по SMS
