@@ -70,9 +70,10 @@ var AjaxForm = {
 					bee_form_data = fetchInput(bee_form);
 					// End
 
+
 					$(document).trigger('af_complete', response);
 					if (!response.success) {
-						AjaxForm.Message.error(response.message);
+						AjaxForm.Message.error(response.message, true);
 						if (response.data) {
 							var key, value;
 							for (key in response.data) {

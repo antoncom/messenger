@@ -108,6 +108,11 @@ $(document).ready(function() {
 		var button = $(e.relatedTarget);
 		var pa_id = button.data('whatever');
 		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
+
+		// прописываем в Modal значение pa_id
+		var modal = $(this);
+			modal.find('#extract_promocode_form input[name=bee_ajax_pa_id]').val(pa_id);
+		console.log($('#extract_promocode_form input[name=bee_ajax_pa_id]').val());
 	});
 
 	$('#extract_promocode').on('hide.bs.modal', function (event) {

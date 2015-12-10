@@ -5,6 +5,8 @@
 
 if(!empty($_POST['bee_ajax_snippet']))	{
 	$params = array();
+	require_once(MODX_CORE_PATH.'components/beecore/include.xmlcdata.php' );
+
 	foreach($_POST as $key => $value)	{
 		if(strpos($key, 'bee_ajax_') === FALSE) continue;
 		else	{
@@ -41,10 +43,36 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					return $AjaxForm->success('Промо-код ' . $pcode . ' скопирован в буфер обмена.');
 				}
 				if($extract_method === 'phone')	{
-					return $AjaxForm->success('Ок phone');
+					$send_result = json_decode($modx->runSnippet('send_sms_pcode', array(
+							'pcode' => $params['promo_code'],
+							'pa_id' => $params['pa_id'])), true);
+
+					if(!empty($send_result))	{
+						$smsgate_response = xmlstr_to_array($send_result['result']);
+						if(count($smsgate_response['errors']) == 0)	{
+							return $AjaxForm->success('На номер ' . $smsgate_response['sms']['@attributes']['phone'] . ' отправлен промо-код ' . $send_result['pcode']);
+						}
+						else{
+							$err = implode("<br> ", array_values($smsgate_response['errors']));
+							return $AjaxForm->error('Ошибка отправки промо-кода по SMS.' . $err, array('name' => $err));
+						}
+					}
+					else{
+						return $AjaxForm->error('Ошибка отправки промо-кода по SMS.', 1);
+					}
 				}
 				if($extract_method === 'email')	{
-					return $AjaxForm->success('Ок email');
+					$send_result = json_decode($modx->runSnippet('send_email_pcode', array('pa_id' => $params['pa_id'], 'pcode' => $params['promo_code'])), true);
+					if($send_result['status'] == 'ok')	{
+						return $AjaxForm->success($send_result['message']);
+					}
+					elseif($send_result['status'] == 'error')	{
+						return $AjaxForm->error($send_result['message']);
+					}
+					else{
+						return $AjaxForm->error('Статус отправки Емайл неопределен.');
+					}
+
 				}
 			}
 			else{
@@ -58,7 +86,6 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'key' => $params['key'])), true);
 			if(empty($r)) return $AjaxForm->error('Некорректный телефон: ' . $params['blogger_phone'], array('name' => $err));
 
-			require_once(MODX_CORE_PATH.'components/beecore/include.xmlcdata.php' );
 			$sms_result = xmlstr_to_array($r['result']);
 
 			if(count($sms_result['errors']) == 0)	{
