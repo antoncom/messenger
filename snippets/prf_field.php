@@ -44,10 +44,10 @@ if(!empty($field_name))	{
 					break;
 
 				case('dob'):
-					$out = $modx->getChunk('profile_birthday', array(
+					$out = $modx->getChunk('profile_text_input', array(
 							'field_name' => $prefix . $field_name,
 							'field_label' => $modx->lexicon('beecore.' . $field_name),
-							'field_value' => $profile->get($field_name)));
+							'field_value' => date('%d %m %Y', $profile->get($field_name))));
 					break;
 
 				default:
