@@ -14,8 +14,8 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			$params[$paramName] = $value;
 		}
 	}
-	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($params, true));
-	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax: ' . print_r($_POST, true));
+	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax Params: ' . print_r($params, true));
+	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax POST: ' . print_r($_POST, true));
 
 //	$params['as_mode'] = 'onclick';
 //	$params['as_target'] = 'pa_join_status_' . $params['pa_id'];
@@ -122,6 +122,31 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			else{
 				return $AjaxForm->error('Ошибка. Карта не подтверждена.', array('name' => 'Карта не подтверждена.'));
 			}
+
+		case('update_profile'):
+			$r = json_decode($modx->runSnippet('update_profile', array(
+					'username' => $params['username'],
+					'email' => $params['email'],
+					'gender' => $params['gender'],
+					'dob' => $params['dob'],
+					'fullname' => $params['fullname'],
+					'password' => $params['password'],
+					'mobilephone' => $params['mobilephone'])), true);
+			if($r == '1')	{
+				return $AjaxForm->success('Ваш профиль обновлен.');
+			}
+			else{
+				return $AjaxForm->error('Ошибка. Профиль не обновлен.', array(
+						'username' => $params['username'],
+						'email' => $params['email'],
+						'gender' => $params['gender'],
+						'dob' => $params['dob'],
+						'fullname' => $params['fullname'],
+						'password' => $params['password'],
+						'mobilephone' => $params['mobilephone']
+						));
+			}
+			break;
 
 
 		default:;

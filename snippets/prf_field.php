@@ -44,10 +44,14 @@ if(!empty($field_name))	{
 					break;
 
 				case('dob'):
-					$out = $modx->getChunk('profile_text_input', array(
+					$modx->log(xPDO::LOG_LEVEL_ERROR, 'Field: ' . $profile->get($field_name));
+					// добавляем hidden-поле даты рождения для того, чтобы можно было обнулить основное поле даты
+					// в том случае когда дата отсутствует
+					$out = '<input type="hidden" id="dob_hidden" value = "'. $profile->get($field_name) .'"/>';
+					$out .= $modx->getChunk('profile_text_input', array(
 							'field_name' => $prefix . $field_name,
 							'field_label' => $modx->lexicon('beecore.' . $field_name),
-							'field_value' => date('%d %m %Y', $profile->get($field_name))));
+							'field_value' => ($profile->get($field_name) > 0) ? date('%d %m %Y', $profile->get($field_name)) : ''));
 					break;
 
 				default:
