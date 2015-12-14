@@ -208,6 +208,19 @@ var AjaxForm = {
 								var expiry = bee_form_data['bee_ajax_expiry'].split('+').join(' ');
 								$('#bee_ajax_card_expiry').val(expiry);
 
+							case('update_profile'):
+								// Обновляем способ поле mobilephone
+								asa = 'b282751839ab5fe8ce666b8864a01dcc4e2d3712';
+								$.post("/moj-profil.html", {as_action: asa}, function(response) {
+									if (typeof response.output !== "undefined") {
+										$('#'+asa).html(response.output);
+										$("input[name=bee_ajax_mobilephone]").mask("(999) 999-9999");
+									}
+								}, "json");
+
+									console.log('UPATED');
+								break;
+
 							default: ;
 						}
 

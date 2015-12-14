@@ -41,11 +41,4 @@ $(document).ready(function() {
 	function(start, end, label) {
 		//
 	});
-
-	// обнуляем поле даты в том случае сли у пользователя в профиле не указна дата родждения
-	if($('input[id="dob_hidden"]').val() == 0)	{
-		$('input[name="bee_ajax_dob"]').val('');
-	}
-
-
 });

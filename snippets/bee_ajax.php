@@ -132,22 +132,16 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'fullname' => $params['fullname'],
 					'password' => $params['password'],
 					'mobilephone' => $params['mobilephone'])), true);
-			if($r == '1')	{
+			if($r['result'] == 'ok')	{
 				return $AjaxForm->success('Ваш профиль обновлен.');
 			}
+			elseif($r['result'] == 'error')	{
+				return $AjaxForm->error('Ошибка. Профиль не обновлен.', $r['errors']);
+			}
 			else{
-				return $AjaxForm->error('Ошибка. Профиль не обновлен.', array(
-						'username' => $params['username'],
-						'email' => $params['email'],
-						'gender' => $params['gender'],
-						'dob' => $params['dob'],
-						'fullname' => $params['fullname'],
-						'password' => $params['password'],
-						'mobilephone' => $params['mobilephone']
-						));
+				return $AjaxForm->error('Ошибка 915404. Профиль не обновлен.');
 			}
 			break;
-
 
 		default:;
 	}
