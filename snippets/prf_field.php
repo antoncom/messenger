@@ -45,15 +45,16 @@ if(!empty($field_name))	{
 
 				case('dob'):
 					$dob = $profile->get($field_name);
+					$d = date('d/m/Y', $dob);
 					//$modx->log(xPDO::LOG_LEVEL_ERROR, 'Field: ' . $profile->get($field_name));
 					// добавляем hidden-поле даты рождения для того, чтобы можно было обнулить основное поле даты
 					// в том случае когда дата отсутствует
-					$out = '<input type="hidden" name="'. $prefix . $field_name .'" id="dob_hidden" value = "'. $dob .'"/>';
-					$out .= $modx->getChunk('profile_text_input', array(
-							'field_name' => 'dob_helper',
+					//$out = '<input type="hidden" name="'. $prefix . $field_name .'" id="dob_hidden" value = "'. $dob .'"/>';
+					$out = $modx->getChunk('profile_text_input', array(
+							'field_name' => $prefix . $field_name,
 							'field_label' => $modx->lexicon('beecore.' . $field_name),
-							'field_value' => ($profile->get($field_name) > 0) ? date('%d/%m/%Y', $dob) : ''));
-					$modx->log(xPDO::LOG_LEVEL_ERROR,'DOB_HELPER = ' . $profile->get($field_name));
+							'field_value' => ($profile->get($field_name) > 0) ? $d : ''));
+					$modx->log(xPDO::LOG_LEVEL_ERROR,'DOB_HELPER = ' . $field_name . '  ' . $profile->get($field_name));
 					//'field_value' => ($profile->get($field_name) > 0) ? '10/10/2000' : ''));
 					break;
 

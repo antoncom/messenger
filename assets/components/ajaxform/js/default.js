@@ -208,6 +208,8 @@ var AjaxForm = {
 								var expiry = bee_form_data['bee_ajax_expiry'].split('+').join(' ');
 								$('#bee_ajax_card_expiry').val(expiry);
 
+								break;
+
 							case('update_profile'):
 								// Обновляем способ поле mobilephone
 								asa = 'b282751839ab5fe8ce666b8864a01dcc4e2d3712';

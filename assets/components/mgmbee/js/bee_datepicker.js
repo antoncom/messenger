@@ -1,9 +1,8 @@
 $(document).ready(function() {
-	$('input[name="dob_helper"]').daterangepicker({
+	$('input[name="bee_ajax_dob"]').daterangepicker({
 		"singleDatePicker": true,
 		"showDropdowns": true,
 		"autoApply": true,
-		"setDate": null,
 		"locale": {
 			"format": "DD/MM/YYYY",
 			"separator": "/",

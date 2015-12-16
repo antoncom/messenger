@@ -30,8 +30,9 @@ $(document).ready(function() {
 		// убираем маску в поле mobilephone перед сабмитом
 		$("input[name=bee_ajax_mobilephone]").val($("input[name=bee_ajax_mobilephone]").mask());
 
-		var drp = $("input[name=dob_helper]").data('daterangepicker');
+		var drp = $("input[name=bee_ajax_dob]").data('daterangepicker');
 		$("input[name=bee_ajax_dob]").val(drp.startDate._d.getTime()/1000);
+		console.log(drp.startDate._d.getTime()/1000);
 	});
 });
 
