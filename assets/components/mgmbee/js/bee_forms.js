@@ -7,21 +7,31 @@ $(document).ready(function() {
 		}
 	});
 
+	$(document).on('af_complete', function(event, response) {
+		var form = response.form;
+		// Если у формы определённый id
+		if (form.attr('id') == 'update_profile') {
+			var drp = $("input[name=dob_helper]").data('daterangepicker');
+			$("input[name=dob_helper]").val('444');
+			console.log($("input[name=dob_helper]").val());
+		}
+		// Иначе печатаем в консоль весь ответ
+		else {
+			console.log(response)
+		}
+	});
+
 	// обнуляем поле даты в том случае если у пользователя в профиле не указна дата родждения
-	if($('input[id="dob_hidden"]').val() == 0)	{
-		$('input[name="bee_ajax_dob"]').val('');
+	if($('input[id="bee_ajax_dob"]').val() == 0)	{
+		$('input[name="dob_helper"]').val('');
 	}
 
 	$("#update_profile").submit(function() {
-		// убираем маску в поле movilephone перед сабмитом
+		// убираем маску в поле mobilephone перед сабмитом
 		$("input[name=bee_ajax_mobilephone]").val($("input[name=bee_ajax_mobilephone]").mask());
 
-		// преобразуем дату рождения в unix time
-		//$utime = Date(year, month, date[, hours, minutes, seconds, ms] )
-		utime = Date.parse($("input[name=bee_ajax_dob]").val()) / 1000;
-		console.log(utime);
-		$("input[name=bee_ajax_dob]").val(utime);
+		var drp = $("input[name=dob_helper]").data('daterangepicker');
+		$("input[name=bee_ajax_dob]").val(drp.startDate._d.getTime()/1000);
 	});
-
-
 });
+

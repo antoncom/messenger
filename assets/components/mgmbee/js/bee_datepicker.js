@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('input[name="bee_ajax_dob"]').daterangepicker({
+	$('input[name="dob_helper"]').daterangepicker({
 		"singleDatePicker": true,
 		"showDropdowns": true,
 		"autoApply": true,
