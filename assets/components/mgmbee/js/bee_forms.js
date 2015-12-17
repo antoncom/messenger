@@ -7,17 +7,19 @@ $(document).ready(function() {
 		}
 	});
 
+	// После сабмита формы сниппетом AjaxForm делаем различные действия в зависимости от id формы.
 	$(document).on('af_complete', function(event, response) {
 		var form = response.form;
-		// Если у формы определённый id
+
+		// После обновления профайла
 		if (form.attr('id') == 'update_profile') {
-			var drp = $("input[name=dob_helper]").data('daterangepicker');
-			$("input[name=dob_helper]").val('444');
-			console.log($("input[name=dob_helper]").val());
+			// Форматируем дату для отображения значения поля после сабмита
+			var drp = $("input[name=bee_ajax_dob]").data('daterangepicker');
+			$("input[name=bee_ajax_dob]").val(drp.startDate.format('DD/MM/YYYY'));
 		}
 		// Иначе печатаем в консоль весь ответ
 		else {
-			console.log(response)
+			//
 		}
 	});
 
@@ -28,11 +30,16 @@ $(document).ready(function() {
 
 	$("#update_profile").submit(function() {
 		// убираем маску в поле mobilephone перед сабмитом
-		$("input[name=bee_ajax_mobilephone]").val($("input[name=bee_ajax_mobilephone]").mask());
+		//$("input[name=bee_ajax_mobilephone]").val($("input[name=bee_ajax_mobilephone]").mask());
 
+		// Превращаем дату в unixtime перед сабмитом
 		var drp = $("input[name=bee_ajax_dob]").data('daterangepicker');
 		$("input[name=bee_ajax_dob]").val(drp.startDate._d.getTime()/1000);
-		console.log(drp.startDate._d.getTime()/1000);
+	});
+
+	// Для страницы "Профиль". Если телефон был изменен и не прошел подтверждения
+	$('#bee_ajax_blogger_phone').on('change', function () {
+		$('input[name=bee_ajax_mobilephone_confirmed]').val('');
 	});
 });
 

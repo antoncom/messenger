@@ -131,9 +131,28 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'dob' => $params['dob'],
 					'fullname' => $params['fullname'],
 					'password' => $params['password'],
-					'mobilephone' => $params['mobilephone'])), true);
+					'mobilephone_confirmed' => $params['mobilephone_confirmed'])), true);
 			if($r['result'] == 'ok')	{
 				return $AjaxForm->success('Ваш профиль обновлен.');
+			}
+			elseif($r['result'] == 'error')	{
+				return $AjaxForm->error('Ошибка. Профиль не обновлен.', $r['errors']);
+			}
+			else{
+				return $AjaxForm->error('Ошибка 915404. Профиль не обновлен.');
+			}
+			break;
+
+		case('update_taxing_profile'):
+			$r = json_decode($modx->runSnippet('update_taxing_profile', array(
+					'firstname' => $params['firstname'],
+					'middlename' => $params['middlename'],
+					'lastname' => $params['lastname'],
+					'passport' => $params['passport'],
+					'address' => $params['address'],
+					'inn' => $params['inn'])), true);
+			if($r['result'] == 'ok')	{
+				return $AjaxForm->success('Ваш налоговый профиль обновлен.');
 			}
 			elseif($r['result'] == 'error')	{
 				return $AjaxForm->error('Ошибка. Профиль не обновлен.', $r['errors']);

@@ -70,7 +70,6 @@ var AjaxForm = {
 					bee_form_data = fetchInput(bee_form);
 					// End
 
-
 					$(document).trigger('af_complete', response);
 					if (!response.success) {
 						AjaxForm.Message.error(response.message, true);
@@ -79,6 +78,7 @@ var AjaxForm = {
 							for (key in response.data) {
 								if (response.data.hasOwnProperty(key)) {
 									value = response.data[key];
+									console.log('.error_' + key + ' error = ' + value);
 									form.find('.error_' + key).html(value).addClass('error');
 									form.find('[name="' + key + '"]').addClass('error');
 								}
@@ -91,7 +91,7 @@ var AjaxForm = {
 					else {
 						AjaxForm.Message.success(response.message);
 						form.find('.error').removeClass('error');
-						form[0].reset();
+						//form[0].reset();
 
 						// MediaPublish addon
 						// Обновляем HTML участия в акции
@@ -165,6 +165,7 @@ var AjaxForm = {
 							case('confirm_phone'):
 								$( '#apply_confirm_code' ).button('reset');
 
+								// ******* ДЛЯ МОДАЛЬНОГО ОКНА ПОДКЛЮЧЕНИЯ К АКЦИИ ****** //
 								// Отмечаем галочкой способ доставки бонуса - телефон
 								// Скрываем интерфейс ввода/подтверждения номера телефона
 								$('#tab_phone').hide();
@@ -182,6 +183,13 @@ var AjaxForm = {
 								var phone = $("#bee_ajax_blogger_phone").val();
 
 								$('#phone_pay_method .text_phone').html('На баланс: ' + '+7' + phone);
+
+								// ******* ДЛЯ СТРАНИЦЫ ПРОФАЙЛ БЛОГЕРА ******** //
+								$('div.placard[data-initialize=placard]').placard('hide');
+								// Для страницы "Профайл": если телефон подтвержден
+								$('input[name=bee_ajax_mobilephone_confirmed]').val('yes');
+
+								$('.error_mobilephone_confirmed').html('');
 
 								break;
 
@@ -212,21 +220,19 @@ var AjaxForm = {
 
 							case('update_profile'):
 								// Обновляем способ поле mobilephone
-								asa = 'b282751839ab5fe8ce666b8864a01dcc4e2d3712';
-								$.post("/moj-profil.html", {as_action: asa}, function(response) {
-									if (typeof response.output !== "undefined") {
-										$('#'+asa).html(response.output);
-										$("input[name=bee_ajax_mobilephone]").mask("(999) 999-9999");
-									}
-								}, "json");
+								//asa = 'b282751839ab5fe8ce666b8864a01dcc4e2d3712';
+								//$.post("/moj-profil.html", {as_action: asa}, function(response) {
+								//	if (typeof response.output !== "undefined") {
+								//		$('#'+asa).html(response.output);
+								//		$("input[name=bee_ajax_mobilephone]").mask("(999) 999-9999");
+								//	}
+								//}, "json");
 
-									console.log('UPATED');
+									//console.log('UPATED');
 								break;
 
 							default: ;
 						}
-
-
 					}
 				}
 			});

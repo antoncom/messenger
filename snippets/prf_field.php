@@ -30,6 +30,7 @@ if(!empty($field_name))	{
 
 		default:
 			// if provider is not defined then get regular modUser field
+			$modx->log(xPDO::LOG_LEVEL_ERROR, $field_name . ' = '. $profile->get($field_name));
 			switch($field_name)	{
 				case('photo'):
 					$out = $modx->getChunk('profile_photo', array('field_value' => $profile->get($field_name)));
@@ -44,18 +45,18 @@ if(!empty($field_name))	{
 					break;
 
 				case('dob'):
-					$dob = $profile->get($field_name);
-					$d = date('d/m/Y', $dob);
-					//$modx->log(xPDO::LOG_LEVEL_ERROR, 'Field: ' . $profile->get($field_name));
-					// добавляем hidden-поле даты рождения для того, чтобы можно было обнулить основное поле даты
-					// в том случае когда дата отсутствует
-					//$out = '<input type="hidden" name="'. $prefix . $field_name .'" id="dob_hidden" value = "'. $dob .'"/>';
+					$dob = date('d/m/Y', $profile->get($field_name));
 					$out = $modx->getChunk('profile_text_input', array(
 							'field_name' => $prefix . $field_name,
 							'field_label' => $modx->lexicon('beecore.' . $field_name),
-							'field_value' => ($profile->get($field_name) > 0) ? $d : ''));
-					$modx->log(xPDO::LOG_LEVEL_ERROR,'DOB_HELPER = ' . $field_name . '  ' . $profile->get($field_name));
-					//'field_value' => ($profile->get($field_name) > 0) ? '10/10/2000' : ''));
+							'field_value' => ($profile->get($field_name) > 0) ? $dob : ''));
+					break;
+
+				case('gender'):
+					$out = $modx->getChunk('profile_radio_input', array(
+							'field_name' => $prefix . $field_name,
+							'field_label' => $modx->lexicon('beecore.' . $field_name),
+							'field_value' => $profile->get($field_name)));
 					break;
 
 				default:
