@@ -16,9 +16,9 @@ if ($profile) {
 		else	{
 			$number = sprintf("%s %s %s %s",
 					substr($card_number, 0, 4),
-					substr($card_number, 3, 4),
-					substr($card_number, 7, 4),
-					substr($card_number, 11, 4));
+					substr($card_number, 4, 4),
+					substr($card_number, 8, 4),
+					substr($card_number, 12, 4));
 		}
 		$name = $extended['blogger_card']['name'];
 		$expiry = $extended['blogger_card']['expiry'];

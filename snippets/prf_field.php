@@ -21,16 +21,15 @@ if(!empty($field_name))	{
 
 	// run appropriative snippet to get data
 	switch($provider)	{
-		case('get_blogger_phone'):
-
-			break;
-		case('get_blogger_card'):
-
+		case('taxing'):
+			$out = $modx->getChunk('profile_text_input', array(
+					'field_name' => $prefix . $field_name,
+					'field_label' => $modx->lexicon('beecore.' . $field_name),
+					'field_value' => $extended['taxing'][$field_name]));
 			break;
 
 		default:
 			// if provider is not defined then get regular modUser field
-			$modx->log(xPDO::LOG_LEVEL_ERROR, $field_name . ' = '. $profile->get($field_name));
 			switch($field_name)	{
 				case('photo'):
 					$out = $modx->getChunk('profile_photo', array('field_value' => $profile->get($field_name)));
