@@ -46,37 +46,27 @@ $columns = array(
 			return '<a href="' . $d . '.html">' . $d . '</a>';
 		}
 	),
+	array(  'db' => 'pa_id',
+			'dt' => 1,
+			'formatter' => function( $d, $row ) {
+			global $modx;
+			return $modx->runSnippet('pdoField', array('id' => $d, 'field' => 'pagetitle'));
+		}),
+	array( 'db' => 'pc_activations_count', 'dt' => 2 ),
 	array(
 		'db'        => 'pc_start_date',
-		'dt'        => 1,
+		'dt'        => 3,
 		'formatter' => function( $d, $row ) {
 			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
 		}
 	),
 	array(
 		'db'        => 'pc_end_date',
-		'dt'        => 2,
+		'dt'        => 4,
 		'formatter' => function( $d, $row ) {
 			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
 		}
-	),
-	array(  'db' => 'pa_id',
-			'dt' => 3,
-			'formatter' => function( $d, $row ) {
-				global $modx;
-				return $modx->runSnippet('pdoField', array('id' => $d, 'field' => 'pagetitle'));
-			}
-	),
-	array(
-			'db' => 'blogger_id',
-			'dt' => 4,
-			'formatter' => function( $d, $row ) {
-				global $modx;
-				return $modx->runSnippet('getUserProfile', array('id' => $d));
-			}
-	),
-	array( 'db' => 'pc_activations_count', 'dt' => 5 )
-
+	)
 );
 
 // SQL server connection information
@@ -102,7 +92,11 @@ require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php'
 //	}
 //}
 
-$beeWhere = array($_POST['beeWhere']);
+$user_id = $modx->user->get('id');
+$beeWhere = (!empty($_POST['beeWhere'])) ?
+	array($_POST['beeWhere'], 'blogger_id=' . $user_id) :
+	array('blogger_id=' . $user_id);
+
 
 //$modx->log(xPDO::LOG_LEVEL_ERROR, "REQUEST = " . print_r($_REQUEST, true));
 
