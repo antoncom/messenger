@@ -42,6 +42,9 @@
 			continue;
 		}
 
+		// получаем последнюю цену бонуса с тем, чтобы прописать ее в TV bonus_size_set для каждой активации
+		$lastBonusSize = $modx->runSnippet('getLastBonusSize', array('pa_id' => $pcodeData['pa_id']));
+
 		// формируем массивы ресурсов, ТВ и групп ресурсов
 		$alias = $abonent . "-" . $pcode;
 		$protoRes['pagetitle'] = "'" . $abonent . "'";
@@ -51,7 +54,8 @@
 			'act_date'=>$actDate,
 			'blogger_id' =>$pcodeData['blogger_id'],
 			'pa_id'=>$pcodeData['pa_id'],
-			'pc_id'=>$pcodeData['id']);
+			'pc_id'=>$pcodeData['id'],
+			'bonus_size_set'=>$lastBonusSize);
 
 		$grpsAll[$alias] = array(1,2);
 

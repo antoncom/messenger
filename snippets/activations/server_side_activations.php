@@ -18,10 +18,10 @@
  */
 
 // DB table to use
-$table = 'modx_promo_actions';
+$table = 'modx_activations';
 
 // Table's primary key
-$primaryKey = 'act_id';
+$primaryKey = 'id';
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -30,7 +30,7 @@ $primaryKey = 'act_id';
 
 $columns = array(
 	array(
-		'db' => 'act_id',
+		'db' => 'id',
 		'dt' => 'DT_RowId',
 		'formatter' => function( $d, $row ) {
 			// Technically a DOM id cannot start with an integer, so we prefix
@@ -40,49 +40,55 @@ $columns = array(
 		}
 	),
 	array(
-			'db'        => 'pa_code',
-			'dt'        => 0,
-			'formatter' => function( $d, $row ) {
-				return str_pad($d, 2, '0', STR_PAD_LEFT);
-			}
+		'db' => 'act_date',
+		'dt' => 0,
+		'formatter' => function( $d, $row ) {
+			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+		}
 	),
 	array(
-		'db' => 'pagetitle',
-		'dt' => 1
+		'db'        => 'abonent',
+		'dt'        => 1
 	),
 	array(
-		'db'        => 'pa_start',
+		'db'        => 'pc_id',
 		'dt'        => 2,
 		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+			global $modx;
+			return $modx->runSnippet('pdoField', array(
+												'id' => $d,
+												'field' => 'pagetitle')
+			);
 		}
 	),
 	array(
-		'db' => 'pa_end',
+		'db' => 'pa_id',
 		'dt' => 3,
 		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+			global $modx;
+			$act_code = $modx->runSnippet('pdoField', array(
+					'id' => $d,
+					'field' => 'pa_code')
+			);
+			return str_pad($act_code, 2, '0', STR_PAD_LEFT);
 		}
 	),
 	array(
-			'db' => 'bonus',
+			'db' => 'blogger_id',
 			'dt' => 4,
 			'formatter' => function( $d, $row ) {
-				return $d . " р.";
+				global $modx;
+				return $modx->runSnippet('getUserProfile', array('id' => $d));
 			}
-	),
-	array(
-			'db' => 'activations',
-			'dt' => 5
-	),
-	array(
-			'db' => 'pc_active',
-			'dt' => 6
-	),
-	array(
-			'db' => 'pc_free',
-			'dt' => 7
 	)
+//,
+//	array(
+//			'db'        => 'bonus_set',
+//			'dt'        => 5,
+//			'formatter' => function( $d, $row ) {
+//				return (!empty($d)) ? $d . " руб." : "";
+//			}
+//	)
 );
 
 
@@ -90,8 +96,8 @@ $columns = array(
 $sql_details = array(
 	'user' => 'mgmbee',
 	'pass' => 'mB915009',
-	'db'   => 'mgmbee',
-	'host' => 'node91560-mgmbee.jelastic.regruhosting.ru'
+	'db'   => 'mgm',
+	'host' => 'node100241-blogger.jelastic.regruhosting.ru'
 );
 
 
@@ -102,7 +108,7 @@ $sql_details = array(
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
-$beeWhere = null;
+$beeWhere = array($_POST['beeWhere']);
 
 echo json_encode(
 	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )

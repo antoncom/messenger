@@ -18,10 +18,10 @@
  */
 
 // DB table to use
-$table = 'modx_activations';
+$table = 'modx_bloggers';
 
 // Table's primary key
-$primaryKey = 'id';
+$primaryKey = 'blogger_id';
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -30,7 +30,7 @@ $primaryKey = 'id';
 
 $columns = array(
 	array(
-		'db' => 'id',
+		'db' => 'blogger_id',
 		'dt' => 'DT_RowId',
 		'formatter' => function( $d, $row ) {
 			// Technically a DOM id cannot start with an integer, so we prefix
@@ -40,56 +40,29 @@ $columns = array(
 		}
 	),
 	array(
-		'db' => 'act_date',
-		'dt' => 0,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
-		}
+		'db'        => 'fullname',
+		'dt'        => 0
 	),
 	array(
-		'db'        => 'abonent',
+		'db'        => 'phone',
 		'dt'        => 1
 	),
 	array(
-		'db'        => 'pc_id',
-		'dt'        => 2,
-		'formatter' => function( $d, $row ) {
-			global $modx;
-			return $modx->runSnippet('pdoField', array(
-												'id' => $d,
-												'field' => 'pagetitle')
-			);
-		}
+			'db' => 'email',
+			'dt' => 2
 	),
 	array(
-		'db' => 'pa_id',
-		'dt' => 3,
-		'formatter' => function( $d, $row ) {
-			global $modx;
-			$act_code = $modx->runSnippet('pdoField', array(
-					'id' => $d,
-					'field' => 'pa_code')
-			);
-			return str_pad($act_code, 2, '0', STR_PAD_LEFT);
-		}
-	),
-	array(
-			'db' => 'blogger_id',
-			'dt' => 4,
-			'formatter' => function( $d, $row ) {
-				global $modx;
-				return $modx->runSnippet('getUserProfile', array('id' => $d));
-			}
+			'db' => 'activations_count',
+			'dt' => 3
 	)
 );
-
 
 // SQL server connection information
 $sql_details = array(
 	'user' => 'mgmbee',
 	'pass' => 'mB915009',
 	'db'   => 'mgmbee',
-	'host' => 'node91560-mgmbee.jelastic.regruhosting.ru'
+	'host' => 'node100241-blogger.jelastic.regruhosting.ru'
 );
 
 
@@ -98,10 +71,15 @@ $sql_details = array(
  * server-side, there is no need to edit below this line.
  */
 
-require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
+require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class_bloggers.php' );
 
-$beeWhere = array($_POST['beeWhere']);
+$beeJoin = $_POST['beeJoin'];
+if(strlen($beeJoin) > 0) $beeJoin = " AND " . $beeJoin;
+//$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id AND viewAct.act_date = 1445040000";
+$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id" . $beeJoin;
+$groupby = "GROUP BY `modx_bloggers`.blogger_id";
+
 
 echo json_encode(
-	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )
+		SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere, $join, $groupby )
 );
