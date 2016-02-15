@@ -31,14 +31,13 @@ $(document).ready(function() {
 		stateSave: false,
 		buttons: [
 			'pageLength',
-			'colvis',
 			{
 				extend: 'selectAll',
-				text: 'Отметить все',
+				text: 'Отметить все'
 			},
 			{
 				extend: 'selectNone',
-				text: 'Сброс',
+				text: 'Сброс'
 			},
 			{
 				extend: 'pdfHtml5',
@@ -61,8 +60,11 @@ $(document).ready(function() {
 				selectAll: "Отметить все",
 				selectNone: "Сброс",
 				colvis: "Колонки",
-				processing: "Обновление.."
-			}
+				processing: "Обновление..",
+				pageLength: {
+					_: "Показать строки: %d"
+				}
+			},
 		}
 	});
 

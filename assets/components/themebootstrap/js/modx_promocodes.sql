@@ -1,5 +1,5 @@
 /*
-id,pagetitle,pc_start_date,pc_end_date,pa_id,blogger_id,pc_activations_count
+id,pagetitle,pc_start_date,pc_end_date,pa_id,blogger_id,pc_activations_count,bonus_sum
 */
 
 select
@@ -15,8 +15,12 @@ select
 			 ON (`TVpc_id`.`contentid` = `modx_site_content`.id
 					 AND `TVpc_id`.`tmplvarid` = 14
 			 )
-	 WHERE `TVpc_id`.value = modResource.id) AS pc_activations_count
-from `modx_site_content` AS `modResource`
+	 WHERE `TVpc_id`.value = modResource.id) AS pc_activations_count,
+	 (SELECT
+	SUM(modActivation.bonus_set) AS bonus_sum
+FROM `modx_activations` AS `modActivation`
+WHERE ( modActivation.blogger_id = TVpc_blogger.value AND modActivation.pc_id = modResource.id  )) AS bonus_sum
+	from `modx_site_content` AS `modResource`
 	left join `modx_site_tmplvar_contentvalues` `TVpc_end_date` on (`TVpc_end_date`.`contentid` = modResource.id and `TVpc_end_date`.`tmplvarid` = 4)
 	left join `modx_site_tmplvar_contentvalues` `TVpc_blogger` on (`TVpc_blogger`.`contentid` = modResource.id and `TVpc_blogger`.`tmplvarid` = 5)
 	left join `modx_site_tmplvar_contentvalues` `TVpc_start_date` on (`TVpc_start_date`.`contentid` = modResource.id and `TVpc_start_date`.`tmplvarid` = 8)
@@ -30,10 +34,13 @@ sql_calc_found_rows
 
 /* Подзапрос подсчета активаций промо-кода */
 SELECT
-	COUNT(modActivation.blogger_id) AS activations_count
-FROM `modx_blogger_activations` AS `modActivation`
-WHERE ( modActivation.blogger_id = 7 )
+	SUM(modActivation.bonus_set) AS bonus_sum
+FROM `modx_activations` AS `modActivation`
+WHERE ( modActivation.blogger_id = TVpc_blogger.value AND modActivation.pc_id = modResource.id  )
 
 
 
 AND `TVpc_id`.`value` = modResource.id AS `pc_activations_count`
+
+
+/* Подзапрос подсчета бонусов за промо-код */

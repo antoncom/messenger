@@ -72,8 +72,11 @@ $(document).ready(function() {
 				selectAll: "Отметить все",
 				selectNone: "Сброс",
 				colvis: "Колонки",
-				processing: "Обновление.."
-			}
+				pageLength: {
+					_: "Показать строки: %d"
+				}
+			},
+			"processing": "Загрузка..."
 		}
 	});
 

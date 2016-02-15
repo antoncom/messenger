@@ -66,15 +66,22 @@ $columns = array(
 		'formatter' => function( $d, $row ) {
 			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
 		}
+	),
+	array(
+			'db' => 'bonus_sum',
+			'dt' => 5,
+			'formatter' => function( $d, $row ) {
+				return ($d > 0) ? $d . " руб." : "0 руб.";
+			}
 	)
 );
 
 // SQL server connection information
 $sql_details = array(
-	'user' => 'mgmbee',
-	'pass' => 'mB915009',
-	'db'   => 'mgmbee',
-	'host' => 'node91560-mgmbee.jelastic.regruhosting.ru'
+		'user' => 'mgmbee',
+		'pass' => 'mB915009',
+		'db'   => 'mgm',
+		'host' => 'node100241-blogger.jelastic.regruhosting.ru'
 );
 
 

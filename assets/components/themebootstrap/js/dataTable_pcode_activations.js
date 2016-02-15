@@ -25,17 +25,19 @@ $(document).ready(function() {
 		"language": {
 			"paginate": {
 				"next": "Вперед",
-				"previous": "Назад",
+				"previous": "Назад"
 			},
-			"processing": "Загрузка..."
+			"processing": "Загрузка...",
+			buttons: {
+				selectAll: "Отметить все",
+				selectNone: "Сброс",
+				colvis: "Колонки",
+				pageLength: {
+					_: "Показать строки: %d"
+				}
+			}
 		},
-		stateSave: false,
-		//"columnDefs": [ {
-		//	"searchable": false,
-		//	"orderable": false,
-		//	"targets": 0
-		//} ],
-		//"order": [[ 1, 'asc' ]]
+		stateSave: false
 	});
 	//table.on( 'order.dt search.dt', function () {
 	//	table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {

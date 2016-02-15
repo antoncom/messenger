@@ -76,7 +76,6 @@ $columns = array(
 			}
 	),
 	array( 'db' => 'pc_activations_count', 'dt' => 5 )
-
 );
 
 // SQL server connection information
