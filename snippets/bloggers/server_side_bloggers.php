@@ -18,7 +18,7 @@
  */
 
 // DB table to use
-$table = 'modx_bloggers';
+$table = 'modx_blgs';
 
 // Table's primary key
 $primaryKey = 'blogger_id';
@@ -44,16 +44,20 @@ $columns = array(
 		'dt'        => 0
 	),
 	array(
+			'db'        => 'username',
+			'dt'        => 1
+	),
+	array(
 		'db'        => 'phone',
-		'dt'        => 1
+		'dt'        => 2
 	),
 	array(
 			'db' => 'email',
-			'dt' => 2
+			'dt' => 3
 	),
 	array(
 			'db' => 'activations_count',
-			'dt' => 3
+			'dt' => 4
 	)
 );
 
@@ -71,15 +75,17 @@ $sql_details = array(
  * server-side, there is no need to edit below this line.
  */
 
-require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class_bloggers.php' );
+//require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class_bloggers.php' );
+require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
-$beeJoin = $_POST['beeJoin'];
-if(strlen($beeJoin) > 0) $beeJoin = " AND " . $beeJoin;
-//$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id AND viewAct.act_date = 1445040000";
-$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id" . $beeJoin;
-$groupby = "GROUP BY `modx_bloggers`.blogger_id";
+//$beeJoin = $_POST['beeJoin'];
+//if(strlen($beeJoin) > 0) $beeJoin = " AND " . $beeJoin;
+////$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id AND viewAct.act_date = 1445040000";
+//$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id" . $beeJoin;
+//$groupby = "GROUP BY `modx_bloggers`.blogger_id";
 
 
 echo json_encode(
-		SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere, $join, $groupby )
+		//SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere, $join, $groupby )
+		SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere)
 );
