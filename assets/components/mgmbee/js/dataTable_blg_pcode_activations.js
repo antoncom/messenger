@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	var selected = [];
-	var table = $("#pcode_activations").DataTable({
+	var table = $("#blogger_pcode_activations").DataTable({
 		select: {
 			style: 'api'
 		},
@@ -9,7 +9,7 @@ $(document).ready(function() {
 		"serverSide": true,
 		responsive: true,
 		'ajax': {
-			'url': '/?id=5920',
+			'url': '/?id=5986',
 			'type': 'POST',
 			"data": function ( d ) {
 				d.beeComm = $('#bee_comm').val();
@@ -28,21 +28,7 @@ $(document).ready(function() {
 				"previous": "Назад"
 			},
 			"processing": "Загрузка...",
-			buttons: {
-				selectAll: "Отметить все",
-				selectNone: "Сброс",
-				colvis: "Колонки",
-				pageLength: {
-					_: "Показать строки: %d"
-				}
-			}
 		},
 		stateSave: false
 	});
-	//table.on( 'order.dt search.dt', function () {
-	//	table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-	//		cell.innerHTML = i+1;
-	//	} );
-	//} ).draw();
-
 } );

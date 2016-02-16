@@ -1,7 +1,7 @@
 <?php
 $id = $scriptProperties['id'];
 return $modx->runSnippet('pdoResources', array(
-		'parents' => 4837,
+		'parents' => 4837, // ресурс "список активаций"
 		'limit' => 0,
 		'includeTVs' => 'pc_id',
 		'tvFilters'=> 'pc_id==' . $id,
