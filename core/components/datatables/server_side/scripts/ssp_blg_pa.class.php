@@ -15,6 +15,10 @@
  * @license MIT - http://datatables.net/license_mit
  */
 
+/*
+ * Здесь реализуется выборка промоакций блогера из modx_promocodes со следующими колонками:
+ * pa_id | blogger_id | blg_join_date | sum | pa_act_count
+ */
 
 // REMOVE THIS BLOCK - used for DataTables test environment only!
 $file = $_SERVER['DOCUMENT_ROOT'].'/datatables/mysql.php';
@@ -331,9 +335,13 @@ class SSP {
 			$whereAllSql = 'WHERE '.$whereAll;
 		}
 
-		$beeSql = "SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", self::pluck($columns, 'db'))."`
+		// получить blogger_id из WHERE-конструкции вида 'blogger_id=43'
+		list($comm_tmp, $blogger_id) = explode('=', $whereAll);
+		$groupby = "GROUP BY `pa_id`";
+		$beeSql = "SELECT SQL_CALC_FOUND_ROWS ".implode(", ", self::bee_pluck($columns, 'db', $blogger_id))."
 			 FROM `$table`
 			 $where
+			 $groupby
 			 $order
 			 $limit";
 
@@ -510,6 +518,40 @@ class SSP {
 
 		for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
 			$out[] = $a[$i][$prop];
+		}
+
+		return $out;
+	}
+
+	static function bee_pluck ( $a, $prop, $blogger_id )
+	{
+		global $modx;
+		$out = array();
+
+		for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
+			//$modx->log(xPDO::LOG_LEVEL_ERROR, "a[i] = " . $a[$i]);
+			switch($a[$i][$prop]){
+				case('pc_start_date'):
+					$out[] = '(SELECT MIN(modBegin.pc_start_date)'
+						.' FROM `modx_promocodes` AS modBegin'
+						.' WHERE modBegin.pa_id = modx_promocodes.pa_id AND modBegin.pc_start_date > 0)'
+						.' AS pc_start_date';
+					break;
+				case('bonus_sum'):
+					$out[] = '(SELECT SUM(modBonus.bonus_sum)'
+							.' FROM `modx_promocodes` AS modBonus'
+							.' WHERE modBonus.pa_id = modx_promocodes.pa_id AND modBonus.blogger_id = ' . $blogger_id . ')'
+							.' AS bonus_sum';
+					break;
+				case('pc_activations_count'):
+					$out[] = '(SELECT SUM(modActivs.pc_activations_count)'
+        					.' FROM `modx_promocodes` AS modActivs'
+							.' WHERE modActivs.pa_id = modx_promocodes.pa_id AND modActivs.blogger_id = ' . $blogger_id . ')'
+							.' AS pc_activations_count';
+					break;
+				default:
+					$out[] = "`" . $a[$i][$prop] . "`";
+			}
 		}
 
 		return $out;

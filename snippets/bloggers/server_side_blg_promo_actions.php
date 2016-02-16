@@ -18,10 +18,10 @@
  */
 
 // DB table to use
-$table = 'modx_promo_actions';
+$table = 'modx_promocodes';
 
 // Table's primary key
-$primaryKey = 'act_id';
+$primaryKey = 'pa_id';
 
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
@@ -30,7 +30,7 @@ $primaryKey = 'act_id';
 
 $columns = array(
 	array(
-		'db' => 'act_id',
+		'db' => 'pa_id',
 		'dt' => 'DT_RowId',
 		'formatter' => function( $d, $row ) {
 			// Technically a DOM id cannot start with an integer, so we prefix
@@ -40,48 +40,31 @@ $columns = array(
 		}
 	),
 	array(
-			'db'        => 'pa_code',
+			'db'        => 'pa_id',
 			'dt'        => 0,
 			'formatter' => function( $d, $row ) {
-				return str_pad($d, 2, '0', STR_PAD_LEFT);
+				global $modx;
+				return $modx->runSnippet('pdoField', array('id' => $d, 'field' => 'pagetitle'));
 			}
 	),
 	array(
-		'db' => 'pagetitle',
-		'dt' => 1
-	),
-	array(
-		'db'        => 'pa_start',
-		'dt'        => 2,
+			'db' => 'pc_start_date',
+			'dt' => 1,
 		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
 		}
 	),
 	array(
-		'db' => 'pa_end',
+		'db'        => 'pc_activations_count',
+		'dt'        => 2,
+	),
+	array(
+		'db' => 'bonus_sum',
 		'dt' => 3,
 		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
+			return (!empty($d)) ? $d . " руб." : "";
 		}
-	),
-	array(
-			'db' => 'bonus',
-			'dt' => 4,
-			'formatter' => function( $d, $row ) {
-				return $d . " р.";
-			}
-	),
-	array(
-			'db' => 'activations',
-			'dt' => 5
-	),
-	array(
-			'db' => 'pc_active',
-			'dt' => 6
-	),
-	array(
-			'db' => 'pc_free',
-			'dt' => 7
+
 	)
 );
 
@@ -100,9 +83,9 @@ $sql_details = array(
  * server-side, there is no need to edit below this line.
  */
 
-require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
+require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp_blg_pa.class.php' );
 
-$beeWhere = null;
+$beeWhere = array($_POST['beeWhere']);
 
 echo json_encode(
 	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )

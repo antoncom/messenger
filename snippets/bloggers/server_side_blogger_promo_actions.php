@@ -50,20 +50,7 @@ $columns = array(
 		'db' => 'pagetitle',
 		'dt' => 1
 	),
-	array(
-		'db'        => 'pa_start',
-		'dt'        => 2,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
-		}
-	),
-	array(
-		'db' => 'pa_end',
-		'dt' => 3,
-		'formatter' => function( $d, $row ) {
-			return (!empty($d)) ? date( 'd.m.Y', $d) : "";
-		}
-	),
+
 	array(
 			'db' => 'bonus',
 			'dt' => 4,
@@ -90,7 +77,7 @@ $columns = array(
 $sql_details = array(
 	'user' => 'mgmbee',
 	'pass' => 'mB915009',
-	'db'   => 'mgm',
+	'db'   => 'mgmbee',
 	'host' => 'node100241-blogger.jelastic.regruhosting.ru'
 );
 

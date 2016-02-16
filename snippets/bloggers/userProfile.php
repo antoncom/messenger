@@ -1,6 +1,9 @@
 <?php
 $userId = $modx->getOption('id',$scriptProperties,false);
-if (empty($userId)) return '';
+if (empty($userId)) {
+	$user = $modx->getUser();
+	$userId = $user->get('id');
+}
 
 /* get user and profile by user id */
 $user = $modx->getObject('modUser',$userId);
