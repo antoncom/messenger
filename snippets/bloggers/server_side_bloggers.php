@@ -45,7 +45,13 @@ $columns = array(
 	),
 	array(
 			'db'        => 'username',
-			'dt'        => 1
+			'dt'        => 1,
+			'formatter' => function( $d, $row ) {
+				global $modx;
+				$blg_id = $modx->runSnippet('getBlogger_id_byUsername', array(
+						'username' => $d));
+				return '<a href="/statistika-blogera/?blgid=' . $blg_id .'">' . $d . '</a>';
+			}
 	),
 	array(
 		'db'        => 'phone',
@@ -68,7 +74,6 @@ $sql_details = array(
 	'db'   => 'mgm',
 	'host' => 'node100241-blogger.jelastic.regruhosting.ru'
 );
-
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
