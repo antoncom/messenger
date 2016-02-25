@@ -45,7 +45,11 @@
 		}
 
 		// получаем последнюю цену бонуса с тем, чтобы прописать ее в TV bonus_size_set для каждой активации
-		$lastBonusSize = $modx->runSnippet('getLastBonusSize', array('pa_id' => $pcodeData['pa_id']));
+		//$lastBonusSize = $modx->runSnippet('getLastBonusSize', array('pa_id' => $pcodeData['pa_id']));
+
+		// получаем цену бонуса, актуальную для даты активации
+		$historicalBonusSize = $modx->runSnippet('getHistoricalBonusSize', array('pa_id' => $pcodeData['pa_id'],
+				'activation_date'=>$actDate));
 
 		// формируем массивы ресурсов, ТВ и групп ресурсов
 		$alias = $abonent . "-" . $pcode;
@@ -58,15 +62,13 @@
 			'blogger_id' =>$pcodeData['blogger_id'],
 			'pa_id'=>$pcodeData['pa_id'],
 			'pc_id'=>$pcodeData['id'],
-			'bonus_size_set'=>$lastBonusSize);
+			'bonus_size_set'=>$historicalBonusSize);
 
 		$grpsAll[$alias] = array(1,2);
 
 		$resAll[$alias] = $protoRes;
 		$i++;
 	}
-
-$modx->log(xPDO::LOG_LEVEL_ERROR, print_r($tvsAll, true));
 
 	// Выполняем массовое добавление
 	$count = $modx->runSnippet('addResourcesWithTVandGroup', array(
