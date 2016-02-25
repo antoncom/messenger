@@ -7,7 +7,10 @@ if(!empty($scriptProperties['number']) && !empty($scriptProperties['name']) && !
 	$name = $scriptProperties['name'];
 	$expiry = $scriptProperties['expiry'];
 	$out = 0;
-	$user = $modx->user;
+
+	$user_id = $scriptProperties['user_id'];
+	$user = (!empty($user_id)) ? $modx->getObject('modUser', array('id' => $user_id)) : $modx->user;
+
 	$profile = $user->getOne('Profile');
 	if ($profile) {
 		$extended = $profile->get('extended');

@@ -77,7 +77,7 @@ $columns = array(
 $sql_details = array(
 	'user' => 'mgmbee',
 	'pass' => 'mB915009',
-	'db'   => 'mgmbee',
+	'db'   => 'mgm',
 	'host' => 'node100241-blogger.jelastic.regruhosting.ru'
 );
 

@@ -1,7 +1,10 @@
 <?php
 $type = $scriptProperties['type'];
 $code = $scriptProperties['code'];
-$user = $modx->user;
+
+$user_id = $scriptProperties['user_id'];
+$user = (!empty($user_id)) ? $modx->getObject('modUser', array('id' => $user_id)) : $modx->user;
+
 $profile = $user->getOne('Profile');
 if ($profile) {
 	$tel = $profile->get('mobilephone');

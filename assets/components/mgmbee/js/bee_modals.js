@@ -113,6 +113,7 @@ $(document).ready(function() {
 		var modal = $(this);
 			modal.find('#extract_promocode_form input[name=bee_ajax_pa_id]').val(pa_id);
 		console.log($('#extract_promocode_form input[name=bee_ajax_pa_id]').val());
+
 	});
 
 	$('#extract_promocode').on('hide.bs.modal', function (event) {
@@ -141,15 +142,19 @@ $(document).ready(function() {
 	});
 
 	$(document).on('as_complete_extract_promocode_status', document, function(e,d) {
-		//console.log(d);
+		console.log('as_complete_extract_promocode_status');
+		$('[data-toggle="popover"]').popover();
 		//$('#pcode').text(d.output);
 		//$('#extract_promocode').modal('show');
 	});
 
 
+	// Инициируем popover для фрагментов html, полученных AjaxSnippet-ом
 	$(document).on('as_complete_join_promoaction', document, function(e,d) {
-
+		$('[data-toggle="popover"]').popover();
 	});
+
+
 
 
 
@@ -190,6 +195,28 @@ $(document).ready(function() {
 		$("#bee_ajax_card_number").val($("#bee_ajax_card_number").val().split(' ').join(''));
 	});
 
+
+
+
+	// popovers
+	$('[data-toggle="popover"]').popover();
+	// hide popover when click anywhere
+	$('body').on('click', function (e) {
+		$('[data-toggle="popover"]').each(function () {
+			//the 'is' for buttons that trigger popups
+			//the 'has' for icons within a button that triggers a popup
+			if (!$(this).is(e.target) && $(this).has(e.target).length === 0) {
+				$(this).popover('hide');
+			}
+		});
+	});
+
+
+	//var aaa = setInterval(function() {
+	//	$('[data-toggle="popover"]').popover();
+	//	console.log("here");
+	//	clearInterval(aaa);
+	//}, 5000)
 
 });
 

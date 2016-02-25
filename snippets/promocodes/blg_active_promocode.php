@@ -16,11 +16,13 @@ if(!empty($scriptProperties['blogger_id']) && !empty($scriptProperties['pa_id'])
 	$q->leftJoin('modTemplateVarResource', 'modTemplateVarResourcePa', array('modTemplateVarResourcePa.tmplvarid = 15',
 		'modTemplateVarResourcePa.contentid = modResource.id'));
 	$q->leftJoin('modTemplateVarResource', 'modTemplateVarResourceEndDate', array('modTemplateVarResourceEndDate.tmplvarid = 4',
-		'modTemplateVarResourceEndDate.value > NOW()'));
+		'modTemplateVarResourceEndDate.value > NOW()',
+		'modTemplateVarResourceEndDate.value = modResource.id'));
 
 	$q->where(array('parent' => 5135,
 		'modTemplateVarResourceBlg.value' => $blogger_id,
-		'modTemplateVarResourcePa.value' => $pa_id));
+		'modTemplateVarResourcePa.value' => $pa_id,
+		'modTemplateVarResourceEndDate.value'=>'modResource.id'));
 	$q->limit(1);
 	$q->prepare();
 

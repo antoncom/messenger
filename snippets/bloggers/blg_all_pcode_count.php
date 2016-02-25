@@ -3,7 +3,7 @@
  * Посчитать число всех промо-кодов блогера
  */
 
-$userId = $modx->getOption('id',$scriptProperties,false);
+$userId = $modx->getOption('blgid',$scriptProperties,false);
 if (empty($userId)) {
 	$user = $modx->getUser();
 	$userId = $user->get('id');

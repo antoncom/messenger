@@ -102,13 +102,16 @@ var AjaxForm = {
 								// Callback addon from MediaPublish
 								// Обновляем ссылку-активатор "Подключиться к промо-акции"
 								$('#accepting_payment').modal('hide');
-								asa = $( 'a[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								//asa = $( 'a[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								asa = $( 'a[data-pa_id="'+pa_id+'"]' ).parent().attr('id');
 								var spinner = $('#'+asa).find(".as_spinner");
 								spinner.css("display","block");
 								$.post("/promo-akczii/", {as_action: asa}, function(response) {
 									if (typeof response.output !== "undefined") {
 										$('#'+asa).html(response.output);
 										spinner.css("display","none");
+
+										$('[data-toggle="popover"]').popover();
 
 										// Активируем ссылку "Извлечь промо-код"
 										$('a[data-whatever="'+pa_id+'"]').attr('data-target','#extract_promocode');
@@ -130,13 +133,16 @@ var AjaxForm = {
 							case('extract_promocode'):
 								// Обновляем ссылку-активатор "Извлечь промо-код"
 								$('#extract_promocode').modal('hide');
-								asa = $( 'a[data-target="#extract_promocode"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								//asa = $( 'a[data-target="#extract_promocode"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								asa = $( 'a[data-pa_id="'+pa_id+'"]' ).parent().attr('id');
 								var spinner = $('#'+asa).find(".as_spinner");
 								spinner.css("display","block");
 								$.post("/promo-akczii/", {as_action: asa}, function(response) {
 									if (typeof response.output !== "undefined") {
 										$('#'+asa).html(response.output);
 										spinner.css("display","none");
+
+										$('[data-toggle="popover"]').popover();
 
 										// Обновляем статус подключения к промо-акции
 										asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');

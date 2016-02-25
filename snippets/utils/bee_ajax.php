@@ -17,8 +17,14 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax Params: ' . print_r($params, true));
 	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax POST: ' . print_r($_POST, true));
 
-//	$params['as_mode'] = 'onclick';
-//	$params['as_target'] = 'pa_join_status_' . $params['pa_id'];
+	// Если передан id блогера значит профиль сохраняется менеджером
+	if(!empty($_POST['bee_ajax_blgid']))	{
+		$user_id = $_POST['bee_ajax_blgid'];
+	}
+	else	{
+		$user = $modx->getUser();
+		$user_id = $user->get('id');
+	}
 
 	switch($_POST['bee_ajax_snippet'])	{
 		case('pa_join_status'):
@@ -115,7 +121,8 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			$r = json_decode($modx->runSnippet('card_update', array(
 					'number' => $params['number'],
 					'name' => $params['name'],
-					'expiry' => $params['expiry'])), true);
+					'expiry' => $params['expiry'],
+					'user_id' => $user_id)), true);
 			if($r == '1')	{
 				return $AjaxForm->success('Ваша карта подтверждена');
 			}
@@ -131,7 +138,8 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'dob' => $params['dob'],
 					'fullname' => $params['fullname'],
 					'password' => $params['password'],
-					'mobilephone_confirmed' => $params['mobilephone_confirmed'])), true);
+					'mobilephone_confirmed' => $params['mobilephone_confirmed'],
+					'user_id' => $user_id)), true);
 			if($r['result'] == 'ok')	{
 				return $AjaxForm->success('Ваш профиль обновлен.');
 			}
@@ -150,7 +158,8 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'lastname' => $params['lastname'],
 					'passport' => $params['passport'],
 					'address' => $params['address'],
-					'inn' => $params['inn'])), true);
+					'inn' => $params['inn'],
+					'user_id' => $user_id)), true);
 			if($r['result'] == 'ok')	{
 				return $AjaxForm->success('Ваш налоговый профиль обновлен.');
 			}

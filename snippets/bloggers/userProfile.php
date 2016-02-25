@@ -12,5 +12,5 @@ $profile = $user->getOne('Profile');
 if (!$profile) return '';
 
 $userArray = array_merge($user->toArray(),$profile->toArray());
-$modx->toPlaceholders($userArray,'user');
+$modx->toPlaceholders($userArray,'beeuser');
 return '';

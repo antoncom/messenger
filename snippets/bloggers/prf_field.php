@@ -13,7 +13,10 @@ if(!empty($field_name))	{
 	$modx->lexicon->load('beecore:default');
 
 	$prefix = 'bee_ajax_'; // prefix for input field name, which is used in 'bee_ajax' snippet
-	$user = $modx->user;
+
+	$user_id = $scriptProperties['user_id'];
+	$user = (!empty($user_id)) ? $modx->getObject('modUser', array('id' => $user_id)) : $modx->user;
+
 	$profile = $user->getOne('Profile');
 	if ($profile) {
 		$extended = $profile->get('extended');

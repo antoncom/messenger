@@ -1,8 +1,9 @@
 <?php
 $field = $scriptProperties['field'];
 $mask_num = $scriptProperties['mask_num'];
+$user_id = $scriptProperties['user_id'];
 $out = "";
-$user = $modx->user;
+$user = (!empty($user_id)) ? $modx->getObject('modUser', array('id' => $user_id)) : $modx->user;
 $profile = $user->getOne('Profile');
 if ($profile) {
 	$extended = $profile->get('extended');

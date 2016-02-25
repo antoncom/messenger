@@ -13,7 +13,9 @@ if(count($error) > 0)	{
 	return json_encode($out);
 }
 
-$user = $modx->user;
+$user_id = $scriptProperties['user_id'];
+$user = (!empty($user_id)) ? $modx->getObject('modUser', array('id' => $user_id)) : $modx->user;
+
 $profile = $user->getOne('Profile');
 $extended = $profile->get('extended');
 if ($profile) {

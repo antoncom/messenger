@@ -22,15 +22,17 @@ if(!empty($scriptProperties['pa_id'])) {
 				$q->leftJoin('modTemplateVarResource', 'modTemplateVarResourcePa', array('modTemplateVarResourcePa.tmplvarid = 15',
 						'modTemplateVarResourcePa.contentid = modResource.id'));
 				$q->leftJoin('modTemplateVarResource', 'modTemplateVarResourceEndDate', array('modTemplateVarResourceEndDate.tmplvarid = 4',
-						'modTemplateVarResourceEndDate.value > NOW()'));
+						'modTemplateVarResourceEndDate.contentid = modResource.id'));
 
 				$q->where(array('parent' => 5135,
 						'modTemplateVarResourceBlg.value' => $user->get('id'),
-						'modTemplateVarResourcePa.value' => $pa_id));
+						'modTemplateVarResourcePa.value' => $pa_id,
+						'modTemplateVarResourceEndDate.value > NOW()'));
 				$q->limit(1);
 				$q->prepare();
 
 				$q->stmt->execute();
+
 				$res = $q->stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				if (count($res) > 0) {
@@ -38,12 +40,12 @@ if(!empty($scriptProperties['pa_id'])) {
 					return $output;
 				} else {
 					// Извлечение промокода
-					$output = '<a data-toggle="modal" data-target="#extract_promocode" data-whatever="'.$pa_id.'" style="cursor: pointer;">Извлечь промокод</a>';
+					$output = '<a data-pa_id="'.$pa_id.'" data-toggle="modal" data-target="#extract_promocode" data-whatever="'.$pa_id.'" style="cursor: pointer;">Извлечь промокод</a>';
 					return $output;
 				}
 			}
 		}
-		$output = '<a data-toggle="modal" data-whatever="' . $pa_id . '" style="cursor: pointer;" class="disactive">Извлечь промокод</a>';
+		$output = '<a data-pa_id="'.$pa_id.'" data-toggle="modal" data-whatever="' . $pa_id . '" style="cursor: pointer;" class="disactive">Извлечь промокод</a>';
 		return $output;
 	}
 }
