@@ -44,45 +44,50 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 		case('extract_promocode'):
 			$extract_method = $params['extract_promocode_to'];
 			$pcode = $params['promo_code'];
-			if(!empty($extract_method))	{
-				if($extract_method === 'clipboard')	{
-					return $AjaxForm->success('Промо-код ' . $pcode . ' скопирован в буфер обмена.');
-				}
-				if($extract_method === 'phone')	{
-					$send_result = json_decode($modx->runSnippet('send_sms_pcode', array(
-							'pcode' => $params['promo_code'],
-							'pa_id' => $params['pa_id'])), true);
-
-					if(!empty($send_result))	{
-						$smsgate_response = xmlstr_to_array($send_result['result']);
-						if(count($smsgate_response['errors']) == 0)	{
-							return $AjaxForm->success('На номер ' . $smsgate_response['sms']['@attributes']['phone'] . ' отправлен промо-код ' . $send_result['pcode']);
-						}
-						else{
-							$err = implode("<br> ", array_values($smsgate_response['errors']));
-							return $AjaxForm->error('Ошибка отправки промо-кода по SMS.' . $err, array('name' => $err));
-						}
-					}
-					else{
-						return $AjaxForm->error('Ошибка отправки промо-кода по SMS.', 1);
-					}
-				}
-				if($extract_method === 'email')	{
-					$send_result = json_decode($modx->runSnippet('send_email_pcode', array('pa_id' => $params['pa_id'], 'pcode' => $params['promo_code'])), true);
-					if($send_result['status'] == 'ok')	{
-						return $AjaxForm->success($send_result['message']);
-					}
-					elseif($send_result['status'] == 'error')	{
-						return $AjaxForm->error($send_result['message']);
-					}
-					else{
-						return $AjaxForm->error('Статус отправки Емайл неопределен.');
-					}
-
-				}
+			if(empty($extract_method)) {
+				return $AjaxForm->error('Необходимо выбрать способ извлечения промо-кода', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));
 			}
 			else{
-				return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));
+				if(empty($pcode) || $pcode === 'Нет свободных промо-кодов!')	{
+					return $AjaxForm->error('Нет промо-кода для извлеченя.', array('name' => 'Нет промо-кода для извлеченя.'));
+				}
+				else{
+					if($extract_method === 'clipboard')	{
+						return $AjaxForm->success('Промо-код ' . $pcode . ' скопирован в буфер обмена.');
+					}
+					if($extract_method === 'phone')	{
+						$send_result = json_decode($modx->runSnippet('send_sms_pcode', array(
+								'pcode' => $params['promo_code'],
+								'pa_id' => $params['pa_id'])), true);
+
+						if(!empty($send_result))	{
+							$smsgate_response = xmlstr_to_array($send_result['result']);
+							if(count($smsgate_response['errors']) == 0)	{
+								return $AjaxForm->success('На номер ' . $smsgate_response['sms']['@attributes']['phone'] . ' отправлен промо-код ' . $send_result['pcode']);
+							}
+							else{
+								$err = implode("<br> ", array_values($smsgate_response['errors']));
+								return $AjaxForm->error('Ошибка отправки промо-кода по SMS.' . $err, array('name' => $err));
+							}
+						}
+						else{
+							return $AjaxForm->error('Ошибка отправки промо-кода по SMS.', 1);
+						}
+					}
+					if($extract_method === 'email')	{
+						$send_result = json_decode($modx->runSnippet('send_email_pcode', array('pa_id' => $params['pa_id'], 'pcode' => $params['promo_code'])), true);
+						if($send_result['status'] == 'ok')	{
+							return $AjaxForm->success($send_result['message']);
+						}
+						elseif($send_result['status'] == 'error')	{
+							return $AjaxForm->error($send_result['message']);
+						}
+						else{
+							return $AjaxForm->error('Статус отправки Емайл неопределен.');
+						}
+
+					}
+				}
 			}
 			break;
 

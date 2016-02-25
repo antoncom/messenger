@@ -38,6 +38,13 @@ if(!empty($scriptProperties['pa_id']))	{
 	$q->stmt->execute();
 	$res = $q->stmt->fetchAll(PDO::FETCH_ASSOC);
 	$modx->log(xPDO::LOG_LEVEL_ERROR, $q->toSQL());
+
+	// Если в системе закончились промо-коды
+	// т.е. не найдено ни одного свободногопромо-кода по данной акции
+	if(empty($res))	{
+		return 'Нет свободных промо-кодов!';
+	}
+
 	// Присваиваем блоггера для данного промокода
 	$user = $modx->getUser();
 	$userId = $user->get('id');

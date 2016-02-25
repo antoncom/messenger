@@ -41,6 +41,7 @@ switch($bee_comm)	{
 		$protoRow = array(
 			'pagetitle'=>"",
 			'alias'=>"",
+			'uri'=>"",
 			'template'=>8,
 			'published'=>1,
 			'hidemenu'=>1,
@@ -70,6 +71,7 @@ switch($bee_comm)	{
 			$pagetitle = $pa_code . str_pad($n_pcode, 4, '0', STR_PAD_LEFT);
 			$protoRow['pagetitle'] = "'" . $pagetitle . "'";
 			$protoRow['alias'] = $protoRow['pagetitle'];
+			$protoRow['uri'] = "'" . $pagetitle . ".html'";
 
 			$alias = $pagetitle;
 			$tvsAll[$alias] = array(

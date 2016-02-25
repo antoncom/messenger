@@ -86,18 +86,16 @@ $sql_details = array(
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
-//class BEESSP extends SSP	{
-//	static function beesimple ( $request, $conn, $table, $primaryKey, $columns )	{
-//		array_push($columns, array( 'db' => 'uri', 'dt' => count($columns) );
-//
-//	}
-//}
+// здесь принимаем pa_id
+$beeWhere = (!empty($_POST['beeWhere']))
+	? array($_POST['beeWhere'])
+	: array();
 
-$beeWhere = array($_POST['beeWhere']);
+// здесь принимаем blogger_id and pc_start_date
+$beeWhereConstant = explode(' AND ', $_POST['beeWhereConstant']);
+if(count($beeWhereConstant) > 0) $beeWhere = array_merge($beeWhere, $beeWhereConstant);
 
 //$modx->log(xPDO::LOG_LEVEL_ERROR, "REQUEST = " . print_r($_REQUEST, true));
-
-//$modx->log(xPDO::LOG_LEVEL_ERROR, "RESPONSE = " . json_encode(SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )));
 
 echo json_encode(
 	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )

@@ -15,6 +15,7 @@
 	$protoRes = array(
 		'pagetitle'=>"",
 		'alias'=>"",
+		'uri'=>"",
 		'template'=>13,
 		'published'=>1,
 		'hidemenu'=>1,
@@ -50,6 +51,7 @@
 		$alias = $abonent . "-" . $pcode;
 		$protoRes['pagetitle'] = "'" . $abonent . "'";
 		$protoRes['alias'] = "'" . $alias . "'";
+		$protoRes['uri'] = "'" . $alias . ".html'";
 
 		$tvsAll[$alias] = array(
 			'act_date'=>$actDate,

@@ -14,6 +14,7 @@ $(document).ready(function() {
 				d.beeComm = $('#bee_comm').val();
 				d.beeData = $('#bee_data').val();
 				d.beeWhere = $('#bee_where').val();
+				d.beeWhereConstant = $('#bee_where_constant').val();
 				// etc
 			}
 		},

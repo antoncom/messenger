@@ -1,13 +1,13 @@
 <?php
-$userId = $modx->getOption('id',$scriptProperties,false);
+$userId = $modx->getOption('blgid',$scriptProperties,false);
 if (empty($userId)) {
 	$user = $modx->getUser();
 	$userId = $user->get('id');
 }
-
-/* get user and profile by user id */
 $user = $modx->getObject('modUser',$userId);
 if (!$user) return '';
+
+
 $profile = $user->getOne('Profile');
 if (!$profile) return '';
 

@@ -33,6 +33,8 @@ if(!empty($scriptProperties['resources']))	{
 		" VALUES " . $values .
 		" ON DUPLICATE KEY UPDATE " .$odku;
 
+	$modx->log(xPDO::LOG_LEVEL_ERROR, 'addResourcesWithTVandGroup SQL ====== ' . $sql);
+
 	$q = $modx->prepare($sql);
 	if(!$q->execute(array(0)))	{
 		$modx->log(xPDO::LOG_LEVEL_ERROR, 'addResourcesWithTVandGroup snippet ERROR' . print_r($q->errorInfo(),true));
