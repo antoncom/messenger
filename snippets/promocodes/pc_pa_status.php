@@ -57,37 +57,46 @@ if(!empty($scriptProperties['pa_id'])) {
 						'extract_new_link'=>''
 					));
 
-					$colored = 'active';
+					$popover_colored = 'active';
+					$popover_title = 'Промо-код активен';
 				}
 				// Если промо-код истек
 				else {
+					$popover_colored = 'expired';
+					$popover_title = 'Срок действия промо-кода окончен';
 					$doings = $modx->getChunk('blg_pcode_short_stat_doings', array(
 						'pcode_page' => $res[0]['pagetitle'] . '.html',
 						'extract_new_link'=>"<li><a data-target='#extract_promocode' data-toggle='modal' data-whatever='".$pa_id."' style='cursor: pointer;'>Извлечь промокод</a></li>"
 					));
-					$colored = 'expired';
 				}
-				$output = '<a data-pa_id="'.$pa_id.'" href="javascript:;" class="pc_status '.$colored.'" data-html="true" data-toggle="popover" data-placement="auto left" data-animation="false" title="Промо-код активен" data-content="'.$stat . $doings .'">'.$res[0]['pagetitle'].'</a>';
+				$popover_content = $stat . $doings;
+				$popover_link = $res[0]['pagetitle'];
 			}
 			else{
 				// если ни одного промо-кода еще не было извлечено блогером
-				$doings = $modx->getChunk('blg_pa_extract_firstly_popover', array(
+				$popover_title = 'Участие в промо-акции';
+				$popover_colored = 'expired';
+				$popover_content = $stat . $modx->getChunk('blg_pa_extract_firstly_popover', array(
 						'bonus_method' => 'на баланс мобильного телефона.',
 						'extract_new_link'=>"<li><a data-target='#extract_promocode' data-toggle='modal' data-whatever='".$pa_id."' style='cursor: pointer;'>Извлечь промокод</a></li>"
 				));
-				$colored = 'expired';
-				$output = '<a data-pa_id="'.$pa_id.'" href="javascript:;" class="pc_status '.$colored.'" data-html="true" data-toggle="popover" data-placement="auto left" data-animation="false" title="Акция подключена" data-content="' . $doings .'">Извлечь</a>';
 			}
 		}
 		else{
 			// Подключение к акции
-			$join_msg = $modx->getChunk('blg_pa_join_popover', array(
+			$popover_title = 'Участие в промо-акции';
+			$popover_colored = 'notincluded';
+			$popover_content = $modx->getChunk('blg_pa_join_popover', array(
 					'pa_id' => $pa_id,
 					'extract_new_link'=>"<li><a data-pa_id='[[+pa_id]]' data-toggle='modal' data-whatever='[[+pa_id]]' style='cursor: pointer;' class='disactive'>Извлечь промокод</a></li>"
 			));
-//				$output = "<a href='javascript:;' class='pc_status notincluded' data-html='true' data-toggle='popover' data-placement='left' data-animation='false' title='Участие в промо-акции' data-content='".$join_msg."'></a>";
-			$output = '<a data-pa_id="'.$pa_id.'" href="javascript:;" class="pc_status notincluded" data-html="true" data-toggle="popover" data-placement="auto left" data-animation="false" title="Участие в промо-акции" data-content="'.$join_msg.'">&nbsp;</a>';
 		}
+
+		// Вывод промо-кода с popover-ом
+		$output = ''
+			.'<a data-pa_id="'.$pa_id.'" href="javascript:;" class="pc_status '.$popover_colored.'">'.$popover_link.'</a>'
+			.'<div class="popover_header hide">'.$popover_title.'</div>'
+			.'<div class="popover_content hide">'.$popover_content.'</div>';
 		return $output;
 	}
 }

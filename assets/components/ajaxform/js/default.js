@@ -111,7 +111,7 @@ var AjaxForm = {
 										$('#'+asa).html(response.output);
 										spinner.css("display","none");
 
-										$('[data-toggle="popover"]').popover();
+										$('.pc_status').popover(pc_status_options);
 
 										// Активируем ссылку "Извлечь промо-код"
 										$('a[data-whatever="'+pa_id+'"]').attr('data-target','#extract_promocode');
@@ -142,7 +142,7 @@ var AjaxForm = {
 										$('#'+asa).html(response.output);
 										spinner.css("display","none");
 
-										$('[data-toggle="popover"]').popover();
+										$('.pc_status').popover(pc_status_options);
 
 										// Обновляем статус подключения к промо-акции
 										asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');

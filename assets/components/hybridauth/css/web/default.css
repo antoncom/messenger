@@ -11,10 +11,10 @@
 .ha-icon,
 .ha-icon-active {
 	display: inline-block;
-	width: 48px;
-	height: 48px;
+	width: 24px;
+	height: 24px;
 	margin: 0 2px;
-	background-image: url('../../img/web/color-icons.png');
+	background-image: url('/images/scope.png');
 	background-repeat: no-repeat;
 	text-indent: -9999px;
 	opacity: 1;
@@ -26,18 +26,18 @@
 	opacity: .5 !important;
 }
 
-.ha-icon.facebook {background-position: 0 0;}
-.ha-icon.github {background-position: -48px 0;}
-.ha-icon.google {background-position: -96px 0;}
-.ha-icon.instagram {background-position: -144px 0;}
-.ha-icon.linkedin {background-position: -192px 0;}
-.ha-icon.livejournal {background-position: -240px 0;}
-.ha-icon.mailru {background-position: -288px 0;}
-.ha-icon.odnoklassniki {background-position: -336px 0;}
-.ha-icon.thumblr {background-position: -384px 0;}
-.ha-icon.twitter {background-position: -432px 0;}
-.ha-icon.vimeo {background-position: -480px 0;}
-.ha-icon.vkontakte {background-position: -528px 0;}
-.ha-icon.yandex {background-position: -576px 0;}
-.ha-icon.youtube {background-position: -624px 0;}
-.ha-icon.foursquare {background-position: -671px 0;}
+.ha-icon.facebook {background-position: 0px -639px;}
+.ha-icon.github {background-position: -24px -639px;}
+.ha-icon.google {background-position: -48px -639px;}
+.ha-icon.instagram {background-position: -72px -639px;}
+.ha-icon.linkedin {background-position: -96px -639px;}
+.ha-icon.livejournal {background-position: -120px -639px;}
+.ha-icon.mailru {background-position: -144px -639px;}
+.ha-icon.odnoklassniki {background-position: -168px -639px;}
+.ha-icon.thumblr {background-position: -192px -639px;}
+.ha-icon.twitter {background-position: -216px -639px;}
+.ha-icon.vimeo {background-position: -240px -639px;}
+.ha-icon.vkontakte {background-position: -264px -639px;}
+.ha-icon.yandex {background-position: -288px -639px;}
+.ha-icon.youtube {background-position: -312px -639px;}
+.ha-icon.foursquare {background-position: -335px -639px;}
