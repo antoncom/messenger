@@ -35,7 +35,10 @@ if(!empty($field_name))	{
 			// if provider is not defined then get regular modUser field
 			switch($field_name)	{
 				case('photo'):
-					$out = $modx->getChunk('profile_photo', array('field_value' => $profile->get($field_name)));
+					$photo_src = ($profile->get('photo') !== '' )
+							? $profile->get('photo')
+							: '/images/avatar_blank.png';
+					$out = $modx->getChunk('profile_photo', array('field_value' => $photo_src));
 					break;
 				case('mobilephone'):
 					$phone = $profile->get('mobilephone');

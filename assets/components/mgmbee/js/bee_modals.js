@@ -67,15 +67,6 @@ $(document).ready(function() {
 		$('#phone_pay_method').toggleClass('disabled', true);
 	});
 
-	jQuery(function($){
-		$("#bee_ajax_blogger_phone").mask("(999) 999-9999",{completed: function(){
-				// если код валидный
-				$("#send_confirm_code").toggleClass('disabled', false);
-			}});
-	});
-
-
-
 	$('#apply_join_promoaction').on('click', function () {
 		$('#bonus_method').submit();
 		//$('#extract_promocode').show();
@@ -179,6 +170,7 @@ $(document).ready(function() {
 		// убираем маску перед сабмитом
 		$("#bee_ajax_blogger_phone").val($("#bee_ajax_blogger_phone").mask());
 	});
+
 
 	$('#send_card_update').on('click', function () {
 		var $btn = $(this).button('loading')

@@ -7,6 +7,8 @@ $(document).ready(function() {
 		$('#profile_wizard').find('ul.steps li').toggleClass('complete', true);
 		console.log('here');
 	});
+
+
 	//d = $('#myDatepickerInput').val();
 
 	//d = '1449834498';

@@ -56,6 +56,7 @@ var AjaxForm = {
 
 					// Added by MediaPublish
 					bee_form = form.serialize();
+
 					function fetchInput(inp) {
 						var form_data = inp.split('&');
 						var input     = {};
@@ -78,7 +79,7 @@ var AjaxForm = {
 							for (key in response.data) {
 								if (response.data.hasOwnProperty(key)) {
 									value = response.data[key];
-									console.log('.error_' + key + ' error = ' + value);
+									//console.log('.error_' + key + ' error = ' + value);
 									form.find('.error_' + key).html(value).addClass('error');
 									form.find('[name="' + key + '"]').addClass('error');
 								}
@@ -87,12 +88,16 @@ var AjaxForm = {
 						$( '#send_confirm_code' ).button('reset');
 						$( '#apply_confirm_code' ).button('reset');
 						$( '#send_card_update' ).button('reset');
+						//$('#bee_ajax_blogger_confirmcode').val('');
+						$('#bee_ajax_blogger_confirmcode').select();
+
+						$('#send_confirm_code').prop('disabled', false);
+						$('#apply_confirm_code').prop('disabled', true);
 					}
 					else {
 						AjaxForm.Message.success(response.message);
 						form.find('.error').removeClass('error');
 						//form[0].reset();
-
 						// MediaPublish addon
 						// Обновляем HTML участия в акции
 						snip = form.find('input[type="hidden"][name="bee_ajax_snippet"]').val();
@@ -166,6 +171,9 @@ var AjaxForm = {
 								$("#bee_ajax_blogger_phone").val(phone);
 								$("#bee_ajax_blogger_phone").mask("(999) 999-9999");
 
+									// Фокусируем курсор на поле ввода кода подтверждения
+									$('#bee_ajax_blogger_confirmcode').focus();
+
 								break;
 
 							case('confirm_phone'):
@@ -191,11 +199,22 @@ var AjaxForm = {
 								$('#phone_pay_method .text_phone').html('На баланс: ' + '+7' + phone);
 
 								// ******* ДЛЯ СТРАНИЦЫ ПРОФАЙЛ БЛОГЕРА ******** //
-								$('div.placard[data-initialize=placard]').placard('hide');
+								$('#myplacard').placard('hide');
 								// Для страницы "Профайл": если телефон подтвержден
 								$('input[name=bee_ajax_mobilephone_confirmed]').val('yes');
-
 								$('.error_mobilephone_confirmed').html('');
+
+								$( '#send_confirm_code' ).button('reset');
+								$( '#apply_confirm_code' ).button('reset');
+								$('#bee_ajax_blogger_confirmcode').val('');
+
+								$( '#send_confirm_code' ).toggleClass('disabled', true);
+								$( '#apply_confirm_code' ).toggleClass('disabled', true);
+								$( '#send_confirm_code' ).toggleClass('inactive', true);
+								$( '#apply_confirm_code' ).toggleClass('inactive', true);
+								$('#send_confirm_code').prop('disabled', true);
+								$('#apply_confirm_code').prop('disabled', true);
+								$('#bee_ajax_blogger_confirmcode').toggleClass('disabled', true);
 
 								break;
 
@@ -251,7 +270,6 @@ var AjaxForm = {
 			AjaxForm.Message.close();
 		});
 	}
-
 };
 
 

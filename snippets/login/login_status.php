@@ -11,7 +11,10 @@ $user = $modx->getAuthenticatedUser('web');
 if ($user)
 {
 	$profile = $user->getOne('Profile');
-	$login_avatar = $modx->getChunk('profile_photo', array('field_value' => $profile->get('photo')));
+	$photo_src = ($profile->get('photo') !== '' )
+			? $profile->get('photo')
+			: '/images/avatar_blank.png';
+	$login_avatar = $modx->getChunk('profile_photo', array('field_value' => $photo_src));
 	$socicon = $modx->runSnippet('get_socicon', array('userid' => $user->get('id')));
 	$popover_icon = 'login_active';
 	$popover_title = 'Вы авторизованы';
