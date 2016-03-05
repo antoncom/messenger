@@ -64,7 +64,7 @@
 			'pc_id'=>$pcodeData['id'],
 			'bonus_size_set'=>$historicalBonusSize);
 
-		$grpsAll[$alias] = array(1,2);
+		$grpsAll[$alias] = array(1,2,4); // ids of resource groups
 
 		$resAll[$alias] = $protoRes;
 		$i++;

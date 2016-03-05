@@ -32,7 +32,6 @@ switch ($modx->event->name) {
 			$history->set('hidemenu', 1);
 			$history->save();
 
-
 		}
 		break;
 	default:;

@@ -30,10 +30,11 @@ if ($profile) {
 				$user->save();
 				break;
 
-			case('password'):
-				$user->set('password', $scriptProperties['password']);
-				$user->save();
-				break;
+			// Пароль меняем путем опции "Сбросить пароль"
+//			case('password'):
+//				$user->set('password', $scriptProperties['password']);
+//				$user->save();
+//				break;
 
 			default:
 				$profile->set($field, $value);

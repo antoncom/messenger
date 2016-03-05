@@ -76,6 +76,7 @@ if(!empty($scriptProperties['pa_id'])) {
 				// если ни одного промо-кода еще не было извлечено блогером
 				$popover_title = 'Участие в промо-акции';
 				$popover_colored = 'expired';
+				$popover_link = 'Извлечь';
 				$popover_content = $stat . $modx->getChunk('blg_pa_extract_firstly_popover', array(
 						'bonus_method' => 'на баланс мобильного телефона.',
 						'extract_new_link'=>"<li><a data-target='#extract_promocode' data-toggle='modal' data-whatever='".$pa_id."' style='cursor: pointer;'>Извлечь промокод</a></li>"

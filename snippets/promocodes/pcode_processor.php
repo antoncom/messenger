@@ -77,7 +77,7 @@ switch($bee_comm)	{
 			$tvsAll[$alias] = array(
 					'pa_id'=>$beeData['pa_id']);
 
-			$grpsAll[$alias] = array(1,2);
+			$grpsAll[$alias] = array(1,2,4); // ids of resource groups
 			$resAll[$alias] = $protoRow;
 
 			$count--;
