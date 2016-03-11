@@ -28,6 +28,7 @@ $(document).ready(function() {
 				"previous": "Назад"
 			},
 			"processing": "Загрузка...",
+			"sZeroRecords": "Нет записей"
 		},
 		stateSave: false
 	});

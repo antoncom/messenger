@@ -84,7 +84,8 @@ $(document).ready(function() {
 					_: "Показать строки: %d"
 				}
 			},
-			"processing": "Загрузка..."
+			"processing": "Загрузка...",
+			"sZeroRecords": "Нет записей"
 		}
 	});
 	// Datepicker

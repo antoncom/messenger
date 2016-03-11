@@ -24,7 +24,8 @@ $(document).ready(function() {
 			"paginate": {
 				"next": "Вперед",
 				"previous": "Назад"
-			}
+			},
+			"sZeroRecords": "Нет записей"
 		}
 	});
 } );

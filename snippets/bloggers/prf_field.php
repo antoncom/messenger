@@ -78,7 +78,7 @@ if(!empty($field_name))	{
 							'field_name' => $prefix . $field_name,
 							'field_label' => $modx->lexicon('beecore.' . $field_name),
 							'field_value' => ($from_profile) ? $profile->get($field_name) : $user->get($field_name),
-							'field_disabled' => ($field_name === 'username') ? 'disabled="disabled"' : ''));
+							'field_disabled' => ($field_name === 'username') ? 'readonly="readonly"' : ''));
 			}
 
 	}

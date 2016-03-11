@@ -35,7 +35,8 @@ $(document).ready(function() {
 				pageLength: {
 					_: "Показать строки: %d"
 				}
-			}
+			},
+			"sZeroRecords": "Нет записей"
 		},
 		stateSave: false
 	});

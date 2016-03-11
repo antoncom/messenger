@@ -18,13 +18,17 @@ var popover_general_options = {
 
 // настройки popover-ов для страницы "Промо-акции" лич. кабинета блогера
 var pc_status_options = popover_general_options;
-	pc_status_options.placement = function() { return $(window).width() < 480 ? 'bottom' : 'left'; };
 
 // настройки popover для логина
 var login_options = popover_general_options;
 login_options.placement = 'auto';
 
+
 $(document).ready(function() {
+	pc_status_options.placement = function() {
+		return $(window).width() < 993 ? 'bottom' : 'left';
+	};
+
 	$('.beelogin').popover(login_options);
 	$('.pc_status').popover(pc_status_options);
 

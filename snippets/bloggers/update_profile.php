@@ -1,6 +1,8 @@
 <?php
 $out = array();
 
+$modx->log(xPDO::LOG_LEVEL_ERROR, 'update_profile: ' . print_r($scriptProperties, true));
+
 // Проверка на обязательность заполнения полей
 $required = array('username', 'email', 'fullname');
 foreach($scriptProperties as $key=> $value)	{
@@ -22,7 +24,6 @@ $user = (!empty($user_id)) ? $modx->getObject('modUser', array('id' => $user_id)
 
 $profile = $user->getOne('Profile');
 if ($profile) {
-	$modx->log(xPDO::LOG_LEVEL_ERROR, 'update_profile: ' . print_r($scriptProperties, true));
 	foreach($scriptProperties as $field=> $value)	{
 		switch($field)	{
 			case('username'):

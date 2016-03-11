@@ -65,6 +65,11 @@ $(document).ready(function() {
 					_: "Показать строки: %d"
 				}
 			},
+			"paginate": {
+				"next": "Вперед",
+				"previous": "Назад"
+			},
+			"sZeroRecords": "Нет записей"
 		}
 	});
 

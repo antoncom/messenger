@@ -21,6 +21,7 @@ $(document).ready(function() {
 		dom: 'tp',
 		language: {
 			"processing": "Загрузка...",
+			"sZeroRecords": "Нет записей",
 			"paginate": {
 				"next": "Вперед",
 				"previous": "Назад"
