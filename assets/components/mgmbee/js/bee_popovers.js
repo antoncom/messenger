@@ -13,7 +13,7 @@ var popover_general_options = {
 	content: function(){
 		return $(this).next().next('.popover_content').html();
 	},
-	template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+	template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 };
 
 // настройки popover-ов для страницы "Промо-акции" лич. кабинета блогера

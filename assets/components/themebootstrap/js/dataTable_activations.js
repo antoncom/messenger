@@ -67,8 +67,17 @@ $(document).ready(function() {
 					_: "Показать строки: %d"
 				}
 			},
+			"paginate": {
+				"next": "Вперед",
+				"previous": "Назад"
+			},
 			"processing": "Загрузка...",
-			"sZeroRecords": "Нет записей"
+			"sZeroRecords": "Нет записей",
+			"infoEmpty": "Показано 0 записей.",
+			"search": "Поиск:",
+			"info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+			"infoFiltered": "(отфильтровано из _MAX_ записей)"
+
 		}
 	});
 

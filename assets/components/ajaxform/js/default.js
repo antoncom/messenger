@@ -22,6 +22,7 @@ var AjaxForm = {
 
 		$(document).ready(function() {
 			$.jGrowl.defaults.closerTemplate = '<div>[ '+afConfig.closeMessage+' ]</div>';
+			$.jGrowl.defaults.life = 5000;
 		});
 
 		$(document).on('submit', afConfig.formSelector, function(e) {

@@ -22,7 +22,7 @@
 .ha-icon:hover {opacity: .8;}
 
 .ha-icon.active {
-	background-image: url('../../img/web/grayscale-icons.png');
+	background-image: url('/images/scope.png');
 	opacity: .5 !important;
 }
 
@@ -41,3 +41,20 @@
 .ha-icon.yandex {background-position: -288px -639px;}
 .ha-icon.youtube {background-position: -312px -639px;}
 .ha-icon.foursquare {background-position: -335px -639px;}
+
+
+.ha-icon.active.facebook {background-position-y:-607px;}
+.ha-icon.active.github {background-position: -24px -607px;}
+.ha-icon.active.google {background-position: -48px -607px;}
+.ha-icon.active.instagram {background-position: -72px -607px;}
+.ha-icon.active.linkedin {background-position: -96px -607px;}
+.ha-icon.active.livejournal {background-position: -120px -607px;}
+.ha-icon.active.mailru {background-position: -144px -607px;}
+.ha-icon.active.odnoklassniki {background-position: -168px -607px;}
+.ha-icon.active.thumblr {background-position: -192px -607px;}
+.ha-icon.active.twitter {background-position: -216px -607px;}
+.ha-icon.active.vimeo {background-position: -240px -607px;}
+.ha-icon.active.vkontakte {background-position: -264px -607px;}
+.ha-icon.active.yandex {background-position: -288px -607px;}
+.ha-icon.active.youtube {background-position: -312px -607px;}
+.ha-icon.active.foursquare {background-position: -335px -607px;}

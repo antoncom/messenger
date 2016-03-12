@@ -10,6 +10,23 @@ $user = $modx->getAuthenticatedUser('web');
 // Если пользователь уже залогинен, то выводим его аватар и popover состояния авторизации
 if ($user)
 {
+
+	// Приготавливаем HybridAuth
+	if (!$modx->loadClass('hybridauth', MODX_CORE_PATH . 'components/hybridauth/model/hybridauth/', false, true)) {
+		return;
+	}
+	$HybridAuth = new HybridAuth($modx, array(
+		'providers'=>'Yandex,Google,Vkontakte,Twitter'
+	));
+	$HybridAuth->initialize($modx->context->key);
+	if (empty($providerTpl)) {
+		$providerTpl = 'tpl.HybridAuth.provider';
+	}
+	if (empty($activeProviderTpl)) {
+		$activeProviderTpl = 'tpl.HybridAuth.provider.active';
+	}
+
+	// Приготавливаем данные профайла
 	$profile = $user->getOne('Profile');
 	$photo_src = ($profile->get('photo') !== '' )
 			? $profile->get('photo')
@@ -18,13 +35,14 @@ if ($user)
 	$socicon = $modx->runSnippet('get_socicon', array('userid' => $user->get('id')));
 	$popover_icon = 'login_active';
 	$popover_title = 'Вы авторизованы';
-	$popover_content = 'контент статуса авторизации';
+	//$popover_content = 'контент статуса авторизации';
 	$popover_content = $modx->getChunk('popover_authorized', array(
 			'login_avatar' => $login_avatar,
 			'socicon' => $socicon,
 			'fullname'=>$profile->get('fullname'),
 			'username'=>$user->get('username'),
-			'email'=>$profile->get('email')
+			'email'=>$profile->get('email'),
+			'providers' => $HybridAuth->getProvidersLinks($providerTpl, $activeProviderTpl),
 	));
 
 }

@@ -74,7 +74,7 @@ if(!empty($scriptProperties['pa_id'])) {
 			}
 			else{
 				// если ни одного промо-кода еще не было извлечено блогером
-				$popover_title = 'Участие в промо-акции';
+				$popover_title = 'Извлечь промо-код';
 				$popover_colored = 'expired';
 				$popover_link = 'Извлечь';
 				$popover_content = $stat . $modx->getChunk('blg_pa_extract_firstly_popover', array(
