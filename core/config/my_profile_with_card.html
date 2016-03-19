@@ -1,0 +1,78 @@
+<div class="col-md-12">
+	<div class="row thumbnail fuelux">
+		<div class="wizard" data-initialize="wizard" data-restrict="" id="profile_wizard">
+			<div class="steps-container">
+				<ul class="steps">
+					<li data-step="1" data-name="campaign" class="active complete">
+						<span class="badge">1</span>Мой профиль
+						<span class="chevron"></span>
+					</li>
+					<li data-step="2" class="complete">
+						<span class="badge">2</span>Кредитная карта
+						<span class="chevron"></span>
+					</li>
+					<li data-step="3" data-name="template" class="complete">
+						<span class="badge">3</span>Налоговые данные
+						<span class="chevron"></span>
+					</li>
+				</ul>
+			</div>
+			<div class="step-content">
+				<div class="step-pane active sample-pane alert" data-step="1">
+					<h3>Мой профиль</h3>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4 avatar_prf_column">
+								[[!prf_field? &field_name=`photo` &user_id=`[[!GET_blgid]]`]]
+							</div>
+							<div class="col-md-8">
+								[[!AjaxForm?
+								&snippet=`bee_ajax`
+								&user_id=`[[!GET_blgid]]`
+								&form=`update_phone_profile`
+								]]
+								[[!AjaxForm?
+								&snippet=`bee_ajax`
+								&form=`update_profile_form`
+								]]
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="step-pane sample-pane alert" data-step="2">
+					<h3>Кредитная карта</h3>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-7 avatar_prf_column">
+								<div class="card-wrapper"></div>
+							</div>
+							<div class="col-md-5">
+								[[!AjaxForm?
+								&snippet=`bee_ajax`
+								&form=`change_card`
+								]]
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="step-pane sample-pane alert" data-step="3">
+					<h3>Налоговые данные</h3>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-4 avatar_prf_column">
+								[[!prf_field? &field_name=`photo` &user_id=`[[!GET_blgid]]`]]
+							</div>
+							<div class="col-md-8">
+								[[!AjaxForm?
+								&snippet=`bee_ajax`
+								&form=`update_nalog_form`
+								]]
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
