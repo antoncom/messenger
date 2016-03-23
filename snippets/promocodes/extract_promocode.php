@@ -65,3 +65,6 @@ if(!empty($scriptProperties['pa_id']))	{
 
 	return $res[0]['pagetitle'];
 }
+else{
+	return "Извлечение..."; // Если pa_id не указан, то сниппет вызывается в закрытом модальном окне извлечения промокода
+}

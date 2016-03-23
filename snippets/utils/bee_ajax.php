@@ -37,11 +37,38 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 						'bonus_method' => $params['bonus_method']
 				));
 				$bmStr = ($params['bonus_method'] == 'phone') ? 'на баланс телефона.' : 'на карту Билайн.';
-				return $AjaxForm->success($r . ' - Способ получения бонусов: ' . $bonus_method);
+				return $AjaxForm->success($r . ' - Способ получения бонусов: ' . $bmStr);
+			}
+			break;
+
+		case('pa_join_with_phone'):
+			$r = json_decode($modx->runSnippet('set_mobilephone', array(
+				'mobilephone_confirmed' => $params['mobilephone_confirmed'],
+				'mobilephone_notempty' => $params['mobilephone_notempty'])), true);
+			if($r['result'] == 'ok')	{
+				$r = $modx->runSnippet('blogger_join_promoaction', array(
+					'pa_id' => $params['pa_id'],
+					'bonus_method' => 'phone'
+				));
+				return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+			}
+			elseif($r['result'] == 'error')	{
+				return $AjaxForm->error('Ошибка. Телефон не сохранен.', $r['errors']);
+			}
+			else{
+				return $AjaxForm->error('Ошибка 915405. Телефон не сохранен.');
 			}
 			break;
 
 		case('extract_promocode'):
+
+			// Подключаем к акции, если блоггер впервые извлекает промокод
+			$r = $modx->runSnippet('blogger_join_promoaction', array(
+				'pa_id' => $params['pa_id'],
+				'bonus_method' => 'phone'
+			));
+			return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+
 			$extract_method = $params['extract_promocode_to'];
 			$pcode = $params['promo_code'];
 			if(empty($extract_method)) {
@@ -144,6 +171,7 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'fullname' => $params['fullname'],
 					'password' => $params['password'],
 					'mobilephone_confirmed' => $params['mobilephone_confirmed'],
+					'mobilephone_notempty' => $params['mobilephone_notempty'],
 					'user_id' => $user_id)), true);
 			if($r['result'] == 'ok')	{
 				return $AjaxForm->success('Ваш профиль обновлен.');

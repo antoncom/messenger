@@ -68,8 +68,13 @@ $(document).ready(function() {
 	});
 
 	$('#apply_join_promoaction').on('click', function () {
+
+		// Если телефон подтвержден
+		if($('input[name=bee_ajax_mobilephone_confirmed]').val() === 'yes')	{
+			$('input[name=bee_ajax_mobilephone_notempty]').val('yes');
+		};
+
 		$('#bonus_method').submit();
-		//$('#extract_promocode').show();
 	});
 
 	$('#accepting_payment').on('show.bs.modal', function (event) {
@@ -98,7 +103,32 @@ $(document).ready(function() {
 	$('#extract_promocode').on('shown.bs.modal', function(e)	{
 		var button = $(e.relatedTarget);
 		var pa_id = button.data('whatever');
-		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
+//		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
+
+		// Прописываем атрибут data-pa_id в тег-контейнер modal-а
+		$(this).attr("data-pa_id", pa_id);
+
+		// Извлекаем и показываем промо-код при открытии модального окна
+		// Для работы данного кода был изменен AjaxSnippet и сохранен в виде /snippets/utils/AjaxSnippet_mgm.php
+
+		asa = "34633f015d509ce4f5a378716ad460170bfa27ac";
+		var spinner = $('#'+asa).find(".as_spinner");
+		$.post("/promo-akczii/", {as_action: asa,
+									params_from_json: "yes",
+									pa_id: pa_id,
+									as_mode: "onclick",
+									snippet: "extract_promocode",
+									as_complete: "as_complete_extract_promocode_from_modal"
+								}, function(response) {
+			if (typeof response.output !== "undefined") {
+				spinner.css("display","none");
+				$('#'+asa).html(response.output);
+				$(document).trigger("as_complete_extract_promocode_from_modal", response);
+			}
+		}, "json");
+
+
+
 
 		// прописываем в Modal значение pa_id
 		var modal = $(this);
@@ -108,9 +138,11 @@ $(document).ready(function() {
 	});
 
 	$('#extract_promocode').on('hide.bs.modal', function (event) {
+
+		// Приводим модальное окно в первоначальное состояние
 		refreshModal('extract_promocode');
 		$('#extract_promocode_form input[type=radio]').attr('checked', false);
-		$('#extracted_promocode').html('');
+		$('#extracted_promocode .ajax-snippet').html('Извлечение...');
 	});
 
 	
@@ -131,20 +163,6 @@ $(document).ready(function() {
 		$(this).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', true);
 		$(this).parent().find('.ok-check').toggleClass('blank', false);
 	});
-
-	$(document).on('as_complete_extract_promocode_status', document, function(e,d) {
-		console.log('as_complete_extract_promocode_status');
-		$('.pc_status').popover(pc_status_options);
-		//$('#pcode').text(d.output);
-		//$('#extract_promocode').modal('show');
-	});
-
-
-	// Инициируем popover для фрагментов html, полученных AjaxSnippet-ом
-	$(document).on('as_complete_join_promoaction', document, function(e,d) {
-		$('.pc_status').popover(pc_status_options);
-	});
-
 
 
 

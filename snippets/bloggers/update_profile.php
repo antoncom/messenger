@@ -4,7 +4,7 @@ $out = array();
 $modx->log(xPDO::LOG_LEVEL_ERROR, 'update_profile: ' . print_r($scriptProperties, true));
 
 // Проверка на обязательность заполнения полей
-$required = array('username', 'email', 'fullname');
+$required = array('username', 'email', 'fullname', 'mobilephone_notempty');
 foreach($scriptProperties as $key=> $value)	{
 	if(in_array($key, $required) && empty($value)) $error[$key] = 'Это поле не должно быть пустым!';
 }

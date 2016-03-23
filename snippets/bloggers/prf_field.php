@@ -6,12 +6,11 @@
  * $field_header - for fuelux glass
  * $field_footer - for fuelux glass
  */
+$modx->getService('lexicon','modLexicon');
+$modx->setOption('cultureKey', 'ru');
+$modx->lexicon->load('beecore:default');
 
 if(!empty($field_name))	{
-	$modx->getService('lexicon','modLexicon');
-	$modx->setOption('cultureKey', 'ru');
-	$modx->lexicon->load('beecore:default');
-
 	$prefix = 'bee_ajax_'; // prefix for input field name, which is used in 'bee_ajax' snippet
 
 	$user_id = $scriptProperties['user_id'];

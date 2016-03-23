@@ -47,4 +47,72 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	// *** Запускаем после выполнения AjaxSnippet *** //
+	// Инициируем popover для кнопок-активаторов подключения к акции при первой загрузке стр. "Промо-акции"
+	$(document).on('as_complete_init_pc_status_options', document, function(e,d) {
+		$('.pc_status').popover(pc_status_options);
+		console.log('as_complete_init_pc_status_options');
+	});
+
+	// После отработки AjaxSnippet на извлечения промо-кода
+	$(document).on('as_complete_extract_promocode_status', document, function(e,d) {
+		console.log('as_complete_extract_promocode_status');
+		$('.pc_status').popover(pc_status_options);
+		//$('#pcode').text(d.output);
+		//$('#extract_promocode').modal('show');
+	});
+
+	// После отработки AjaxSnippet на подключение к акции
+	$(document).on('as_complete_join_promoaction', document, function(e,d) {
+		$('.pc_status').popover(pc_status_options);
+		console.log('as_complete_join_promoaction');
+	});
+
+	// После отработки AjaxSnippet на подключение к акции -
+	// обновляем состояние кнопки-активатора промо-кода на стр. "Промо-акции"
+	$(document).on('as_complete_extract_promocode_from_modal', document, function(e,d) {
+		$('.pc_status').popover(pc_status_options);
+		console.log('as_complete_extract_promocode_from_modal =');
+		console.log(d);
+
+		// Обновляем состояние кнопки-активатора промо-кода на стр. "Промо-акции"
+		// Для этого вначале находим id кнопки-активатора
+		var pa_id = $("#"+ d.key).closest(".modal#extract_promocode").attr('data-pa_id');
+		var asa = $("a.pc_status[data-pa_id="+pa_id+"]").closest(".ajax-snippet").attr("id");
+		var spinner = $('#'+asa).find(".as_spinner");
+
+		// Обновляем состояние кнопки-активатора
+		$.post("/promo-akczii/", {as_action: asa, as_complete: "as_complete_extract_promocode_status"}, function(response) {
+			if (typeof response.output !== "undefined") {
+				$('#'+asa).html(response.output);
+				spinner.css("display","none");
+
+				// Инициируем новое содержимое popover на стр. "Промо-акции"
+				$(document).trigger("as_complete_extract_promocode_status", response);
+
+			}
+		}, "json");
+
+		// Обновляем статус подключения к промо-акции в том случае,
+		// если извлекание промо-кода осуществляется со страницы описания акции (из панели "Участие в акции")
+/*		asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).closest(".ajax-snippet").attr('id');
+		console.log("PANEL ASA = " + asa);
+		if(asa !== "undefined") {
+			$.post("/promo-akczii/", {as_action: asa}, function (response) {
+				if (typeof response.output !== "undefined") {
+					$('#' + asa).html(response.output);
+				}
+			}, "json");
+		}
+		asa = $( 'a[data-pa_id="'+pa_id+'"]' ).closest(".ajax-snippet").attr('id');
+		console.log("PANEL ASA = " + asa);
+		if(asa !== "undefined") {
+			$.post("/promo-akczii/", {as_action: asa}, function (response) {
+				if (typeof response.output !== "undefined") {
+					$('#' + asa).html(response.output);
+				}
+			}, "json");
+		}*/
+	});
 });

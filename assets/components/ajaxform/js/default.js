@@ -139,24 +139,42 @@ var AjaxForm = {
 							case('extract_promocode'):
 								// Обновляем ссылку-активатор "Извлечь промо-код"
 								$('#extract_promocode').modal('hide');
+
+								// Обновляем статус подключения к промо-акции в том случае,
+								// если извлекание промо-кода осуществляется со страницы описания акции (из панели "Участие в акции")
+/*								asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
+								if(asa !== "undefined") {
+									$.post("/promo-akczii/", {as_action: asa}, function (response) {
+										if (typeof response.output !== "undefined") {
+											$('#' + asa).html(response.output);
+										}
+									}, "json");
+								}*/
+
 								//asa = $( 'a[data-target="#extract_promocode"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
 								asa = $( 'a[data-pa_id="'+pa_id+'"]' ).parent().attr('id');
 								var spinner = $('#'+asa).find(".as_spinner");
 								spinner.css("display","block");
-								$.post("/promo-akczii/", {as_action: asa}, function(response) {
+
+								// Активируем работу AjaxSnippet для указанного активатора акции
+								$.post("/promo-akczii/", {as_action: asa, as_complete: "as_complete_extract_promocode_status"}, function(response) {
 									if (typeof response.output !== "undefined") {
 										$('#'+asa).html(response.output);
 										spinner.css("display","none");
 
-										$('.pc_status').popover(pc_status_options);
+										// Инициируем новое содержимое popover на стр. "Промо-акции"
+										$(document).trigger("as_complete_extract_promocode_status", response);
 
-										// Обновляем статус подключения к промо-акции
+										// Обновляем статус подключения к промо-акции в том случае,
+										// если извлекание промо-кода осуществляется со страницы описания акции (из панели "Участие в акции")
 										asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).parent().attr('id');
-										$.post("/promo-akczii/", {as_action: asa}, function(response) {
-											if (typeof response.output !== "undefined") {
-												$('#'+asa).html(response.output);
-											}
-										}, "json");
+										if(asa !== "undefined") {
+											$.post("/promo-akczii/", {as_action: asa}, function (response) {
+												if (typeof response.output !== "undefined") {
+													$('#' + asa).html(response.output);
+												}
+											}, "json");
+										}
 									}
 								}, "json");
 
@@ -258,6 +276,32 @@ var AjaxForm = {
 								break;
 
 							default: ;
+
+							case('pa_join_with_phone'):
+								//***** Для модального окна подключения к акции с вводом телефона *****//
+								// Если телефон введен и подтвержден
+								//$('input[name=bee_ajax_mobilephone_notempty]').val('yes');
+								//$('input[name=bee_ajax_mobilephone_confirmed]').val('yes');
+								$('#accepting_payment').modal('hide');
+
+
+								// После того, как блогер подключился к акции, впервые указав номер телефона
+								// Делаем обновлние всех popover-ов на текущей странице
+								$( "a.pc_status" ).each(function( index ) {
+									var asa = $( this ).parent().attr('id');
+									var spinner = $('#'+asa).find(".as_spinner");
+									spinner.css("display","block");
+									$.post("/promo-akczii/", {as_action: asa}, function(response) {
+										if (typeof response.output !== "undefined") {
+											$('#'+asa).html(response.output);
+											spinner.css("display","none");
+											$('.pc_status').popover(pc_status_options);
+										}
+									}, "json");
+								});
+
+
+								break;
 						}
 					}
 				}

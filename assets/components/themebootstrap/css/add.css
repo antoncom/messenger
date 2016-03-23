@@ -104,34 +104,6 @@ body{
 	background-color: #eeeae5;
 }
 
-h1,h2,h3,h4	{
-	font-family: 'officinaserifcregular', serif;
-	color: #000;
-}
-
-h4 a:link,
-h4 a:hover,
-h4 a:visited,{
-	text-decoration: underline;
-	color: #000;
-}
-
-a {
-	color: #000;
-	text-decoration: underline;
-}
-
-a:hover {
-	color: #f45206;
-	text-decoration: underline;
-}
-
-h1 {
-	font-family: 'officinaserifcbold';
-	font-size: 38px;
-	line-height: 1.18;
-	margin-bottom: 14px;
-}
 
 .footer {
 	background: #282828;

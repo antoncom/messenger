@@ -1084,9 +1084,9 @@ html {
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.42857143;
-  color: #555555;
+  color: #444;
   background-color: #ffffff;
 }
 input,
@@ -5336,7 +5336,7 @@ a.list-group-item-danger.active:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 .panel-body {
-  padding: 15px;
+  padding: 15px 15px 63px 63px;
 }
 .panel-heading {
   padding: 10px 15px;
@@ -6113,6 +6113,15 @@ button.close {
   border-left-color: #ffffff;
   bottom: -10px;
 }
+
+
+
+.pc_status + .popover a.disabled {
+  color: grey;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 .carousel {
   position: relative;
 }
@@ -6986,6 +6995,7 @@ form.beeregister .alert-danger  {
 .fuelux .placard-popup {
   left: -35px;
   right: -35px;
+  background-color: #e2e2e2;
 }
 
 .avatar_prf_column  {
@@ -6998,7 +7008,7 @@ form.beeregister .alert-danger  {
 }
 
 #apply_confirm_code {
-  margin-top:10px;
+  margin-top: 0px;
 }
 
 .btn-link:hover,
@@ -7210,3 +7220,53 @@ span.beta {
   border: 0px solid #dddddd;
 }
 
+.about_conditions div {
+  padding-bottom: 5px;
+}
+
+
+h1,h2,h3,h4	{
+  font-family: 'officinaserifcregular', serif;
+  color: #000;
+}
+
+h4 a:link,
+h4 a:hover,
+h4 a:visited,{
+  text-decoration: underline;
+  color: #000;
+}
+
+a {
+  color: #000;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #f45206;
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: 'officinaserifcbold';
+  font-size: 38px;
+  line-height: 1.18;
+  margin-bottom: 14px;
+}
+
+h1.about {
+  margin: 0.67em 0em;
+  padding: 0px;
+}
+
+div.parus_left  {
+  padding-right: 0px;
+}
+
+div.parus  {
+  background-image: url(/images/parus.png);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-origin: content-box;
+  padding-right: 3.4em;
+}

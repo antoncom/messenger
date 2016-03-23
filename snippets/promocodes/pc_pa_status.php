@@ -79,7 +79,7 @@ if(!empty($scriptProperties['pa_id'])) {
 				$popover_link = 'Извлечь';
 				$popover_content = $stat . $modx->getChunk('blg_pa_extract_firstly_popover', array(
 						'bonus_method' => 'на баланс мобильного телефона.',
-						'extract_new_link'=>"<li><a data-target='#extract_promocode' data-toggle='modal' data-whatever='".$pa_id."' style='cursor: pointer;'>Извлечь промокод</a></li>"
+						'extract_new_link'=>"<a data-target='#extract_promocode' data-toggle='modal' data-whatever='".$pa_id."' style='cursor: pointer;'>Извлечь промокод</a>"
 				));
 			}
 		}
@@ -87,10 +87,30 @@ if(!empty($scriptProperties['pa_id'])) {
 			// Подключение к акции
 			$popover_title = 'Участие в промо-акции';
 			$popover_colored = 'notincluded';
-			$popover_content = $modx->getChunk('blg_pa_join_popover', array(
+
+			// Если блогер уже указал номер телефона в профайле
+			$modx->runSnippet('userProfile');
+			$phone = $modx->getPlaceholder('beeuser.mobilephone');
+
+			// Подключаем к акции, если блоггер впервые извлекает промокод
+//			$r = $modx->runSnippet('blogger_join_promoaction', array(
+//				'pa_id' => $pa_id,
+//				'bonus_method' => 'phone'
+//			));
+//
+			if(!empty($phone))	{
+				// Выдаем ссылку на извлечение промо-кода
+				$popover_content = $modx->getChunk('blg_pa_auto-join_popover', array(
+					'extract_new_link'=>"<a data-target='#extract_promocode' data-toggle='modal' data-whatever='".$pa_id."' style='cursor: pointer;'>Извлечь промокод</a>"
+				));
+			}
+			// Если блогер еще не указал телефон в профайле
+			else{
+				$popover_content = $modx->getChunk('blg_pa_join_popover', array(
 					'pa_id' => $pa_id,
-					'extract_new_link'=>"<li><a data-pa_id='[[+pa_id]]' data-toggle='modal' data-whatever='[[+pa_id]]' style='cursor: pointer;' class='disactive'>Извлечь промокод</a></li>"
-			));
+					'extract_new_link'=>"<li><a class='disabled'>Извлечь промокод</a></li>"
+				));
+			}
 		}
 
 		// Вывод промо-кода с popover-ом
