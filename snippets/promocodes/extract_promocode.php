@@ -8,6 +8,17 @@
 if(!empty($scriptProperties['pa_id']))	{
 	$pa_id = $scriptProperties['pa_id'];
 
+	// Проверяем подключен ли блогер к акции
+	// Если нет, то подключаем
+
+	$r = $modx->runSnippet('blogger_join_promoaction', array(
+		'pa_id' => $pa_id,
+		'bonus_method' => 'phone'
+	));
+//	if($r['result'] !== 'ok') {
+//		return 'Ошибка подключения к акции. Код ошибки 915409';
+//	}
+
 	// Проверяем: если у блогера есть уже активный промо-код, то ничео не извлекаем
 	$pc_active = json_decode($modx->runSnippet('blg_active_promocode', array(
 			'pa_id' => $pa_id,

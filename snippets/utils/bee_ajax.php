@@ -15,7 +15,6 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 		}
 	}
 	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax Params: ' . print_r($params, true));
-	$modx->log(xPDO::LOG_LEVEL_ERROR, 'bee_ajax POST: ' . print_r($_POST, true));
 
 	// Если передан id блогера значит профиль сохраняется менеджером
 	if(!empty($_POST['bee_ajax_blgid']))	{
@@ -27,7 +26,8 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 	}
 
 	switch($_POST['bee_ajax_snippet'])	{
-		case('pa_join_status'):
+		// комментируем данный блок, поскольку в Билайне принято решение, что бонусы будут приходить только на телефон (на карту не будут)
+		/*case('pa_join_status'):
 			if (empty($params['bonus_method'])) {
 				return $AjaxForm->error('Ошибка', array('name' => 'Необходимо выбрать способ получения бонусов!'));
 			}
@@ -39,8 +39,9 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 				$bmStr = ($params['bonus_method'] == 'phone') ? 'на баланс телефона.' : 'на карту Билайн.';
 				return $AjaxForm->success($r . ' - Способ получения бонусов: ' . $bmStr);
 			}
-			break;
+			break;*/
 
+		// Подключение к акции - вывод денег на телефон всегда
 		case('pa_join_with_phone'):
 			$r = json_decode($modx->runSnippet('set_mobilephone', array(
 				'mobilephone_confirmed' => $params['mobilephone_confirmed'],
@@ -50,13 +51,71 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 					'pa_id' => $params['pa_id'],
 					'bonus_method' => 'phone'
 				));
-				return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+				if($r['result'] == 'ok') {
+					return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+				}
+				else{
+					return $AjaxForm->error('Ошибка подключения к акции 915409', $r['errors']);
+				}
 			}
 			elseif($r['result'] == 'error')	{
 				return $AjaxForm->error('Ошибка. Телефон не сохранен.', $r['errors']);
 			}
 			else{
 				return $AjaxForm->error('Ошибка 915405. Телефон не сохранен.');
+			}
+			break;
+
+		case('deliver_promocode'):
+			$extract_method = $params['extract_promocode_to'];
+
+			$modx->log(xPDO::LOG_LEVEL_ERROR, 'deliver_promocode extract_method  = ' . $extract_method );
+
+			$pcode = $params['promo_code'];
+			if(empty($extract_method)) {
+				return $AjaxForm->error('Необходимо выбрать способ извлечения промо-кода', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));
+			}
+			else{
+				if(empty($pcode) || $pcode === 'Нет свободных промо-кодов!')	{
+					return $AjaxForm->error('Нет промо-кода для извлеченя.', array('name' => 'Нет промо-кода для извлеченя.'));
+				}
+				else{
+					if($extract_method === 'clipboard')	{
+						return $AjaxForm->success('Промо-код ' . $pcode . ' скопирован в буфер обмена.');
+					}
+					if($extract_method === 'phone')	{
+						$send_result = json_decode($modx->runSnippet('send_sms_pcode', array(
+							'pcode' => $params['promo_code'],
+							'pa_id' => $params['pa_id'])), true);
+
+						if(!empty($send_result))	{
+							$smsgate_response = xmlstr_to_array($send_result['result']);
+							if(count($smsgate_response['errors']) == 0)	{
+								return $AjaxForm->success('На номер ' . $smsgate_response['sms']['@attributes']['phone'] . ' отправлен промо-код ' . $send_result['pcode']);
+							}
+							else{
+								$err = implode("<br> ", array_values($smsgate_response['errors']));
+								return $AjaxForm->error('Ошибка отправки промо-кода по SMS.' . $err, array('name' => $err));
+							}
+						}
+						else{
+							return $AjaxForm->error('Ошибка отправки промо-кода по SMS.', 1);
+						}
+					}
+					if($extract_method === 'email')	{
+						$send_result = json_decode($modx->runSnippet('send_email_pcode', array('pa_id' => $params['pa_id'], 'pcode' => $params['promo_code'])), true);
+						if($send_result['status'] == 'ok')	{
+							return $AjaxForm->success($send_result['message']);
+						}
+						elseif($send_result['status'] == 'error')	{
+							return $AjaxForm->error($send_result['message']);
+						}
+						else{
+							return $AjaxForm->error('Статус отправки Емайл неопределен.');
+						}
+
+					}
+				}
 			}
 			break;
 
@@ -70,6 +129,9 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 			return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
 
 			$extract_method = $params['extract_promocode_to'];
+
+$modx->log(xPDO::LOG_LEVEL_ERROR, 'extract_method  = ' . $extract_method );
+
 			$pcode = $params['promo_code'];
 			if(empty($extract_method)) {
 				return $AjaxForm->error('Необходимо выбрать способ извлечения промо-кода', array('name' => 'Необходимо выбрать способ извлечения промо-кода'));

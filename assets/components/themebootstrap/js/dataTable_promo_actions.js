@@ -172,7 +172,6 @@ $(document).ready(function() {
 	//	else {
 	//		period = "act_date>" + startDate;
 	//	}
-	//	console.log(period);
 	//
 	//	$('#bee_where').val(period);
 	//	table.ajax.url( '/?id=5533' ).load();
@@ -189,7 +188,6 @@ $(document).ready(function() {
 	//	else {
 	//		period = "act_date<" + endDate;
 	//	}
-	//	console.log(period);
 	//	$('#bee_where').val(period);
 	//	table.ajax.url( '/?id=5533' ).load();
 	//} );

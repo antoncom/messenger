@@ -148,67 +148,6 @@ body{
 
 
 
-.footer-links .logo {
-	float: left;
-	text-indent: -9999px;
-	font-size: 0;
-	width: 155px;
-	height: 45px;
-	background: url(/images/logo.png) 0 -64px no-repeat transparent;
-}
-
-.footer-links h3 {
-	float: right;
-	margin-top: 11px;
-	color: #fff;
-}
-
-.header-links h3	{
-	color: white;
-	float: right;
-	font-size: 16px;
-	padding: 6px 0 0 0;
-	margin: 0px;
-}
-
-.header-links h3 a	{
-	color: #fff;
-}
-
-.header-links	{
-	background: #282828 none repeat scroll 0 0;
-	height:30px;
-	display: block;
-}
-
-.social li a {
-	display: block;
-	width: 36px;
-	height: 33px;
-	margin-right: 21px;
-	overflow: hidden;
-}
-
-.social li {
-	float: left;
-}
-
-.social {
-	margin-top: 40px;
-	margin-bottom: 44px;
-	float: left;
-}
-
-.sub-footer-wrap {
-	width: 982px;
-	margin: 0 auto;
-}
-
-.social li a[target="_blank"] {
-	position: relative;
-	padding-right: 0;
-}
-
 input.form-control {
 	width: 100%;
 	font-size: 16px;

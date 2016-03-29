@@ -21,12 +21,16 @@ function refreshModal(modal_id)	{
 			$('#extract_promocode_form input[type=radio]').parent().find('label').toggleClass('active', false);
 			//$('#extract_promocode_form').parent(). label.btn').toggleClass('active', false);
 
+			break;
+
+
 
 		default: ;
 	}
 }
 
 $(document).ready(function() {
+
 	$('#bonus_to_card').change(function () {
 
 		if($(this).val() == "card")	{
@@ -78,6 +82,7 @@ $(document).ready(function() {
 	});
 
 	$('#accepting_payment').on('show.bs.modal', function (event) {
+		$("#apply_extract_promocode").toggleClass('disabled', false);
 		var button = $(event.relatedTarget) // Button that triggered the modal
 		var recipient = button.data('whatever') // Extract info from data-* attributes
 		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -101,6 +106,7 @@ $(document).ready(function() {
 	//});
 
 	$('#extract_promocode').on('shown.bs.modal', function(e)	{
+		//$("#apply_extract_promocode").addClass('disabled');
 		var button = $(e.relatedTarget);
 		var pa_id = button.data('whatever');
 //		$(e.target).find('#extracted_promocode').load('/extract-promocode.html?pa_id=' + pa_id);
@@ -133,7 +139,6 @@ $(document).ready(function() {
 		// прописываем в Modal значение pa_id
 		var modal = $(this);
 			modal.find('#extract_promocode_form input[name=bee_ajax_pa_id]').val(pa_id);
-		console.log($('#extract_promocode_form input[name=bee_ajax_pa_id]').val());
 
 	});
 
@@ -156,17 +161,15 @@ $(document).ready(function() {
 			});
 		}
 		$('#extract_promocode_form').submit();
+		$('#extract_promocode').modal('hide');
 	});
 
 	$('#extract_promocode_form input[type=radio]').on('change', function () {
 		refreshModal('extract_promocode');
 		$(this).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', true);
 		$(this).parent().find('.ok-check').toggleClass('blank', false);
+		$("#apply_extract_promocode").toggleClass('disabled', false);
 	});
-
-
-
-
 
 	// Подтверждение телефона по SMS
 	$('#send_confirm_code').on('click', function() {

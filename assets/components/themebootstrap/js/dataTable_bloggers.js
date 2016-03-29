@@ -129,7 +129,6 @@ $(document).ready(function() {
 		else {
 			period = "viewAct.act_date>" + startDate;
 		}
-		console.log(period);
 
 		$('#bee_join').val(period);
 		table.ajax.url( '/?id=4815' ).load();
@@ -146,7 +145,6 @@ $(document).ready(function() {
 		else {
 			period = "viewAct.act_date<" + endDate;
 		}
-		console.log(period);
 		$('#bee_join').val(period);
 		table.ajax.url( '/?id=4815' ).load();
 	} );
