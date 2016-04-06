@@ -88,7 +88,6 @@ $sql_details = array(
  */
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
-
 $beeWhere = null;
 
 echo json_encode(

@@ -7,11 +7,11 @@
 form {
 	/*margin: 30px;*/
 }
-input {
+/*input {
 	width: 200px;
 	margin: 10px auto;
 	display: block;
-}
+}*/
 
 #payment_accept_selector label,
 #extract_promocode_form label	{

@@ -86,6 +86,10 @@ $sql_details = array(
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
+// Фильтрация POST-данных - согласно требованию Билайн (см. таблицу требования - blog-04)
+require(MODX_BASE_PATH.'snippets/utils/remove_uncorrect_symbols_from_POST.php' );
+
+
 // здесь принимаем pa_id
 $beeWhere = (!empty($_POST['beeWhere']))
 	? array($_POST['beeWhere'])

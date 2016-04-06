@@ -132,6 +132,113 @@ $(document).ready(function() {
 		$("#apply_confirm_code").toggleClass('inactive', false);
 	}});
 	//$("div[data-initialize=placard]").placard({externalClickExceptions: ['#bee_ajax_blogger_phone']});
+
+	// Автофокус; проверка на "пустоту" формы на стр. "Контакты"
+
+	if($('#contact_form').length > 0) {
+		$('#message').bind("change keyup input", function () {
+			var ifmessage = $('#message').val().length > 0;
+			var ifname = $('#name').val().length > 0;
+			var ifemail = $('#email').val().length > 0;
+			if (ifmessage && ifname && ifemail) {
+				$("#contact_form button[type=submit]").toggleClass('disabled', false);
+				$("#contact_form button[type=submit]").toggleClass('inactive', false);
+			}
+		});
+
+		$('input#email').bind("change keyup input", function () {
+			var ifmessage = $('#message').val().length > 0;
+			var ifname = $('#name').val().length > 0;
+			var ifemail = $('#email').val().length > 0;
+			if (ifmessage && ifname && ifemail) {
+				$("#contact_form button[type=submit]").toggleClass('disabled', false);
+				$("#contact_form button[type=submit]").toggleClass('inactive', false);
+			}
+		});
+
+		$('input#name').bind("change keyup input", function () {
+			var ifmessage = $('#message').val().length > 0;
+			var ifname = $('#name').val().length > 0;
+			var ifemail = $('#email').val().length > 0;
+			if (ifmessage && ifname && ifemail) {
+				$("#contact_form button[type=submit]").toggleClass('disabled', false);
+				$("#contact_form button[type=submit]").toggleClass('inactive', false);
+			}
+		});
+
+		// Сброс формы на стр. "Контакты"
+		$("#reset_contact").click(function (event) {
+			$('#message').val('');
+			$('#name').val('');
+			$('#email').val('');
+		});
+	}
+
+
+	// ** Форма регистрации ** //
+	if($('#register_form').length > 0) {
+		$('#register_form input').bind("change keyup input", function () {
+			var ifname = $('#fullname').val().length > 0;
+			var ifemail = $('#email').val().length > 0;
+			var ifpassword = $('#password').val().length > 0;
+			var ifconf_password = $('#password_confirm').val().length > 0;
+			if (ifname && ifemail && ifpassword && ifconf_password) {
+				$("#register_form input[type=submit]").toggleClass('disabled', false);
+				$("#register_form input[type=submit]").toggleClass('inactive', false);
+			}
+		});
+
+		$("#reset_register").click(function (event) {
+			$('#fullname').val('');
+			$('#email').val('');
+			$('#password').val('');
+			$('#password_confirm').val('');
+
+			$("#register_form input[type=submit]").toggleClass('disabled', true);
+			$("#register_form input[type=submit]").toggleClass('inactive', true);
+		});
+
+		// Автофокус на стр. "Регистрация"
+		$('#fullname').focus();
+	}
+
+	// ** Страница с формой логина ** //
+	if($('#login_form_page').length > 0) {
+		$('#login_form_page input').bind("change keyup input", function () {
+			var iflogin = $('#username').val().length > 0;
+			var ifpassword = $('#password').val().length > 0;
+			if (iflogin && ifpassword) {
+				$("#login_form_page input[type=submit]").toggleClass('disabled', false);
+				$("#login_form_page input[type=submit]").toggleClass('inactive', false);
+			}
+		});
+
+		$("#reset_login").click(function (event) {
+			$('#username').val('');
+			$('#password').val('');
+			$("#login_form_page input[type=submit]").toggleClass('disabled', true);
+			$("#login_form_page input[type=submit]").toggleClass('inactive', true);
+		});
+
+		$('#login_form_page #username').focus();
+	}
+
+/*
+	// Автофокус на стр. "Доступ в личный кабинет"
+	$('#username').focus();
+	if ($('#message').val().length > 0 &&
+		$('#name').val().length > 0 &&
+		$('#email').val().length > 0 &&
+		$('#org_phone').val().length > 0) {
+		$("#contact_form button[type=submit]").toggleClass('disabled', false);
+		$("#contact_form button[type=submit]").toggleClass('inactive', false);
+	}*/
+
+
+
+
+
+
 });
 
 

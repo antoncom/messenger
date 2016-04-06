@@ -94,6 +94,9 @@ $sql_details = array(
 
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
+// Фильтрация POST-данных - согласно требованию Билайн (см. таблицу требования - blog-04)
+require(MODX_BASE_PATH.'snippets/utils/remove_uncorrect_symbols_from_POST.php' );
+
 //class BEESSP extends SSP	{
 //	static function beesimple ( $request, $conn, $table, $primaryKey, $columns )	{
 //		array_push($columns, array( 'db' => 'uri', 'dt' => count($columns) );
@@ -103,9 +106,6 @@ require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php'
 
 $beeWhere = array($_POST['beeWhere']);
 
-//$modx->log(xPDO::LOG_LEVEL_ERROR, "REQUEST = " . print_r($_REQUEST, true));
-
-//$modx->log(xPDO::LOG_LEVEL_ERROR, "RESPONSE = " . json_encode(SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )));
 
 echo json_encode(
 	SSP::complex( $_POST, $sql_details, $table, $primaryKey, $columns, null, $beeWhere )

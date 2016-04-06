@@ -280,7 +280,6 @@ class SSP {
 		);
 	}
 
-
 	/**
 	 * The difference between this method and the `simple` one, is that you can
 	 * apply additional `where` conditions to the SQL queries. These can be in
@@ -307,6 +306,7 @@ class SSP {
 	static function complex ( $request, $conn, $table, $primaryKey, $columns, $whereResult=null, $whereAll=null )
 	{
 		global $modx;
+
 		$bindings = array();
 		$db = self::db( $conn );
 		$localWhereResult = array();

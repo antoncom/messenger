@@ -303,6 +303,7 @@ class SSP {
 	static function complex ( $request, $conn, $table, $primaryKey, $columns, $whereResult=null, $whereAll=null )
 	{
 		global $modx;
+		//$modx->log(xPDO::LOG_LEVEL_ERROR, "REQUEST = " . print_r($request,true));
 		$bindings = array();
 		$db = self::db( $conn );
 		$localWhereResult = array();
@@ -337,7 +338,7 @@ class SSP {
 			 $order
 			 $limit";
 
-		$modx->log(xPDO::LOG_LEVEL_ERROR, "BEE_SQL = " . $beeSql);
+
 
 		// Main query to actually get the data
 		$data = self::sql_exec( $db, $bindings, $beeSql);

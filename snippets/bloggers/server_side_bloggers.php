@@ -83,11 +83,8 @@ $sql_details = array(
 //require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class_bloggers.php' );
 require(MODX_CORE_PATH.'components/datatables/server_side/scripts/ssp.class.php' );
 
-//$beeJoin = $_POST['beeJoin'];
-//if(strlen($beeJoin) > 0) $beeJoin = " AND " . $beeJoin;
-////$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id AND viewAct.act_date = 1445040000";
-//$join = "LEFT JOIN `modx_activations` AS viewAct ON `modx_bloggers`.blogger_id = viewAct.blogger_id" . $beeJoin;
-//$groupby = "GROUP BY `modx_bloggers`.blogger_id";
+// Фильтрация POST-данных - согласно требованию Билайн (см. таблицу требования - blog-04)
+require(MODX_BASE_PATH.'snippets/utils/remove_uncorrect_symbols_from_POST.php' );
 
 
 echo json_encode(
