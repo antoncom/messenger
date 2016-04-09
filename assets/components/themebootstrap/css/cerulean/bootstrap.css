@@ -4654,7 +4654,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #cccccc;
 }
 .breadcrumb {
-  padding: 8px 20px;
+  padding: 0 0 0 92px;
   margin-bottom: 20px;
   list-style: none;
   border-radius: 4px;
@@ -5374,8 +5374,17 @@ a.list-group-item-danger.active:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 .panel-body {
-  padding: 0px 30px 63px 63px;
+  padding: 0px 30px 43px 63px;
 }
+
+.blogger_stat .panel-body {
+  padding: 20px 30px 30px 30px;
+}
+
+.blogger_stat select  {
+  height: 40px;
+}
+
 .panel-heading {
   padding: 10px 15px;
   border-bottom: 1px solid transparent;
@@ -7037,7 +7046,7 @@ form.beeregister .alert-danger  {
 }
 
 .avatar_prf_column  {
-  padding: 0 40px 40px 0px;
+  padding: 0 10px 0 40px;
 }
 
 .form-horizontal .form-group {
@@ -7046,7 +7055,7 @@ form.beeregister .alert-danger  {
 }
 
 #apply_confirm_code {
-  margin-top: 0px;
+  margin-top: 10px;
 }
 
 input[type="submit"]:hover,
@@ -7128,7 +7137,7 @@ input[type='submit'],
   margin-top: 40px;
 }
 
-.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+.thumbnail .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
   padding-top: 20px;
 }
 
@@ -7361,10 +7370,11 @@ div.parus_left  {
 
 
 #recapcha_login_popover {
-  transform:scale(0.735);
-  -webkit-transform:scale(0.735);
+  transform:scale(0.811);
+  -webkit-transform:scale(0.811);
   transform-origin:0 0;
   -webkit-transform-origin:0 0;
+  padding: 10px 0 0 0;
 }
 #rc-imageselect {
   transform:scale(0.735);
@@ -7495,4 +7505,31 @@ button[type=reset]:hover  {
 .footer .row{
   margin-right: 0px;
   margin-left: 0px;
+}
+
+.promoaction_info_panels  {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.promoaction_info_panels .panel-body  {
+  padding: 20px 20px 20px 20px;
+}
+
+.fuelux .wizard {
+  background-color: #f5eddf;
+}
+
+#update_profile label,
+#blg_phone_set label,
+#update_taxing_profile label {
+  padding-left: 0px;
+}
+
+#update_profile label[data-initialize=radio] {
+  padding-left: 20px;
+}
+
+#profile_wizard h3  {
+  padding-left: 30px;
 }

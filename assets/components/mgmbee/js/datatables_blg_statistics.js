@@ -2,9 +2,6 @@ $(document).ready(function() {
 	var selected = [];
 	var pcData = []; // Данные о выбранных промо-кодах. Используется при удалении.
 	var table = $("#blg_statistics").DataTable({
-		select: {
-			style: 'os'
-		},
 		"processing": true,
 		"serverSide": true,
 		responsive: true,
@@ -23,35 +20,10 @@ $(document).ready(function() {
 				$(row).addClass('selected');
 			}
 		},
-		dom: 'Bfrtip',
-		lengthMenu: [
-			[ 10, 25, 50, 100 ],
-			[ '10', '25', '50', '100' ]
-		],
+		dom: 'ti',
 		stateSave: false,
-		buttons: [
-			'pageLength',
-			{
-				extend: 'selectAll',
-				text: 'Отметить все'
-			},
-			{
-				extend: 'selectNone',
-				text: 'Сброс'
-			},
-			{
-				extend: 'pdfHtml5',
-				text: 'PDF',
-				exportOptions: {
-					modifier: {
-						selected: true,
-						search: 'applied',
-						order: 'applied'
-					},
-					columns: ':visible'
-				}
-			}
-		],
+/*		buttons: [
+		],*/
 		columnDefs: [
 			{ "width": "150px", "targets": 4 }
 		],

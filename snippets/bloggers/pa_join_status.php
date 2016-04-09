@@ -25,18 +25,18 @@ if(!empty($scriptProperties['pa_id']))	{
 					$pcode_stat = json_decode($modx->runSnippet('blg_active_promocode', array('pa_id' => $pa_id, 'blogger_id' => $modx->user->get('id'))),true);
 					if(count($pcode_stat) > 0)	{
 						$out = '<span data-target="#accepting_payment" data-whatever="'.$pa_id.'"></span>';
-						$out .= 'Вы участвуете. Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
+						$out .= 'Вы участвуете. <br />Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
 						$out .='<br>Активный промо-код: ' . $pcode_stat['pcode'] . ', активаций: ' . $pcode_stat['pc_activations_count'];
 					}
 					else{
 						$out = '<span data-target="#accepting_payment" data-whatever="'.$pa_id.'"></span>';
-						$out .= 'Вы участвуете. Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
+						$out .= 'Вы участвуете. Всего активаций: <br /><span class="badge">' . $pa_activations_count . '</span>';
 						$out .='<br>Активный промо-код: нет.';
 					}
 				}
 				else	{
 					$out = '<span data-target="#accepting_payment" data-whatever="'.$pa_id.'"></span>';
-					$out .= 'Вы участвуете. Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
+					$out .= 'Вы участвуете. <br />Всего активаций: <span class="badge">' . $pa_activations_count . '</span>';
 				}
 			}
 		}

@@ -93,6 +93,7 @@ $(document).ready(function() {
 			}
 		}, "json");
 
+
 		// Обновляем статус подключения к промо-акции в том случае,
 		// если извлекание промо-кода осуществляется со страницы описания акции (из панели "Участие в акции")
 /*		asa = $( 'span[data-target="#accepting_payment"][data-whatever="'+pa_id+'"]' ).closest(".ajax-snippet").attr('id');
@@ -113,5 +114,25 @@ $(document).ready(function() {
 				}
 			}, "json");
 		}*/
+	});
+
+	// ** Login Popover ** //
+	activateLoginPopoverSubmit = function()	{ // используеся также в capcha2.js
+		var iflogin = $('#popover_login_form input[name=username]').val().length > 0;
+		var ifpassword = $('#popover_login_form input[name=password]').val().length > 0;
+		var ifverified = ($('#popover_login_form #popover_login_recaptcha_verified').val() === 'yes');
+		if (iflogin && ifpassword && ifverified) {
+			$("#popover_login_submit").toggleClass('disabled', false);
+			$("#popover_login_submit").toggleClass('inactive', false);
+			$("#popover_login_submit").prop('disabled', false);
+		}
+	};
+	$('.beelogin').on('shown.bs.popover', function(){
+		$('#popover_login_form input[name=username]').focus();
+		if($('#popover_login_form').length > 0) {
+			$('#popover_login_form input').bind("change keyup input", function () {
+				activateLoginPopoverSubmit();
+			});
+		}
 	});
 });

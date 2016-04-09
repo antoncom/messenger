@@ -1,5 +1,36 @@
 #content {
 	min-height: 300px;
+	padding-left: 72px;
+}
+
+#content.inner h1	{
+	padding-left: 18px;
+}
+
+#content.main .about_project .container-fluid  {
+	padding-left: 0px;
+}
+
+#content select	{
+	height: 40px;
+}
+
+#content.promocodes	{
+	padding-right:15px;
+
+}
+#content.promocodes form	{
+	padding-left:15px;
+
+}
+
+#content .promoactions	{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+#content.promoaction h2:first-child	{
+	margin-top: 0px;
 }
 
 footer {

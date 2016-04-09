@@ -60,14 +60,14 @@ $columns = array(
 			return (!empty($d)) ? date( 'd.m.Y', strtotime($d)) : "";
 		}
 	),
-	array(  'db' => 'pa_id',
+/*	array(  'db' => 'pa_id',
 			'dt' => 3,
 			'formatter' => function( $d, $row ) {
 				global $modx;
 				return str_pad($modx->runSnippet('pdoField', array('id' => $d, 'field' => 'pa_code')), 2, '0', STR_PAD_LEFT);
 			}
-	),
-	array( 'db' => 'pc_activations_count', 'dt' => 4 )
+	),*/
+	array( 'db' => 'pc_activations_count', 'dt' => 3 )
 );
 
 // SQL server connection information

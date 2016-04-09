@@ -17,11 +17,12 @@ if(!empty($scriptProperties['pa_id']))	{
 			if (array_search($pa_id, $extended['promo_actions']) !== FALSE) {
 				$bonus_method = $extended['bonus_method'][$pa_id];
 				if($bonus_method == 'phone')	{
-					$out = 'На баланс телефона: ' . $modx->runSnippet('get_blogger_phone', array('code' => '+7'));
+					$out = 'На баланс телефона: <br />' . $modx->runSnippet('get_blogger_phone', array('code' => '+7'));
 				}
 				elseif($bonus_method == 'card')	{
 					$out = 'На карту: ' . $modx->runSnippet('get_blogger_card', array('mask_num' => 1));
 				}
+				$out .= '<br /><a href="/statistika-blogera/">Посмотреть статистику</a>';
 			}
 		}
 	}

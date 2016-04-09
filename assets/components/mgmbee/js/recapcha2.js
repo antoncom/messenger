@@ -6,6 +6,15 @@
 var verifyCallback = function(response) {
 	alert(response);
 };
+
+var correctCaptcha = function(response) {
+ alert(response);
+};
+
+/*function correctCaptcha()	{
+	alert(1);
+}*/
+
 var widget_login_popover;
 var widget_login_page;
 var widget_feedback_page;
@@ -18,15 +27,25 @@ var onloadCallback = function() {
 		$('#recapcha_login_popover').html('');
 		widget_login_popover = grecaptcha.render('recapcha_login_popover', {
 			'sitekey' : '6LcprhsTAAAAAHG-18ar4fTE6qbwdlQWZfXXQh23',
-			'theme' : 'light'
+			'theme' : 'light',
+			'callback': function(response)	{
+				$('#popover_login_recaptcha_verified').val('yes');
+				activateLoginPopoverSubmit();
+			}
 		});
 	}
+
+
 	if($('#recapcha_login_page').length > 0) {
 
 		if($('#recapcha_login_page').html() ==='') {
 			widget_login_page = grecaptcha.render(document.getElementById('recapcha_login_page'), {
 				'sitekey': '6LcprhsTAAAAAHG-18ar4fTE6qbwdlQWZfXXQh23',
-				'theme': 'light'
+				'theme': 'light',
+				'callback': function(response) {
+					$('#recaptcha_verified').val('yes');
+					activateLoginSubmit(); // см. bee_forms.js
+				}
 			});
 		}
 	}
