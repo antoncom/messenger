@@ -7,16 +7,19 @@
 
 $out = array();
 $get = $_GET;
+$get_out = array();
 if(!empty($scriptProperties['varNames'])) {
 	$varNames = explode(",", $scriptProperties['varNames']);
 	$propNames = array_keys($scriptProperties);
 	foreach($get as $key=>$value)	{
-		if ($key === in_array($varNames)) $out[$key] = $value;
+		if ($key === in_array($varNames)) $out[$key] = htmlentities($value, ENT_QUOTES);
 	}
-
 	$modx->toPlaceholders($out,'beeget');
 }
 else{
-	$modx->toPlaceholders($get,'beeget');
+	foreach($get as $key=>$value)	{
+		$get_out[$key] = htmlentities($value, ENT_QUOTES);
+	}
+	$modx->toPlaceholders($get_out,'beeget');
 }
 return '';

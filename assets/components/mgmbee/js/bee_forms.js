@@ -1,4 +1,10 @@
 $(document).ready(function() {
+
+	// Регулярное выражение для предотвращения ввода ненужных символов
+	//no_xss = /[^а-яА-Яa-zA-Z0-9@\-_\.@\s*]/g;
+	// разрешается вводить все
+	no_xss = /^[.*]/g;
+
 	// profile
 	$(document).on('as_complete', document, function (e, d) {
 		// для поля mobilephone применяем маску после загрузки поля при помощи AjaxSnippet
@@ -140,6 +146,9 @@ $(document).ready(function() {
 
 	if ($('#contact_form').length > 0) {
 		$('#message').bind("change keyup input", function () {
+			// Защищаем поля ввода от XSS атак
+			$(this).val( $(this).val().replace(no_xss,'') );
+
 			var ifmessage = $('#message').val().length > 0;
 			var ifname = $('#name').val().length > 0;
 			var ifemail = $('#email').val().length > 0;
@@ -150,6 +159,9 @@ $(document).ready(function() {
 		});
 
 		$('input#email').bind("change keyup input", function () {
+			// Защищаем поля ввода от XSS атак
+			$(this).val( $(this).val().replace(no_xss,'') );
+
 			var ifmessage = $('#message').val().length > 0;
 			var ifname = $('#name').val().length > 0;
 			var ifemail = $('#email').val().length > 0;
@@ -160,6 +172,9 @@ $(document).ready(function() {
 		});
 
 		$('input#name').bind("change keyup input", function () {
+			// Защищаем поля ввода от XSS атак
+			$(this).val( $(this).val().replace(no_xss,'') );
+
 			var ifmessage = $('#message').val().length > 0;
 			var ifname = $('#name').val().length > 0;
 			var ifemail = $('#email').val().length > 0;
@@ -181,6 +196,9 @@ $(document).ready(function() {
 	// ** Форма регистрации ** //
 	if ($('#register_form').length > 0) {
 		$('#register_form input').bind("change keyup input", function () {
+			// Защищаем поля ввода от XSS атак
+			$(this).val( $(this).val().replace(no_xss,'') );
+
 			var ifname = $('#fullname').val().length > 0;
 			var ifemail = $('#email').val().length > 0;
 			var ifpassword = $('#password').val().length > 0;
@@ -219,6 +237,9 @@ $(document).ready(function() {
 	};
 	if ($('#login_form_page').length > 0) {
 		$('#login_form_page input').bind("change keyup input", function () {
+			// Защищаем поля ввода от XSS атак
+			$(this).val( $(this).val().replace(no_xss,'') );
+
 			activateLoginSubmit();
 		});
 
@@ -231,6 +252,7 @@ $(document).ready(function() {
 
 		$('#login_form_page #username').focus();
 	}
+
 
 });
 

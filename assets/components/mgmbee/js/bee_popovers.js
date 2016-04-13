@@ -131,6 +131,9 @@ $(document).ready(function() {
 		$('#popover_login_form input[name=username]').focus();
 		if($('#popover_login_form').length > 0) {
 			$('#popover_login_form input').bind("change keyup input", function () {
+				// Защищаем поля ввода от XSS атак
+				$(this).val( $(this).val().replace(/[^a-zA-Z0-9@\-_\.]/g,'') );
+
 				activateLoginPopoverSubmit();
 			});
 		}
