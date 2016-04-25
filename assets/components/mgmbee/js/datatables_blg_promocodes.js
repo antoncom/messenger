@@ -2,12 +2,12 @@ $(document).ready(function() {
 	var selected = [];
 	var table = $("#blogger_promo_codes").DataTable({
 		select: {
-		            style: 'api'
+			style: 'api'
 		},
 		"processing": true,
 		"serverSide": true,
-		responsive: true,
-		'ajax': {
+		"responsive": true,
+		"ajax": {
 			'url': '/?id=5985',
 			'type': 'POST',
 			"data": function ( d ) {
@@ -18,8 +18,9 @@ $(document).ready(function() {
 				// etc
 			}
 		},
-		dom: 'tp',
-		language: {
+		"dom": 'tpi',
+		"stateSave": false,
+		"language": {
 			"processing": "Загрузка...",
 			"paginate": {
 				"next": "Вперед",
@@ -45,5 +46,11 @@ $(document).ready(function() {
 			$('#bee_where').val('');
 			table.ajax.url( '/?id=5985' ).load();
 		}
+	});
+
+
+	/** Для скрытых таблиц (внутри Tabs) делаем recalc() **/
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		table.columns.adjust().responsive.recalc();
 	});
 } );

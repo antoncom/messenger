@@ -55,6 +55,19 @@ form {
 	padding-left: 15px;
 }
 
+@media (max-width: 640px) {
+	#payment_accept_selector span.ok-check,
+	#extract_promocode_form span.ok-check {
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+
+	#payment_accept_selector label,
+	#extract_promocode_form label {
+		padding: 5px 10px 5px 0px;
+	}
+}
+
 #payment_accept_selector span.ok-check.blank,
 #extract_promocode_form span.ok-check.blank	{
 	padding-left: 55px;

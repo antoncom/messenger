@@ -127,12 +127,16 @@ $(document).ready(function() {
 			$("#popover_login_submit").prop('disabled', false);
 		}
 	};
+	//no_xss = /[^а-яА-Яa-zA-Z0-9@\-_\.@\s*]/g;
+	// разрешается вводить все
+	no_xss = /^[.*]/g;
 	$('.beelogin').on('shown.bs.popover', function(){
 		$('#popover_login_form input[name=username]').focus();
 		if($('#popover_login_form').length > 0) {
 			$('#popover_login_form input').bind("change keyup input", function () {
 				// Защищаем поля ввода от XSS атак
-				$(this).val( $(this).val().replace(/[^a-zA-Z0-9@\-_\.]/g,'') );
+				//$(this).val( $(this).val().replace(no_xss,'') );
+				//alert(1);
 
 				activateLoginPopoverSubmit();
 			});

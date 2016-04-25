@@ -20,7 +20,7 @@ $(document).ready(function() {
 				$(row).addClass('selected');
 			}
 		},
-		dom: 'ti',
+		dom: 'tpr',
 		stateSave: false,
 /*		buttons: [
 		],*/

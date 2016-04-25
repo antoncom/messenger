@@ -190,6 +190,9 @@ $(document).ready(function() {
 			$('#name').val('');
 			$('#email').val('');
 		});
+
+		// Автофокус на стр. "Регистрация"
+		$('#message').focus();
 	}
 
 
@@ -221,7 +224,7 @@ $(document).ready(function() {
 
 		// Автофокус на стр. "Регистрация"
 		$('#register_form input[name=fullname]').focus();
-		console.log('register');
+
 	}
 
 	// ** Страница с формой логина ** //

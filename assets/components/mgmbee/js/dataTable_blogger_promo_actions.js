@@ -32,4 +32,12 @@ $(document).ready(function() {
 			"infoFiltered": "(отфильтровано из _MAX_ записей)"
 		}
 	});
+
+	/** Для скрытых таблиц (внутри Tabs) делаем recalc() **/
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		table.columns.adjust().responsive.recalc();
+	});
+
 } );
+
+

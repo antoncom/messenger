@@ -36,7 +36,7 @@ if(!empty($scriptProperties['pa_id'])) {
 				$res = $q->stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				if (count($res) > 0) {
-					$output = 'Промо-код: <span class="badge">' . $res[0]['pagetitle'] . '</span> <br />сгорает ' . date('d.m.Y', strtotime($res[0]['end_date'])) . '.';
+					$output = 'Промо-код: <span class="badge">' . $res[0]['pagetitle'] . '</span> сгорает ' . date('d.m.Y', strtotime($res[0]['end_date'])) . '.';
 					return $output;
 				} else {
 					// Извлечение промокода

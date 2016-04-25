@@ -7,8 +7,8 @@ $(document).ready(function() {
 		"searching": false,
 		"processing": true,
 		"serverSide": true,
-		responsive: true,
-		'ajax': {
+		"responsive": true,
+		"ajax": {
 			'url': '/?id=5986',
 			'type': 'POST',
 			"data": function ( d ) {
@@ -18,7 +18,7 @@ $(document).ready(function() {
 				// etc
 			}
 		},
-		dom: 'tpr',
+		"dom": 'tpi',
 		"paging": true,
 		"pagingType": "simple_numbers",
 		"pageLength": 10,
@@ -35,5 +35,10 @@ $(document).ready(function() {
 			"infoFiltered": "(отфильтровано из _MAX_ записей)"
 		},
 		stateSave: false
+	});
+
+	/** Для скрытых таблиц (внутри Tabs) делаем recalc() **/
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		table.columns.adjust().responsive.recalc();
 	});
 } );
