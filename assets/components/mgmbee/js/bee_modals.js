@@ -1,6 +1,7 @@
 function refreshModal(modal_id)	{
 	switch(modal_id)	{
 		case('accepting_payment'):
+/*
 			$('#tab_phone').hide();
 			$('#tab_card').hide();
 			$('#card_pay_method').toggleClass('disabled', false);
@@ -11,16 +12,20 @@ function refreshModal(modal_id)	{
 			$('#ok_phone').toggleClass('blank', true);
 			$('.text_card').toggleClass('disactive', false);
 			$('.text_phone').toggleClass('disactive', false);
+*/
 
 			break;
 
 		case('extract_promocode'):
-			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('blank', true);
-			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', false);
+			//$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('blank', true);
+//			$('#extract_promocode_form input[type=radio]').parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', false);
+			//$('#extract_promocode_form input[type=radio]').parent('#pc_clipboard').find('.ok-check').toggleClass('glyphicon glyphicon-credit-card', true);
 			$('#extract_promocode_form input[type=radio]').parent().find('.text').toggleClass('disactive', false);
 			$('#extract_promocode_form input[type=radio]').parent().find('label').toggleClass('active', false);
 			//$('#extract_promocode_form').parent(). label.btn').toggleClass('active', false);
-
+			$('#extract_promocode_form input[type=radio]').parent('#pc_clipboard').find('span:first').removeAttr('class').attr('class', 'ok-check glyphicon glyphicon-credit-card');
+			$('#extract_promocode_form input[type=radio]').parent('#pc_send_phone').find('span:first').removeAttr('class').attr('class', 'ok-check glyphicon glyphicon-phone');
+			$('#extract_promocode_form input[type=radio]').parent('#pc_send_email').find('span:first').removeAttr('class').attr('class', 'ok-check glyphicon glyphicon-credit-card');
 			break;
 
 
@@ -164,10 +169,10 @@ $(document).ready(function() {
 		$('#extract_promocode').modal('hide');
 	});
 
+	/***/
 	$('#extract_promocode_form input[type=radio]').on('change', function () {
 		refreshModal('extract_promocode');
-		$(this).parent().find('.ok-check').toggleClass('glyphicon glyphicon-ok', true);
-		$(this).parent().find('.ok-check').toggleClass('blank', false);
+		$(this).parent().find('span:first').removeAttr('class').attr('class', 'ok-check glyphicon glyphicon-ok');
 		$("#apply_extract_promocode").toggleClass('disabled', false);
 	});
 

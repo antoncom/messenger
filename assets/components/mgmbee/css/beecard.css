@@ -15,11 +15,61 @@ form {
 
 #payment_accept_selector label,
 #extract_promocode_form label	{
-	width: 100%;
-	padding:10px 10px 15px 10px;
+	padding: 10px 0px 10px 5px;
 	text-align: left;
 	border: 2px solid transparent;
+	white-space: normal;
+	width: 100%;
 }
+
+#payment_accept_selector label span.text,
+#extract_promocode_form label span.text	{
+	display: table-cell;
+	width: 84%;
+	float: right;
+	padding-top: 6px;
+}
+@media (max-width: 1200px) {
+	#payment_accept_selector label span.text,
+	#extract_promocode_form label span.text	{
+		width: 86%;
+		padding-top: 8px;
+	}
+}
+@media (max-width: 992px) {
+	#payment_accept_selector label span.text,
+	#extract_promocode_form label span.text	{
+		width: 86%;
+		padding-top: 8px;
+	}
+}
+@media (max-width: 640px) {
+	#payment_accept_selector label span.text,
+	#extract_promocode_form label span.text	{
+		width: 87%;
+		padding-top: 8px;
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 520px) {
+	#payment_accept_selector label span.text,
+	#extract_promocode_form label span.text	{
+		width: 82%;
+		padding-top: 8px;
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 360px) {
+	#payment_accept_selector label span.text,
+	#extract_promocode_form label span.text	{
+		width: 83%;
+		padding-top: 0px;
+	}
+}
+
+
 
 #payment_accept_selector label:hover,
 #extract_promocode_form label:hover	{
@@ -39,11 +89,9 @@ form {
 	top: 5px;
 }
 
-#payment_accept_selector span.glyphicon-phone,
-#payment_accept_selector span.glyphicon-credit-card,
-#extract_promocode_form span.glyphicon-phone,
-#extract_promocode_form span.glyphicon-credit-card	{
-	font-size: 25px;
+#payment_accept_selector span.glyphicon,
+#extract_promocode_form span.glyphicon	{
+	font-size: 30px;
 	top: 5px;
 	padding-right: 10px;
 }
@@ -51,15 +99,18 @@ form {
 
 #payment_accept_selector span.ok-check,
 #extract_promocode_form span.ok-check	{
-	padding-right:30px;
+	padding-right:15px;
 	padding-left: 15px;
 }
 
 @media (max-width: 640px) {
 	#payment_accept_selector span.ok-check,
-	#extract_promocode_form span.ok-check {
+	#extract_promocode_form span.ok-check,
+	#extract_promocode_form span.glyphicon	{
 		padding-right: 5px;
-		padding-left: 5px;
+		padding-left: 10px;
+		font-size: 30px;
+		line-height: 30px;
 	}
 
 	#payment_accept_selector label,
@@ -68,9 +119,21 @@ form {
 	}
 }
 
+@media (max-width: 360px) {
+	#payment_accept_selector span.ok-check,
+	#extract_promocode_form span.ok-check,
+	#extract_promocode_form span.glyphicon	{
+		padding-right: 5px;
+		padding-left: 5px;
+		font-size: 26px;
+		line-height: 10px;
+	}
+}
+
 #payment_accept_selector span.ok-check.blank,
 #extract_promocode_form span.ok-check.blank	{
 	padding-left: 55px;
+	display: none;
 }
 
 .disactive	{

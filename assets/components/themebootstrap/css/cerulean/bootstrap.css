@@ -7722,16 +7722,6 @@ button[type=reset]:hover  {
   }
 }
 
-@media (max-width: 640px) {
-  .extract_h2 {
-    margin-top: 5px;
-  }
-
-  .glyphicon.glyphicon-credit-card,
-  .glyphicon.glyphicon-phone {
-    display: none;
-  }
-}
 
 
 
@@ -8256,3 +8246,18 @@ label {
   }
 }
 
+.ok-check.glyphicon.glyphicon-credit-card,
+.ok-check.glyphicon.glyphicon-phone {
+  color: #ccc;
+}
+
+@media (max-width: 640px) {
+  .extract_h2 {
+    margin-top: 5px;
+  }
+
+  .glyphicon.glyphicon-credit-card,
+  .glyphicon.glyphicon-phone {
+    /*display: none;*/
+  }
+}

@@ -25,8 +25,21 @@ login_options.placement = 'auto';
 
 
 $(document).ready(function() {
-	pc_status_options.placement = function() {
-		return $(window).width() < 993 ? 'bottom' : 'left';
+	pc_status_options.placement = function (context, source) {
+		var $window = $(window);
+		var docViewTop = $window.scrollTop();
+		var docViewBottom = docViewTop + $window.height();
+
+		var elemTop = $(source).offset().top;
+		var elemBottom = elemTop + 250;
+
+		if (elemBottom > docViewBottom) {
+			return $(window).width() < 993 ? 'top' : 'left';
+		}
+
+		if (elemBottom < docViewBottom) {
+			return $(window).width() < 993 ? 'bottom' : 'left';
+		}
 	};
 
 	$('.beelogin').popover(login_options);
