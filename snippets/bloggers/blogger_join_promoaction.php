@@ -8,6 +8,7 @@ if(!empty($scriptProperties['pa_id']) && !empty($scriptProperties['bonus_method'
 	$pa_id = $scriptProperties['pa_id'];
 	$bonus_method = $scriptProperties['bonus_method'];
 
+	$out = array();
 	$user = $modx->user;
 	$profile = $user->getOne('Profile');
 	if ($profile) {
@@ -23,11 +24,13 @@ if(!empty($scriptProperties['pa_id']) && !empty($scriptProperties['bonus_method'
 		}
 		$profile->set('extended', $extended);
 		$profile->save();
-		return "Пользователь " . $profile->get('fullname') . " подключен к акции.";
+		$out['success'] = "Пользователь " . $profile->get('fullname') . " подключен к акции.";
+		$out['result'] = 'ok';
+		return json_encode($out);
 
 	} else {
 		$modx->log(modX::LOG_LEVEL_ERROR,
 			'blogger_join_promoaction[SNIPPET] Could not find profile for user: ' .
-			$usr->get('username'));
+			$user->get('username'));
 	}
 }

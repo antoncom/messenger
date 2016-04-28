@@ -47,12 +47,12 @@ if(!empty($_POST['bee_ajax_snippet']))	{
 				'mobilephone_confirmed' => $params['mobilephone_confirmed'],
 				'mobilephone_notempty' => $params['mobilephone_notempty'])), true);
 			if($r['result'] == 'ok')	{
-				$r = $modx->runSnippet('blogger_join_promoaction', array(
+				$r = json_decode($modx->runSnippet('blogger_join_promoaction', array(
 					'pa_id' => $params['pa_id'],
-					'bonus_method' => 'phone'
-				));
+					'bonus_method' => 'phone')), true);
 				if($r['result'] == 'ok') {
-					return $AjaxForm->success($r . ' - Способ получения бонусов: на баланс телефона.');
+					$modx->log(xPDO::LOG_LEVEL_ERROR, 'RARARA ' . print_r($r, 1));
+					return $AjaxForm->success('Способ получения бонусов: на баланс телефона.');
 				}
 				else{
 					return $AjaxForm->error('Ошибка подключения к акции 915409', $r['errors']);
