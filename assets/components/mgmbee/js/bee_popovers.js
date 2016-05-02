@@ -71,12 +71,12 @@ $(document).ready(function() {
 	$(document).on('as_complete_extract_promocode_status', document, function(e,d) {
 		$('.pc_status').popover(pc_status_options);
 		//$('#pcode').text(d.output);
-		//$('#extract_promocode').modal('show');
 	});
 
 	// После отработки AjaxSnippet на подключение к акции
 	$(document).on('as_complete_join_promoaction', document, function(e,d) {
 		$('.pc_status').popover(pc_status_options);
+		$('#accepting_payment').modal('hide');
 	});
 
 	// После отработки AjaxSnippet на подключение к акции -

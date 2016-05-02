@@ -206,9 +206,21 @@ $(document).ready(function() {
 			var ifemail = $('#email').val().length > 0;
 			var ifpassword = $('#password').val().length > 0;
 			var ifconf_password = $('#password_confirm').val().length > 0;
-			if (ifname && ifemail && ifpassword && ifconf_password) {
+			var ifconf_offerta = $('#offerta').prop("checked");
+			if (ifname && ifemail && ifpassword && ifconf_password && ifconf_offerta) {
 				$("#register_form input[type=submit]").toggleClass('disabled', false);
 				$("#register_form input[type=submit]").toggleClass('inactive', false);
+			}
+		});
+
+		$('#offerta').bind("change keyup input", function () {
+			if ($('#offerta').prop("checked")) {
+				$("#register_form input[type=submit]").toggleClass('disabled', false);
+				$("#register_form input[type=submit]").toggleClass('inactive', false);
+			}
+			else {
+				$("#register_form input[type=submit]").toggleClass('disabled', true);
+				$("#register_form input[type=submit]").toggleClass('inactive', true);
 			}
 		});
 
@@ -223,7 +235,7 @@ $(document).ready(function() {
 		});
 
 		// Автофокус на стр. "Регистрация"
-		$('#register_form input[name=fullname]').focus();
+		//$('#register_form input[name=fullname]').focus();
 
 	}
 

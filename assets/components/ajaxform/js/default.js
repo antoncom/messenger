@@ -248,6 +248,11 @@ var AjaxForm = {
 
 								$('#phone_pay_method .text_phone').html('На баланс: ' + '+7' + phone);
 
+								// Когда телефон подтвержден - делаем сабмит формы подключения к акции
+								$('input[name=bee_ajax_mobilephone_notempty]').val('yes');
+								$('input[name=bee_ajax_mobilephone_confirmed]').val('yes');
+								$('#bonus_method').submit();
+
 								// ******* ДЛЯ СТРАНИЦЫ ПРОФАЙЛ БЛОГЕРА ******** //
 								$('#myplacard').placard('hide');
 								// Для страницы "Профайл": если телефон подтвержден
@@ -315,7 +320,11 @@ var AjaxForm = {
 								// Если телефон введен и подтвержден
 								//$('input[name=bee_ajax_mobilephone_notempty]').val('yes');
 								//$('input[name=bee_ajax_mobilephone_confirmed]').val('yes');
-								//$('#accepting_payment').modal('hide');
+								$('#accepting_payment').modal('hide');
+								console.log('accepting payment hide ' + pa_id);
+								$('a[data-target=#extract_promocode][data-whatever='+pa_id+']').trigger('click');
+								console.log($('a[data-target=#extract_promocode][data-whatever='+pa_id+']'));
+								//$('#extract_promocode').modal('show');
 
 
 								// После того, как блогер подключился к акции, впервые указав номер телефона

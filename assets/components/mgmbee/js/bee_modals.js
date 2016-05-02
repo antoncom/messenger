@@ -76,6 +76,7 @@ $(document).ready(function() {
 		$('#phone_pay_method').toggleClass('disabled', true);
 	});
 
+	// Это не требуется поскольку сабмит формы выполняется автоматически после подтверждения номера телефона
 	$('#apply_join_promoaction').on('click', function () {
 
 		// Если телефон подтвержден
@@ -84,6 +85,8 @@ $(document).ready(function() {
 		};
 
 		$('#bonus_method').submit();
+
+
 	});
 
 	$('#accepting_payment').on('show.bs.modal', function (event) {
@@ -121,22 +124,40 @@ $(document).ready(function() {
 
 		// Извлекаем и показываем промо-код при открытии модального окна
 		// Для работы данного кода был изменен AjaxSnippet и сохранен в виде /snippets/utils/AjaxSnippet_mgm.php
-
-		asa = "34633f015d509ce4f5a378716ad460170bfa27ac";
-		var spinner = $('#'+asa).find(".as_spinner");
-		$.post("/promo-akczii/", {as_action: asa,
-									params_from_json: "yes",
-									pa_id: pa_id,
-									as_mode: "onclick",
-									snippet: "extract_promocode",
-									as_complete: "as_complete_extract_promocode_from_modal"
-								}, function(response) {
+		asa2 = "34633f015d509ce4f5a378716ad460170bfa27ac";
+		var spinner = $('#'+asa2).find(".as_spinner");
+		$.post("/promo-akczii/", {as_action: asa2,
+			params_from_json: "yes",
+			pa_id: pa_id,
+			as_mode: "onclick",
+			snippet: "extract_promocode",
+			as_complete: "as_complete_extract_promocode_from_modal"
+		}, function(response) {
 			if (typeof response.output !== "undefined") {
 				spinner.css("display","none");
-				$('#'+asa).html(response.output);
+				$('#'+asa2).html(response.output);
 				$(document).trigger("as_complete_extract_promocode_from_modal", response);
 			}
 		}, "json");
+
+
+		// Показываем номер телефона в модальном окне способа извлечения получения промо-кода
+		// Для работы данного кода был изменен AjaxSnippet и сохранен в виде /snippets/utils/AjaxSnippet_mgm.php
+		asa1 = "912763c186d73fc1deeb98135b44702aa411f7b5";
+		var spinner = $('#'+asa1).find(".as_spinner");
+		$.post("/promo-akczii/", {as_action: asa1,
+			params_from_json: "yes",
+			code: '+7',
+			as_mode: "onclick",
+			snippet: "get_blogger_phone"
+		}, function(response) {
+			if (typeof response.output !== "undefined") {
+				spinner.css("display","none");
+				$('#'+asa1).html(response.output);
+				//$(document).trigger("as_complete_extract_promocode_from_modal", response);
+			}
+		}, "json");
+
 
 
 
