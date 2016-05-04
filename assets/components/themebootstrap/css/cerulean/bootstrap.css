@@ -7298,7 +7298,7 @@ h1,h2,h3,h4	{
 
 h4 a:link,
 h4 a:hover,
-h4 a:visited,{
+h4 a:visited {
   text-decoration: underline;
   color: #000;
 }
@@ -7619,7 +7619,8 @@ span.submit_podpis  {
   font-size: 12px;
   font-style: italic;
   color: #000;
-  padding-left: 15px;
+  padding-left: 4px;
+  float: left;
 }
 
 button[type=reset],
@@ -8267,3 +8268,49 @@ label {
     /*display: none;*/
   }
 }
+
+.offerta  {
+  margin-top: 8px;
+}
+
+input[name=offerta_by_social] {
+  height: 30px;
+  width: 30px;
+}
+
+label[for=offerta]  {
+  padding-top: 9px;
+}
+
+@media (max-width: 420px) {
+  input[name=offerta_by_social],
+  input[name=offerta] {
+    height: 20px;
+    width: 20px;
+  }
+
+  label[for=offerta],
+  label[for=offerta_by_social]  {
+    padding-top:4px;
+  }
+
+  label[for=offerta_by_social]  {
+    margin-top:0px;
+  }
+}
+
+
+.offerta_by_social_error  {
+  display: none;
+}
+
+
+.reg_by_social  {
+  padding-left: 0px;
+}
+
+#register_by_social div {
+  padding-left: 4px;
+}
+
+

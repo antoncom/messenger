@@ -268,19 +268,39 @@ $(document).ready(function() {
 		$('#login_form_page #username').focus();
 	}
 
+	// *** Принятие офферты при регистрации через соц.сеть ***/
+	// Extended disable function
+	jQuery.fn.extend({
+		disable: function(state) {
+			return this.each(function() {
+				var $this = $(this);
+				if($this.is('input, button, textarea, select'))
+					this.disabled = state;
+				else
+					$this.toggleClass('disabled', state);
+					$this.toggleClass('active', state);
+			});
+		}
+	});
+
+	$('.reg_by_social').on('click', '.ha-icon.disabled', function(event) {
+		$('.offerta_by_social_error').css('display', 'block');
+		event.preventDefault();
+	});
+
+	$('#offerta_by_social').bind("change keyup input", function () {
+		if ($('#offerta_by_social').prop("checked")) {
+			$('.reg_by_social .ha-icon').disable(false);
+			$('.offerta_by_social_error').css('display', 'none');
+		}
+		else {
+			$('.reg_by_social .ha-icon').disable(true);
+		}
+	});
 
 });
 
-/*
-	// Автофокус на стр. "Доступ в личный кабинет"
-	$('#username').focus();
-	if ($('#message').val().length > 0 &&
-		$('#name').val().length > 0 &&
-		$('#email').val().length > 0 &&
-		$('#org_phone').val().length > 0) {
-		$("#contact_form button[type=submit]").toggleClass('disabled', false);
-		$("#contact_form button[type=submit]").toggleClass('inactive', false);
-	}*/
+
 
 
 
