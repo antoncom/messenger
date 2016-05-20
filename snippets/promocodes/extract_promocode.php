@@ -69,10 +69,12 @@ if(!empty($scriptProperties['pa_id']))	{
 	if (!$pcode->setTVValue('pc_start_date', $now)) {
 		$modx->log(xPDO::LOG_LEVEL_ERROR, 'EXTRACT_PROMOCODE SNIPPET: There was a problem saving your TV pc_start_date');
 	}
-	$in2months = date('Y-m-d H:i:s', strtotime($now .' +2 month'));
+	// Конечную дата не трогаем, поскольку она устанавливается по дате окончания промо-акции
+	// согласно требований от 20.05.2016.
+	/*$in2months = date('Y-m-d H:i:s', strtotime($now .' +2 month'));
 	if (!$pcode->setTVValue('pc_end_date', $in2months)) {
 		$modx->log(xPDO::LOG_LEVEL_ERROR, 'EXTRACT_PROMOCODE SNIPPET: There was a problem saving your TV pc_start_date');
-	}
+	}*/
 
 	return $res[0]['pagetitle'];
 }

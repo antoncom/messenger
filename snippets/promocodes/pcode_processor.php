@@ -58,6 +58,16 @@ switch($bee_comm)	{
 		}
 		$pa_code = str_pad($promo_action_code, 2, '0', STR_PAD_LEFT);
 
+		// Получаем срок действия промо-акции
+		if(!$promo_action_end_date = $modx->runSnippet('pdoField', array(
+			'id'=>$beeData['pa_id'],
+			'field'=>'pa_end_date')))	{
+			$modx->log(xPDO::LOG_LEVEL_ERROR, 'pcode_processor: No $promo_action_end_date for res [' . $beeData['pa_id'] . ']');
+			return false;
+		}
+		//$pa_end_date = strtotime($promo_action_end_date);
+		$pa_end_date = $promo_action_end_date;
+
 		// Получаем ближайший стартовый номер для генерации промо-кодов, напр. 1612
 		$new_start_pcode = $modx->runSnippet('startNum.pcode', array(
 													'pa_code' => $pa_code)
@@ -75,6 +85,7 @@ switch($bee_comm)	{
 
 			$alias = $pagetitle;
 			$tvsAll[$alias] = array(
+					'pc_end_date'=>"'".$pa_end_date."'",
 					'pa_id'=>$beeData['pa_id']);
 
 			$grpsAll[$alias] = array(1,2,4); // ids of resource groups
