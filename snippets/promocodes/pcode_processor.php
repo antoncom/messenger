@@ -68,13 +68,47 @@ switch($bee_comm)	{
 		//$pa_end_date = strtotime($promo_action_end_date);
 		$pa_end_date = $promo_action_end_date;
 
-		// Получаем ближайший стартовый номер для генерации промо-кодов, напр. 1612
-		$new_start_pcode = $modx->runSnippet('startNum.pcode', array(
-													'pa_code' => $pa_code)
-		);
 
+		// Получаем ближайший стартовый номер для генерации промо-кодов, напр. 1612
+		//$new_start_pcode = $modx->runSnippet('startNum.pcode', array(
+		//											'pa_code' => $pa_code)
+		//);
+		// *** Закоментировано, т.к. необходимо генерировать случайные промо-коды (требование заказчика от 24.05.2016)
+
+		// Получаем массив уже существующих промо-кодов по заданной акции
+		$existed_pcodes = json_decode($modx->runSnippet('existed_pcodes', array('pa_code' => $pa_code)));
 
 		// формируем массивы объектов на добавление множества промо-кодов вида 011612, 011613
+		$outArray = array(); // хранилище для вновь-сгенерированных промо-кодов
+		$maxPcode = 9999;
+		$minPcode = 1;
+		$count = $beeData['count'];
+		$i = 0;
+		while($i<$count){
+			$pcode_tail = mt_rand($minPcode, $maxPcode); // генерим случайное число
+			$pcode = $pa_code . str_pad($pcode_tail, 4, '0', STR_PAD_LEFT);
+			if(!in_array($pcode, $outArray) && !in_array($pcode, $existed_pcodes)){ // Проверяем уникальность числа в списке вновь-сгенерированных и в списке существующих
+				$outArray[$i] = $pcode; // если уникальное, то заисываем его в массив
+
+				$protoRow['pagetitle'] = "'" . $pcode . "'";
+				$protoRow['alias'] = $protoRow['pagetitle'];
+				$protoRow['uri'] = "'" . $pcode . ".html'";
+
+				$alias = $pcode;
+				$tvsAll[$alias] = array(
+					'pc_end_date'=>"'".$pa_end_date."'",
+					'pa_id'=>$beeData['pa_id']);
+
+				$grpsAll[$alias] = array(1,2,4); // ids of resource groups
+				$resAll[$alias] = $protoRow;
+
+				$i++;
+			}
+		}
+
+
+
+/*
 		$count = $beeData['count'];
 		$n_pcode = $new_start_pcode;
 		while ($count > 0)	{
@@ -93,7 +127,7 @@ switch($bee_comm)	{
 
 			$count--;
 			$n_pcode++;
-		}
+		}*/
 
 
 		// Выполняем массовое добавление
